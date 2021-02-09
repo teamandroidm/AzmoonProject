@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.azmoonproject">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".Data.G"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AzmoonProject"
+        android:usesCleartextTraffic="true">
+
+        <activity android:name="com.example.azmoonproject.Activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.example.azmoonproject.Activity.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.azmoonproject.Activity.CoursesActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.example.azmoonproject.Activity.FieldActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.example.azmoonproject.Activity.MainActivity">
+        </activity>
+        <activity android:name="com.example.azmoonproject.Activity.ProfileActivity"
+            android:screenOrientation="portrait">
+        </activity>
+    </application>
+</manifest>
