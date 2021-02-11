@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:orientation="vertical"
-    tools:context=".Activitys.LoginActivity">
+    tools:context=".Activity.LoginActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/activity_login_toolbar"
@@ -99,7 +99,6 @@
 
         </LinearLayout>
     </ScrollView>
-
 
     <Button
         android:id="@+id/activity_login_btnLogin"

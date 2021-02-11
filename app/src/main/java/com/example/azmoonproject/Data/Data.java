@@ -2,40 +2,38 @@ package com.example.azmoonproject.Data;
 
 import android.content.Context;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.azmoonproject.Model.Factors;
 import com.example.azmoonproject.Model.Fields;
+import com.example.azmoonproject.Model.Levels;
+import com.example.azmoonproject.Model.Questions;
 import com.example.azmoonproject.Model.Terms;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Data {
+    private static final String _URL1 = "http://192.168.1.102:8080/MyWebService/showalluser.php";
+    ArrayList<Factors> factorsList = new ArrayList<>();
+    ArrayList<Fields> fieldsArrayList = new ArrayList<>();
+    ArrayList<Terms> termsArrayList = new ArrayList<>();
     private Context context;
     private RequestQueue requestQueue = null;
     private boolean isError = false;
     private boolean status = false;
-    ArrayList<Factors> factorsList = new ArrayList<>();
-    ArrayList<Fields> fieldsArrayList = new ArrayList<>();
-    ArrayList<Terms> termsArrayList = new ArrayList<>();
-    private static final String _URL1="http://192.168.1.102:8080/MyWebService/showalluser.php";
+    private ArrayList<Levels> questionLevelItemArrayList = null;
+
     public Data(Context context) {
         this.context = context;
         requestQueue = Volley.newRequestQueue(context);
     }
+
     public Data() {
     }
+
     public void sendIdField(int userId, byte fieldId, OnResult onResult) {
         if (userId == 1 && fieldId == 3) {
             onResult.success(true);
@@ -45,7 +43,8 @@ public class Data {
 
         }
     }
-    public void sendCourses(int userId, byte termdId, Date date, int price , OnResult onResult) {
+
+    public void sendCourses(int userId, byte termdId, Date date, int price, OnResult onResult) {
         date = new Date();
 //        if (userId == 1 && fieldId == 3) {
 //            onResult.success(true);
@@ -55,7 +54,8 @@ public class Data {
 
 //        }
     }
-    public void SendRequestByPostMethodField(String url){
+
+    public void SendRequestByPostMethodField(String url) {
 //        final StringRequest request = new StringRequest(
 //                Request.Method.POST,
 //                url,
@@ -79,7 +79,7 @@ public class Data {
 //        requestQueue.add(request);
     }
 
-    public void SendRequestByPostMethodCourses(String url){
+    public void SendRequestByPostMethodCourses(String url) {
 //        final StringRequest request = new StringRequest(
 //                Request.Method.POST,
 //                url,
@@ -103,7 +103,7 @@ public class Data {
 //        requestQueue.add(request);
     }
 
-    public void sendByPostMethod(String url, JSONObject jsonObject){
+    public void sendByPostMethod(String url, JSONObject jsonObject) {
 //        JsonObjectRequest request=new JsonObjectRequest(
 //                Request.Method.POST,
 //                url,
@@ -111,7 +111,7 @@ public class Data {
 //                new Response.Listener<JSONObject>() {
 //                    @Override
 //                    public void onResponse(JSONObject response) {
-//                        //      txtShowUsers1.setText("Ø§Ø·Ù„Ø§Ø¹Ø§Øª Ú©Ø§Ø±Ø¨Ø± Ø¨Ù‡ Ø±ÙˆØ´ post Ø¯Ø±Ø¬ Ø´Ø¯");
+//                              txtShowUsers1.setText("Ø§Ø·Ù„Ø§Ø¹Ø§Øª Ú©Ø§Ø±Ø¨Ø± Ø¨Ù‡ Ø±ÙˆØ´ post Ø¯Ø±Ø¬ Ø´Ø¯");
 //                    }
 //                },
 //                new Response.ErrorListener() {
@@ -122,8 +122,6 @@ public class Data {
 //                });
 //        requestQueue.add(request);
     }
-
-
 
     public void Login(String userName, OnResult onResult) {
 
@@ -226,7 +224,6 @@ public class Data {
         }
 
     }
-
 
     public void NewPassword(String url, String newPass, OnResult onResult) {
         // user id from class G
@@ -335,4 +332,88 @@ public class Data {
         return termsArrayList;
 
     }
+
+    public ArrayList<Levels> getLevel() {
+        if (questionLevelItemArrayList == null) {
+            questionLevelItemArrayList = new ArrayList<>();
+            questionLevelItemArrayList.add(new Levels((byte) 1, (byte) 3, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
+            questionLevelItemArrayList.add(new Levels((byte) 2, (byte) 3, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
+            questionLevelItemArrayList.add(new Levels((byte) 3, (byte) 3, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
+            questionLevelItemArrayList.add(new Levels((byte) 4, (byte) 3, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
+            questionLevelItemArrayList.add(new Levels((byte) 5, (byte) 1, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
+            questionLevelItemArrayList.add(new Levels((byte) 6, (byte) 2, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
+            questionLevelItemArrayList.add(new Levels((byte) 7, (byte) 2, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
+            questionLevelItemArrayList.add(new Levels((byte) 8, (byte) 2, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
+            questionLevelItemArrayList.add(new Levels((byte) 9, (byte) 2, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
+            questionLevelItemArrayList.add(new Levels((byte) 10, (byte) 2, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
+        }
+        return questionLevelItemArrayList;
+    }
+    // QuestionActivity
+    public void getQuestions(int termId, int level, OnResult onResult) {
+
+//        JSONObject jsonObject = new JSONObject();
+//        try {
+//            jsonObject.put("termId", termId);
+//            jsonObject.put("level", level);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        JsonObjectRequest request = new JsonObjectRequest(
+//                Request.Method.POST,
+//                "آدرس Api",
+//                jsonObject,
+//                response -> {
+//                    Gson gson = new Gson();
+//                    Type type = new TypeToken<ArrayList<Questions>>() {
+//                    }.getType();
+//                    ArrayList<Questions> questions = gson.fromJson(response.toString(), type);
+//                    onResult.success((Object) questions.toArray());
+//                }, error -> {
+//        });
+//        requestQueue.add(request);
+
+        //Data fake
+        Questions[] questions = new Questions[50];
+        questions[0] = new Questions(0, "سوال یک", "الف", "ب", "پ", "چ", (byte) 3, true, 0);
+        questions[1] = new Questions(1, "سوال دو", "جواب1", "جواب2", "جواب3", "جواب4", (byte) 1, true, 0);
+        questions[2] = new Questions(2, "سوال سه", "شسیب", "شبیسب", "زرذز", "ابلای", (byte) 4, true, 0);
+        questions[3] = new Questions(3, "سوال چهار", "A", "B", "C", "D", (byte) 2, true, 0);
+        questions[4] = new Questions(4, "سوال پنجم", "جواب1", "جواب2", "جواب3", "جواب4", (byte) 4, true, 0);
+        questions[5] = new Questions(5, "سوال ششم", "بمنشسیبکمن", "بهشتسیمبنتشمینب", "ئرذئمذنررئمذن", "شسیب", (byte) 2, true, 0);
+        questions[6] = new Questions(6, "سوال هفتم", "AAAA", "BBBBBBB", "CCCCCCCCCC", "DDDDDDDDDDDD", (byte) 1, true, 0);
+        questions[7] = new Questions(7, "سوال هشتم", "گزینه اول ", "بشیتمبن شمسینبمشسیب سشیب", "هتهتحهتحهتهح", "مبنلمنسیمبنلسیمبنلتیمبنتمن", (byte) 1, true, 0);
+        questions[8] = new Questions(8, "سوال نهم", "جواب1", "جواب2", "جواب3", "جواب4", (byte) 2, false, 0);
+        questions[9] = new Questions(9, "دهم", "یک", "دو", "سه", "چهار", (byte) 3, false, 0);
+        for (int i = 10; i < 50; i++)
+            questions[i] = new Questions(i, "title", "1", "2", "3", "4", (byte) 2, true, 0);
+
+        onResult.success((Object) questions);
+    }
+
+    public void setLevel(Levels level, OnResult onResult) {
+//        JSONObject jsonObject = new JSONObject();
+//        try {
+//            jsonObject.put("correctNumber", level.getCorrectNumber());
+//            jsonObject.put("nineteen", level.getNineteen());
+//            jsonObject.put("wrongNumber", level.getWrongNumber());
+//            jsonObject.put("levelCount", level.getLevelCount());
+//            jsonObject.put("timeTookTest", level.getTimeTookTest());
+//            jsonObject.put("termId", level.getTermId());
+//            jsonObject.put("userId", level.getUserId());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        JsonObjectRequest request = new JsonObjectRequest(
+//                Request.Method.POST,
+//                "آدرس Api",
+//                jsonObject,
+//                response -> {
+//                }, error -> {
+//        });
+//        requestQueue.add(request);
+    }
+
 }

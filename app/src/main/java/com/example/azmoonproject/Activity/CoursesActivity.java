@@ -1,10 +1,5 @@
 package com.example.azmoonproject.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +12,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewAdapter;
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewMethod;
@@ -40,6 +40,10 @@ public class CoursesActivity extends AppCompatActivity {
     ArrayList<Terms> termsArrayList = new ArrayList<>();
     ArrayList<Terms> arrayList = new ArrayList<>();
     ImageView back;
+
+    public static String splitDigits(int number) {
+        return new DecimalFormat("###,###,###").format(number);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,37 +134,33 @@ public class CoursesActivity extends AppCompatActivity {
 
                         final Button activity_courses_button_cart = itemView.findViewById(R.id.activity_courses_button_cart);
                         final LinearLayout activity_courses_layout_validity = itemView.findViewById(R.id.activity_courses_layout_validity);
+                        final LinearLayout activity_courses_layout_item = itemView.findViewById(R.id.activity_courses_layout_item);
 
                         activity_courses_layout_validity.setVisibility(View.GONE);
-
-                        activity_courses_button_cart.setOnClickListener(new View.OnClickListener() {
+                        // TODO: 2/11/2021 ItemClickListener
+                        activity_courses_layout_item.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                showCustomDialod();
-                                custom_dialog_button_courses_payment.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        activity_courses_layout_validity.setVisibility(View.VISIBLE);
-                                        activity_courses_button_cart.setVisibility(View.GONE);
-                                       // Date date = new Date();
-                                       // Toast.makeText(CoursesActivity.this,date + "", Toast.LENGTH_LONG).show();
-                                        dialog.dismiss();
-
-                                    }
-                                });
-                                custom_dialog_button_courses_cancel.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        dialog.dismiss();
-                                    }
-                                });
-
+                                Intent intent = new Intent(CoursesActivity.this, AzmoonsActivity.class);
+//                                intent.putExtra("", "");
+                                startActivity(intent);
                             }
                         });
 
+                        activity_courses_button_cart.setOnClickListener(view -> {
+                            showCustomDialod();
+                            custom_dialog_button_courses_payment.setOnClickListener(view1 -> {
+                                activity_courses_layout_validity.setVisibility(View.VISIBLE);
+                                activity_courses_button_cart.setVisibility(View.GONE);
+                                // Date date = new Date();
+                                // Toast.makeText(CoursesActivity.this,date + "", Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
+
+                            });
+                            custom_dialog_button_courses_cancel.setOnClickListener(view12 -> dialog.dismiss());
+                        });
                     }
                 }));
-
     }
 
     public ArrayList<Terms> fillTearm(byte fieldId) {
@@ -194,9 +194,5 @@ public class CoursesActivity extends AppCompatActivity {
         String path = mfile1.getAbsolutePath().toString() + "/" + filename;
 
         return path;
-    }
-
-    public static String splitDigits(int number) {
-        return new DecimalFormat("###,###,###").format(number);
     }
 }

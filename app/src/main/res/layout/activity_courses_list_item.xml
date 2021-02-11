@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_courses_layout_item"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_margin="10dp"
@@ -13,11 +13,10 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.7"
-        android:orientation="vertical"
-        android:gravity="center"
         android:layout_gravity="center"
-        >
+        android:layout_weight="1.7"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/activity_courses_image_courses"
@@ -90,7 +89,6 @@
 
         </LinearLayout>
 
-
     </LinearLayout>
 
     <LinearLayout
@@ -104,9 +102,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
+            android:layout_marginEnd="8dp"
             android:gravity="left"
-            android:padding="5dp"
-            android:layout_marginEnd="8dp">
+            android:padding="5dp">
 
 
             <TextView
@@ -137,13 +135,13 @@
             android:layout_gravity="left"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/background_button"
             android:fontFamily="@font/vazir_bold"
             android:gravity="center"
             android:text="سبد خرید"
             android:textColor="@color/color_white"
-            android:textSize="12sp"
-            android:layout_marginBottom="10dp"/>
+            android:textSize="12sp" />
 
         <LinearLayout
             android:id="@+id/activity_courses_layout_validity"
@@ -152,19 +150,19 @@
             android:layout_gravity="left"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/background_button1"
-            android:padding="3dp"
-            android:layout_marginBottom="10dp">
+            android:padding="3dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/vazir_light"
                 android:gravity="center"
+                android:padding="5dp"
                 android:text="زمان باقی مانده"
                 android:textColor="@color/color_black"
-                android:textSize="9sp"
-                android:padding="5dp"/>
+                android:textSize="9sp" />
 
             <TextView
                 android:id="@+id/activity_courses_text_validity"

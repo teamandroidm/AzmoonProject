@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewAdapter;
+import com.example.azmoonproject.Model.Levels;
 
 import java.text.DecimalFormat;
 
@@ -21,6 +22,30 @@ public class Utils {
     public Utils(Context context, Activity activity) {
         this.context = context;
         this.activity = activity;
+    }
+
+    public Utils(Context context) {
+        this.context = context;
+    }
+
+    public String farsiNumberConvert(String number) {
+        String[][] mChar = new String[][]{
+                {"0", "۰"},
+                {"1", "۱"},
+                {"2", "۲"},
+                {"3", "۳"},
+                {"4", "۴"},
+                {"5", "۵"},
+                {"6", "۶"},
+                {"7", "۷"},
+                {"8", "۸"},
+                {"9", "۹"}
+
+        };
+        for (String[] num : mChar) {
+            number = number.replace(num[0], num[1]);
+        }
+        return number;
     }
 
     public Object getSharedPreferences(String key, Object _default) {
@@ -51,6 +76,8 @@ public class Utils {
             editor.putInt(key, (Integer) data);
         } else if (data instanceof Long) {
             editor.putLong(key, (Long) data);
+        } else if (data instanceof Byte) {
+            editor.putLong(key, (Byte) data);
         }
         editor.apply();
     }
@@ -61,11 +88,24 @@ public class Utils {
         activity.finish();
     }
 
+    public void levelGoTo(Class _class) {
+        Levels levelItem = new Levels();
+        Intent intent = new Intent(context, _class);
+        intent.putExtra("testTime", levelItem.getTimeTookTest());
+        intent.putExtra("status", levelItem.getLevelCount());
+        intent.putExtra("level", levelItem.getLevelId());
+
+        activity.startActivity(intent);
+
+
+    }
+
     public void addRecyclerView(RecyclerView rcv1, RecyclerView.LayoutManager layoutManager, RecyclerViewAdapter adapter) {
 //        RecyclerView rcv1 = activity.findViewById(recyclerViewId);
         rcv1.setLayoutManager(layoutManager);
         rcv1.setAdapter(adapter);
     }
+
     public void addRecyclerView(int recyclerViewId, RecyclerView.LayoutManager layoutManager, RecyclerViewAdapter adapter) {
         RecyclerView rcv1 = activity.findViewById(recyclerViewId);
         rcv1.setLayoutManager(layoutManager);
@@ -78,17 +118,16 @@ public class Utils {
         rcv1.setAdapter(adapter);
     }
 
-
     public String splitDigits(Object number) {
         return new DecimalFormat("###,###,###").format(number);
     }
-    public String toPersianNumber4(String english){
-        final char[] chars=english.toCharArray();
-        for (short i=0;i<(short)chars.length;i++)
-            if(chars[i]<='9'&&chars[i] >='0')
-                chars[i]=(char)(chars[i]+1728);
+
+    public String toPersianNumber4(String english) {
+        final char[] chars = english.toCharArray();
+        for (short i = 0; i < (short) chars.length; i++)
+            if (chars[i] <= '9' && chars[i] >= '0')
+                chars[i] = (char) (chars[i] + 1728);
         return new String(chars);
     }
-
 
 }

@@ -93,36 +93,29 @@ public class FieldActivity extends AppCompatActivity {
                         // final LinearLayout activity_field_layout= itemView.findViewById(R.id.activity_field_layout);
                         Picasso.get().load(new File(fieldArrayList.get(position).getImageName())).error(R.drawable.tourists).fit().centerCrop().into((ImageView) itemView.findViewById(R.id.activity_field_image_courses));
 
-                        itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
+                        itemView.setOnClickListener(view -> date.sendIdField(1, fieldArrayList.get(position).getFieldId(), new OnResult() {
+                           @Override
+                           public void success(Object... objects) {
+                               if ((Boolean) objects[0]) {
+                                   Intent intent=new Intent(FieldActivity.this,CoursesActivity.class);
+                                   intent.putExtra("fieldId",fieldArrayList.get(position).getFieldId());
+                                   startActivity(intent);
+                                   //utils.goTo(CoursesActivity.class,new PutExtra("fieldId",fieldArrayList.get(position).getFieldId()));
 
-                                 date.sendIdField(1, fieldArrayList.get(position).getFieldId(), new OnResult() {
-                                    @Override
-                                    public void success(Object... objects) {
-                                        if ((Boolean) objects[0]) {
-                                            Intent intent=new Intent(FieldActivity.this,CoursesActivity.class);
-                                            intent.putExtra("fieldId",fieldArrayList.get(position).getFieldId());
-                                            startActivity(intent);
-                                            //utils.goTo(CoursesActivity.class,new PutExtra("fieldId",fieldArrayList.get(position).getFieldId()));
+                               } else{
 
-                                        } else{
+                                   showCustomDialod();
+                                   //    activity_field_layout.setBackgroundColor(R.drawable.background_list_feild_purpel);
+                                   custom_dialog_button_ok.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View view) {
+                                           dialog.dismiss();
+                                       }
+                                   });
+                               }
+                           }
 
-                                            showCustomDialod();
-                                            //    activity_field_layout.setBackgroundColor(R.drawable.background_list_feild_purpel);
-                                            custom_dialog_button_ok.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
-                                        }
-                                    }
-
-                                });
-
-                            }
-                        });
+                       }));
 
                     }
                 }));
@@ -166,7 +159,6 @@ public class FieldActivity extends AppCompatActivity {
                 doubleBackPress = false;
             }
         }, 2000);
-
     }
 
 
