@@ -27,6 +27,17 @@ public class Terms {
         this.validateTime = validateTime;
     }
 
+    public Terms(int termId, String termName, String imageName, int price, boolean isActive, int testTime, byte numberQuestionOfLevel, byte fieldId) {
+        this.termId = termId;
+        this.termName = termName;
+        this.imageName = imageName;
+        this.price = price;
+        this.isActive = isActive;
+        this.testTime = testTime;
+        this.numberQuestionOfLevel = numberQuestionOfLevel;
+        this.fieldId = fieldId;
+    }
+
     public int getTermId() {
         return termId;
     }
