@@ -107,7 +107,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-
     //region dialog log out
     private void setDialogLogOut() {
         logOutDialog.setCancelable(false);

@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".Activity.AzmoonsActivity"
-    android:background="@color/white">
+    tools:context=".Activity.AzmoonsActivity">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -32,11 +33,11 @@
                 android:id="@+id/activity_question_txt1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:fontFamily="@font/vazir_bold"
                 android:text="@string/toolBarQuizName"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:fontFamily="@font/vazir_bold"
-                android:layout_marginRight="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/activity_question_img1"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -61,7 +62,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activity_question_rcl1"

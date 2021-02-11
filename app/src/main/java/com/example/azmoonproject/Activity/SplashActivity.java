@@ -19,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        utils = new Utils(SplashActivity.this,SplashActivity.this);
+        utils = new Utils(SplashActivity.this, SplashActivity.this);
         init();
         threadAnimSplash();
         handler = new Handler();
@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
             if ((Boolean) utils.getSharedPreferences("isLogged", false)) {
                 utils.goTo(FieldActivity.class);//null=صفحه اصلی
             } else {
-                utils.goTo( LoginActivity.class);
+                utils.goTo(LoginActivity.class);
             }
         }, 3000);
     }

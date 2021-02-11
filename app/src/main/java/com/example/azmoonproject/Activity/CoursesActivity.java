@@ -191,7 +191,7 @@ public class CoursesActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String path = mfile1.getAbsolutePath().toString() + "/" + filename;
+        String path = mfile1.getAbsolutePath() + "/" + filename;
 
         return path;
     }

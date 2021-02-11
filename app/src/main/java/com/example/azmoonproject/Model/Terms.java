@@ -9,11 +9,13 @@ public class Terms {
     private int testTime;
     private byte numberQuestionOfLevel;
     private byte fieldId;
+    private boolean termStatus;
+    private int validateTime;
 
     public Terms() {
     }
 
-    public Terms(int termId, String termName, String imageName, int price, boolean isActive, int testTime, byte numberQuestionOfLevel, byte fieldId) {
+    public Terms(int termId, String termName, String imageName, int price, boolean isActive, int testTime, byte numberQuestionOfLevel, byte fieldId, boolean termStatus, int validateTime) {
         this.termId = termId;
         this.termName = termName;
         this.imageName = imageName;
@@ -21,7 +23,8 @@ public class Terms {
         this.isActive = isActive;
         this.testTime = testTime;
         this.numberQuestionOfLevel = numberQuestionOfLevel;
-        this.fieldId = fieldId;
+        this.termStatus = termStatus;
+        this.validateTime = validateTime;
     }
 
     public int getTermId() {

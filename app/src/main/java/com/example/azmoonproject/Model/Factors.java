@@ -11,11 +11,12 @@ public class Factors {
     private int price;
     private int userId;
     private byte termId;
+    private String termName;
 
     public Factors() {
     }
 
-    public Factors(int factorId, boolean isFinally, int validateTime, Date finallyDate, Date registerDate, int price, int userId, byte termId) {
+    public Factors(int factorId, boolean isFinally, int validateTime, Date finallyDate, Date registerDate, int price, int userId, byte termId, String termName) {
         this.factorId = factorId;
         this.isFinally = isFinally;
         this.validateTime = validateTime;
@@ -24,6 +25,7 @@ public class Factors {
         this.price = price;
         this.userId = userId;
         this.termId = termId;
+        this.termName = termName;
     }
 
     public int getFactorId() {
@@ -88,5 +90,13 @@ public class Factors {
 
     public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
+    }
+
+    public String getTermName() {
+        return termName;
+    }
+
+    public void setTermName(String termName) {
+        this.termName = termName;
     }
 }

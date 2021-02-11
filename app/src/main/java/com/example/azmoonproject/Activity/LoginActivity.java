@@ -11,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.azmoonproject.Data.Data;
+import com.example.azmoonproject.Data.G;
 import com.example.azmoonproject.Data.OnResult;
 import com.example.azmoonproject.Engine.Utils;
-import com.example.azmoonproject.Data.G;
 import com.example.azmoonproject.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        utils = new Utils(LoginActivity.this,LoginActivity.this);
+        utils = new Utils(LoginActivity.this, LoginActivity.this);
         init();
         data = new Data(LoginActivity.this);
         setSupportActionBar(toolbar);
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 utils.setSharedPreferences("isLogged", true);
                                             }
                                             //ورود کاربر
-                                            utils.goTo( FieldActivity.class);  //null=صفحه اصلی
+                                            utils.goTo(FieldActivity.class);  //null=صفحه اصلی
                                         } else {
                                             Toast.makeText(G.context, "رمز عبور اشتباه است", Toast.LENGTH_SHORT).show();
                                         }
@@ -88,8 +88,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.activity_login_btnLogin);
         checkBox = findViewById(R.id.activity_login_chk1);
     }
-
-
 
 
 }

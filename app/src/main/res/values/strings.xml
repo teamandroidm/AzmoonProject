@@ -28,4 +28,16 @@
     <string name="not_answered">پاسخ داده نشده : </string>
     <string name="confirmed">تایید</string>
     <string name="answer_sheet">پاسخنامه</string>
+    <string name="open_navigation_drawer">بازکردن</string>
+    <string name="close_navigation_drawer">بستن</string>
+    <string name="name">آزمون یار </string>
+    <string name="main_page">صفحه اصلی</string>
+    <string name="account">حساب کاربری</string>
+    <string name="logout">خروج از حساب کاربري</string>
+    <string name="courses">دوره ها</string>
+    <string name="lessons">درس ها</string>
+    <string name="about_academy">درباره آموزشگاه</string>
+    <string name="guide">راهنما</string>
+    <string name="contact_us">ارتباط با ما</string>
+    <string name="contact_us2">ارتباط با توسعه دهندگان</string>
 </resources>

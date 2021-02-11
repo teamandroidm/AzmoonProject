@@ -17,4 +17,11 @@
     <style name="toolbar" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="colorControlNormal">@android:color/black</item>
     </style>
+    <style name="navigationTheme">
+        <item name="colorPrimary">@color/color_orange</item>
+        <item name="colorControlHighlight">@color/color_orange</item>
+    </style>
+    <style name="RobotoTextViewStyle">
+        <item name="android:fontFamily">@font/vazir_medium</item>
+    </style>
 </resources>
