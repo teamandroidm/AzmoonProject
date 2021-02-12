@@ -8,71 +8,103 @@
     android:orientation="vertical"
     tools:context=".Activity.AzmoonsActivity">
 
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/activity_question_tlb1"
+    <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_azmoons_drawer"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white">
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl"
+        tools:openDrawer="start">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/activity_question_img_back"
-                android:layout_width="40sp"
-                android:layout_height="40sp"
-                android:layout_marginLeft="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/backicon" />
-
-            <TextView
-                android:id="@+id/activity_question_txt1"
-                android:layout_width="wrap_content"
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="2dp"
-                android:fontFamily="@font/vazir_bold"
-                android:text="@string/toolBarQuizName"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/activity_question_img1"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@color/color_white">
 
-            <ImageView
-                android:id="@+id/activity_question_img1"
-                android:layout_width="40sp"
-                android:layout_height="40sp"
-                android:layout_marginRight="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/formatlisticon" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/activity_question_tlb1"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginBottom="10dp"
+                    android:layoutDirection="rtl">
 
-    </androidx.appcompat.widget.Toolbar>
+                    <ImageView
+                        android:id="@+id/activity_question_img_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center"
+                        android:src="@drawable/ic_back" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/activity_question_txt1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="2dp"
+                        android:fontFamily="@font/vazir_bold"
+                        android:text="@string/toolBarQuizName"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/activity_question_img1"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
+                    <ImageView
+                        android:id="@+id/activity_azmoons_img"
+                        android:layout_width="30sp"
+                        android:layout_height="30sp"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/menu" />
+                </com.google.android.material.appbar.MaterialToolbar>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:orientation="vertical">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/activity_question_rcl1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="4sp" />
+
+
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/activity_azmoons_navigation_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_gravity="start"
+            android:background="@color/white"
+            android:theme="@style/navigationTheme"
+            app:headerLayout="@layout/menu_header"
+            app:itemTextAppearance="@style/RobotoTextViewStyle"
+            app:menu="@menu/navigation_drawer" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_question_rcl1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4sp" />
 
-
-        </LinearLayout>
-    </ScrollView>
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 
 </LinearLayout>

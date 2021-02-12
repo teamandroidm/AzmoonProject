@@ -1,16 +1,21 @@
 package com.example.azmoonproject.Activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +28,7 @@ import com.example.azmoonproject.Engine.Utils;
 import com.example.azmoonproject.Model.Factors;
 import com.example.azmoonproject.R;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -31,7 +37,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     Utils utils;
     TextView txtNameFamily;
@@ -44,12 +50,15 @@ public class ProfileActivity extends AppCompatActivity {
     TextInputLayout edtLaPass, edtLaNewPass, edtLaNewPassAgain;
     Button changePassBtn, changePassDialogBtnNo, changePassDialogBtnYes, exitDialogBtnNo,
             exitDialogBtnYes, logOutDialogBtnNo, logOutDialogBtnYes;
-
+    private DrawerLayout activity_profile_drawer;
+    private NavigationView activity_profile_navigation_view;
+    private ImageView activity_profile_menu_img;
     Data data;
     ArrayList<Factors> factors = new ArrayList<>();
     String termName;
     // for convert miladi date to shamsi date
     DateConverter dateConverter = new DateConverter();
+
 
 
     @Override
@@ -98,12 +107,27 @@ public class ProfileActivity extends AppCompatActivity {
 
         isEmptyFactors();
         setSupportActionBar(materialToolbar);
+        setTitle(null);
+        activity_profile_navigation_view.bringToFront();
+        activity_profile_navigation_view.setNavigationItemSelectedListener(ProfileActivity.this);
+        setOnClickImageView();
+    }
+    private void setOnClickImageView() {
+        activity_profile_menu_img.setOnClickListener(view -> {
+            if (activity_profile_drawer.isDrawerVisible(GravityCompat.START)) {
+                activity_profile_drawer.closeDrawer(GravityCompat.START);
+            } else activity_profile_drawer.openDrawer(GravityCompat.START);
+        });
     }
 
 
     @Override
     public void onBackPressed() {
         finish();
+//        if (activity_profile_drawer.isDrawerVisible(GravityCompat.START)) {
+//            activity_profile_drawer.closeDrawer(GravityCompat.START);
+//        } else
+//            super.onBackPressed();
     }
 
 
@@ -245,7 +269,26 @@ public class ProfileActivity extends AppCompatActivity {
         edtLaNewPassAgain = changePassDialog.findViewById(R.id.custom_dialog_activity_profile_change_pass_edtla_newpass_again);
         imgBack = findViewById(R.id.activity_profile_toolbar_img_back);
         emptyFactorLa = findViewById(R.id.activity_profile_empty_layout);
+        activity_profile_drawer = findViewById(R.id.activity_profile_drawer);
+        activity_profile_navigation_view = findViewById(R.id.activity_profile_navigation_view);
+        activity_profile_menu_img = findViewById(R.id.activity_profile_menu_img);
         utils = new Utils(getApplicationContext(), ProfileActivity.this);
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_home1:
+                Intent intent = new Intent(ProfileActivity.this, FieldActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
 }

@@ -8,13 +8,17 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +29,7 @@ import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewMethod;
 import com.example.azmoonproject.Engine.Utils;
 import com.example.azmoonproject.Model.Fields;
 import com.example.azmoonproject.R;
+import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -33,11 +38,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FieldActivity extends AppCompatActivity {
+public class FieldActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private final Data date = new Data();
     Dialog dialog, exitDialog;
-    Button exitDialogBtnNo, exitDialogBtnYes, custom_dialog_button_ok;
-    Toolbar toolbar;
+    private Button exitDialogBtnNo, exitDialogBtnYes, custom_dialog_button_ok;
+    private Toolbar toolbar;
+    private NavigationView activity_field_navigation_view;
+    private DrawerLayout drawerLayout;
+    private ImageView activity_field_menu_img;
+
     boolean doubleBackPress = false;
     ArrayList<Fields> fieldArrayList = new ArrayList<>();
 
@@ -57,6 +66,16 @@ public class FieldActivity extends AppCompatActivity {
         final Utils utils = new Utils(getApplicationContext(), FieldActivity.this);
         setRecyclerViewField(utils);
         fieldItemList();
+        activity_field_navigation_view.bringToFront();
+        activity_field_navigation_view.setNavigationItemSelectedListener(FieldActivity.this);
+        setOnClickImageView();
+    }
+        private void setOnClickImageView() {
+            activity_field_menu_img.setOnClickListener(view -> {
+            if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            } else drawerLayout.openDrawer(GravityCompat.START);
+        });
     }
 
     private void fieldItemList() {
@@ -74,6 +93,9 @@ public class FieldActivity extends AppCompatActivity {
         exitDialogBtnNo = exitDialog.findViewById(R.id.custom_dialog_exit_btn_no);
         exitDialogBtnYes = exitDialog.findViewById(R.id.custom_dialog_exit_btn_yes);
         toolbar = findViewById(R.id.activity_field_toolbar);
+        activity_field_navigation_view = findViewById(R.id.activity_field_navigation_view);
+        drawerLayout = findViewById(R.id.main_drawer);
+        activity_field_menu_img = findViewById(R.id.activity_field_menu_img);
 
     }
 
@@ -157,6 +179,10 @@ public class FieldActivity extends AppCompatActivity {
                 doubleBackPress = false;
             }
         }, 2000);
+        if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else
+            super.onBackPressed();
     }
 
 
@@ -177,6 +203,24 @@ public class FieldActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.item_account:
+                Intent intent = new Intent(FieldActivity.this,ProfileActivity.class);
+                startActivity(intent);
+                break;
+
+        }
+        return true;
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
     //endregion
 }

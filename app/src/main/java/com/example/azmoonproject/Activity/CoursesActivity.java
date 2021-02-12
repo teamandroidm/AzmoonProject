@@ -7,14 +7,18 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +27,7 @@ import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewMethod;
 import com.example.azmoonproject.Engine.Utils;
 import com.example.azmoonproject.Model.Terms;
 import com.example.azmoonproject.R;
+import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -32,14 +37,17 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class CoursesActivity extends AppCompatActivity {
+public class CoursesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     Dialog dialog;
+    ArrayList<Terms> termsArrayList = new ArrayList<>();
+    ArrayList<Terms> arrayList = new ArrayList<>();
     Button custom_dialog_button_courses_payment, custom_dialog_button_courses_cancel;
     TextView custom_dialog_text_courses_type, custom_dialog_text_courses_description, custom_dialog_text_courses_price;
     Toolbar toolbar;
-    ArrayList<Terms> termsArrayList = new ArrayList<>();
-    ArrayList<Terms> arrayList = new ArrayList<>();
     ImageView back;
+    private NavigationView activity_courses_navigation_view;
+    private DrawerLayout activity_courses_drawer;
+    private ImageView activity_courses_menu_img;
 
     public static String splitDigits(int number) {
         return new DecimalFormat("###,###,###").format(number);
@@ -57,6 +65,8 @@ public class CoursesActivity extends AppCompatActivity {
         setTitle(null);
         final Utils utils = new Utils(getApplicationContext(), CoursesActivity.this);
         termsItemList();
+        activity_courses_navigation_view.bringToFront();
+        activity_courses_navigation_view.setNavigationItemSelectedListener(CoursesActivity.this);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +81,17 @@ public class CoursesActivity extends AppCompatActivity {
         setRecyclerViewCourses(utils);
 
 
+        setOnClickImageView();
     }
+
+    private void setOnClickImageView() {
+        activity_courses_menu_img.setOnClickListener(view -> {
+            if (activity_courses_drawer.isDrawerVisible(GravityCompat.START)) {
+                activity_courses_drawer.closeDrawer(GravityCompat.START);
+            } else activity_courses_drawer.openDrawer(GravityCompat.START);
+        });
+    }
+
 
     private void termsItemList() {
         String java = picPath(R.drawable.java);
@@ -108,6 +128,9 @@ public class CoursesActivity extends AppCompatActivity {
         custom_dialog_text_courses_type = dialog.findViewById(R.id.custom_dialog_text_courses_type);
         custom_dialog_text_courses_description = dialog.findViewById(R.id.custom_dialog_text_courses_description);
         custom_dialog_text_courses_price = dialog.findViewById(R.id.custom_dialog_text_courses_price);
+        activity_courses_navigation_view = findViewById(R.id.activity_courses_navigation_view);
+        activity_courses_drawer = findViewById(R.id.activity_courses_drawer);
+        activity_courses_menu_img = findViewById(R.id.activity_courses_menu_img);
         toolbar = findViewById(R.id.activity_courses_toolbar);
         back = findViewById(R.id.back);
 
@@ -194,5 +217,32 @@ public class CoursesActivity extends AppCompatActivity {
         String path = mfile1.getAbsolutePath() + "/" + filename;
 
         return path;
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_account:
+                Intent intent = new Intent(CoursesActivity.this, ProfileActivity.class);
+                startActivity(intent);
+                break;
+
+        }
+        return true;
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (activity_courses_drawer.isDrawerVisible(GravityCompat.START)) {
+            activity_courses_drawer.closeDrawer(GravityCompat.START);
+        } else
+            super.onBackPressed();
+
     }
 }
