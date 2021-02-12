@@ -82,14 +82,14 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="55dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.35"
+                    android:layout_weight="0.3"
                     android:background="@drawable/activity_profile_top_layout"
                     android:gravity="center|bottom"
                     android:orientation="vertical">
@@ -98,7 +98,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="32dp"
-                        android:layout_marginBottom="16dp">
+                        android:layout_marginBottom="16dp"
+                        >
 
                         <TextView
                             android:id="@+id/activity_profile_txt_user_name"
@@ -118,14 +119,13 @@
                         android:id="@+id/activity_profile_btn_change_pass"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/btn_layout"
                         android:backgroundTint="@color/color_orange"
                         android:drawableRight="@drawable/ic_lock_black_24dp"
                         android:fontFamily="@font/vazir"
                         android:paddingHorizontal="18dp"
-                        android:paddingVertical="12dp"
                         android:text="تغییر رمز عبور"
                         android:textColor="@color/color_white"
                         android:textSize="16dp" />
@@ -148,7 +148,7 @@
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.6">
+                    android:layout_weight="0.65">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -181,7 +181,8 @@
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/activity_profile_rcv_factor"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="16dp">
 
                             </androidx.recyclerview.widget.RecyclerView>
 

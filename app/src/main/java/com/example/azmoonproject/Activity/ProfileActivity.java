@@ -45,17 +45,16 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     ImageView imgBack;
     LinearLayout emptyFactorLa;
     MaterialToolbar materialToolbar;
-    Dialog changePassDialog, exitDialog, logOutDialog;
+    Dialog changePassDialog, logOutDialog;
     TextInputEditText edtPass, edtNewPass, edtNewPassAgain;
     TextInputLayout edtLaPass, edtLaNewPass, edtLaNewPassAgain;
-    Button changePassBtn, changePassDialogBtnNo, changePassDialogBtnYes, exitDialogBtnNo,
-            exitDialogBtnYes, logOutDialogBtnNo, logOutDialogBtnYes;
+    Button changePassBtn, changePassDialogBtnNo, changePassDialogBtnYes, logOutDialogBtnNo, logOutDialogBtnYes;
     private DrawerLayout activity_profile_drawer;
     private NavigationView activity_profile_navigation_view;
     private ImageView activity_profile_menu_img;
     Data data;
     ArrayList<Factors> factors = new ArrayList<>();
-    String termName;
+
     // for convert miladi date to shamsi date
     DateConverter dateConverter = new DateConverter();
 
@@ -66,12 +65,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         changePassDialog = new Dialog(ProfileActivity.this);
-        exitDialog = new Dialog(ProfileActivity.this);
-        logOutDialog = new Dialog(ProfileActivity.this);
         changePassDialog.setContentView(R.layout.custom_dialog_acticity_profile_change_pass);
         changePassDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        logOutDialog.setContentView(R.layout.custom_dialog_logout);
-        logOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         init();
         data = new Data(ProfileActivity.this);
         changePassBtn.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +84,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         });
         //TODO: set url (volley)
 
-        data.getFactors("", new OnResult() {
+        data.getFactors("",2, new OnResult() {
             @Override
             public void success(Object... objects) {
                 factors = (ArrayList<Factors>) objects[0];
@@ -133,12 +129,20 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     //region dialog log out
     private void setDialogLogOut() {
+
         logOutDialog.setCancelable(false);
         logOutDialog.show();
         logOutDialogBtnNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 logOutDialog.dismiss();
+            }
+        });
+        logOutDialogBtnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                utils.setSharedPreferences("isLogged", false);
+                utils.goTo(LoginActivity.class);
             }
         });
     }
@@ -177,7 +181,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                         @Override
                         public void run() {
 
-                            data.NewPassword("", edtNewPass.getText().toString(), new OnResult() {
+                            data.NewPassword("",2,edtPass.getText().toString(), edtNewPass.getText().toString(), new OnResult() {
                                 @Override
                                 public void success(Object... objects) {
                                     if ((boolean) objects[0])
@@ -225,13 +229,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                         TextView date = itemView.findViewById(R.id.rcv_item_activity_profile_txt_date);
                         TextView validityDate = itemView.findViewById(R.id.rcv_item_activity_profile_txt_validity_date);
 
-                        data.getTermName(factors.get(position).getTermId(), new OnResult() {
-                            @Override
-                            public void success(Object... objects) {
-                                termName = (String) objects[0];
-                            }
-                        });
-                        courseName.setText(termName);
+                        courseName.setText(factors.get(position).getTermName());
                         price.setText(utils.toPersianNumber4(utils.splitDigits(factors.get(position).getPrice())));
 
                         dateConverter.gregorianToPersian(Integer.parseInt(new SimpleDateFormat("yyyy").format(factors.get(position).getFinallyDate())), Integer.parseInt(new SimpleDateFormat("MM").format(factors.get(position).getFinallyDate())), Integer.parseInt(new SimpleDateFormat("dd").format(factors.get(position).getFinallyDate())));
@@ -259,6 +257,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         changePassBtn = findViewById(R.id.activity_profile_btn_change_pass);
         changePassDialogBtnNo = changePassDialog.findViewById(R.id.custom_dialog_activity_profile_change_pass_btn_no);
         changePassDialogBtnYes = changePassDialog.findViewById(R.id.custom_dialog_activity_profile_change_pass_btn_yes);
+        logOutDialog = new Dialog(ProfileActivity.this);
+        logOutDialog.setContentView(R.layout.custom_dialog_logout);
+        logOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         logOutDialogBtnNo = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_no);
         logOutDialogBtnYes = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_yes);
         edtNewPass = changePassDialog.findViewById(R.id.custom_dialog_activity_profile_change_pass_edt_newpass);
@@ -280,8 +281,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_home1:
-                Intent intent = new Intent(ProfileActivity.this, FieldActivity.class);
-                startActivity(intent);
+                utils.goTo(FieldActivity.class);
+                break;
+            case R.id.item_logout:
+                setDialogLogOut();
                 break;
         }
         return true;

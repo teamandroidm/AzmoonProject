@@ -1,9 +1,13 @@
 package com.example.azmoonproject.Activity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.azmoonproject.Data.Data;
+import com.example.azmoonproject.Engine.Utils;
 import com.example.azmoonproject.Model.Levels;
 import com.example.azmoonproject.MyAdapter;
 import com.example.azmoonproject.R;
@@ -31,16 +36,18 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
     private DrawerLayout activity_azmoons_drawer;
     private NavigationView activity_azmoons_navigation_view;
     TextView txt1;
+    Dialog logOutDialog;
+    Button logOutDialogBtnNo, logOutDialogBtnYes;
     RecyclerView rcl;
     ArrayList<Levels> questionLevelItemArrayList;
     Levels levelItem;
-
+    Utils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_azmoons);
-
+        utils=new Utils(getApplicationContext(), AzmoonsActivity.this);
         // init
         setInit();
 
@@ -79,7 +86,11 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
         activity_azmoons_drawer = findViewById(R.id.activity_azmoons_drawer);
         activity_azmoons_navigation_view = findViewById(R.id.activity_azmoons_navigation_view);
         activity_azmoons_img = findViewById(R.id.activity_azmoons_img);
-
+        logOutDialog = new Dialog(AzmoonsActivity.this);
+        logOutDialog.setContentView(R.layout.custom_dialog_logout);
+        logOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        logOutDialogBtnNo = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_no);
+        logOutDialogBtnYes = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_yes);
     }
 
     private void fillList() {
@@ -104,6 +115,24 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
             } else activity_azmoons_drawer.openDrawer(GravityCompat.START);
         });
     }
+    private void setDialogLogOut() {
+
+        logOutDialog.setCancelable(false);
+        logOutDialog.show();
+        logOutDialogBtnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logOutDialog.dismiss();
+            }
+        });
+        logOutDialogBtnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                utils.setSharedPreferences("isLogged", false);
+                utils.goTo(LoginActivity.class);
+            }
+        });
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -112,7 +141,9 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
                 Intent intent = new Intent(AzmoonsActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 break;
-
+            case R.id.item_logout:
+                setDialogLogOut();
+                break;
         }
         return true;
     }

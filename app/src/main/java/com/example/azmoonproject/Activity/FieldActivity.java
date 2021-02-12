@@ -46,8 +46,10 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
     private NavigationView activity_field_navigation_view;
     private DrawerLayout drawerLayout;
     private ImageView activity_field_menu_img;
-
+    Dialog logOutDialog;
+    Button logOutDialogBtnNo, logOutDialogBtnYes;
     boolean doubleBackPress = false;
+    Utils utils;
     ArrayList<Fields> fieldArrayList = new ArrayList<>();
 
     @Override
@@ -60,6 +62,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         exitDialog.setContentView(R.layout.custom_dialog_exit);
         exitDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        utils=new Utils(getApplicationContext(), FieldActivity.this);
         setUpView();
         setSupportActionBar(toolbar);
         setTitle(null);
@@ -96,7 +99,11 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         activity_field_navigation_view = findViewById(R.id.activity_field_navigation_view);
         drawerLayout = findViewById(R.id.main_drawer);
         activity_field_menu_img = findViewById(R.id.activity_field_menu_img);
-
+        logOutDialog = new Dialog(FieldActivity.this);
+        logOutDialog.setContentView(R.layout.custom_dialog_logout);
+        logOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        logOutDialogBtnNo = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_no);
+        logOutDialogBtnYes = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_yes);
     }
 
     private void showCustomDialod() {
@@ -166,23 +173,25 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
 
     @Override
     public void onBackPressed() {
-        if (doubleBackPress) {
 
-            setDialogExit();
-
-            return;
-        }
-        this.doubleBackPress = true;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackPress = false;
-            }
-        }, 2000);
         if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else
-            super.onBackPressed();
+        }
+        else{
+            if (doubleBackPress) {
+
+                setDialogExit();
+
+                return;
+            }
+            this.doubleBackPress = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackPress = false;
+                }
+            }, 2000);
+        }
     }
 
 
@@ -204,7 +213,24 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
             }
         });
     }
+    private void setDialogLogOut() {
 
+        logOutDialog.setCancelable(false);
+        logOutDialog.show();
+        logOutDialogBtnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logOutDialog.dismiss();
+            }
+        });
+        logOutDialogBtnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                utils.setSharedPreferences("isLogged", false);
+                utils.goTo(LoginActivity.class);
+            }
+        });
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -213,7 +239,9 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                 Intent intent = new Intent(FieldActivity.this,ProfileActivity.class);
                 startActivity(intent);
                 break;
-
+            case R.id.item_logout:
+                setDialogLogOut();
+                break;
         }
         return true;
     }

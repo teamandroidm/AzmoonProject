@@ -181,9 +181,8 @@ public class Data {
 
     }
 
-    public void getFactors(String url, OnResult onResult) {
-        // user id from class G
-        int userId = 2;
+    public void getFactors(String url,int userId, OnResult onResult) {
+
         //
 
 //        final StringRequest request = new StringRequest(
@@ -207,7 +206,7 @@ public class Data {
 //        requestQueue.add(request);
 
         for (Factors factor : fakeDataFactor()) {
-            if (factor.getUserId() == userId && factor.isFinally()) {
+            if (factor.getUserId() == userId ) {
                 factorsList.add(factor);
             }
         }
@@ -215,19 +214,11 @@ public class Data {
 
     }
 
-    public void getTermName(int termId, OnResult onResult) {
-        ArrayList<Terms> termsList = fakeDataTerm();
-        for (Terms terms : termsList
-        ) {
-            if (terms.getTermId() == termId)
-                onResult.success(terms.getTermName());
-        }
 
-    }
 
-    public void NewPassword(String url, String newPass, OnResult onResult) {
-        // user id from class G
-        int userId = 2;
+
+    public void NewPassword(String url,int userid,String Pass, String newPass, OnResult onResult) {
+
 
 
 //        JSONObject user = new JSONObject();
@@ -273,63 +264,33 @@ public class Data {
         factors.setFinally(true);
         factors.setFinallyDate(new Date());
         factors.setPrice(30000);
-        factors.setTermId((byte) 1);
+        factors.setTermName("icdl");
         factors.setUserId(2);
         factors.setValidateTime(14);
         factorsArrayList.add(factors);
 
         /////////
-        Factors factors1 = new Factors();
-        factors1.setFactorId(2);
-        factors1.setFinally(true);
-        factors1.setFinallyDate(new Date(new Date().getTime() + (84600000 * 10)));
-        factors1.setPrice(20000);
-        factors1.setTermId((byte) 5);
-        factors1.setUserId(2);
-        factors1.setValidateTime(14);
-        factorsArrayList.add(factors1);
-        /////////////
         Factors factors2 = new Factors();
         factors2.setFactorId(3);
         factors2.setFinally(true);
-        factors2.setFinallyDate(new Date(new Date().getTime() - 2000));
+        factors2.setFinallyDate(new Date(new Date().getTime() - 84600000*2));
         factors2.setPrice(30000);
-        factors2.setTermId((byte) 1);
-        factors2.setUserId(3);
+        factors2.setTermName("پایتون");
+        factors2.setUserId(2);
         factors2.setValidateTime(14);
         factorsArrayList.add(factors2);
         ////////////
         Factors factors3 = new Factors();
         factors3.setFactorId(4);
-        factors3.setFinally(false);
-        factors3.setFinallyDate(new Date(new Date().getTime() - 1000));
+        factors3.setFinally(true);
+        factors3.setFinallyDate(new Date(new Date().getTime() - 84600000*5));
         factors3.setPrice(30000);
-        factors3.setTermId((byte) 1);
+        factors3.setTermName("جاوا");
         factors3.setUserId(2);
         factors3.setValidateTime(14);
         factorsArrayList.add(factors3);
 
         return factorsArrayList;
-
-    }
-
-    public ArrayList<Terms> fakeDataTerm() {
-        ArrayList<Terms> termsArrayList = new ArrayList<>();
-        Terms terms = new Terms();
-        terms.setTermId(1);
-        terms.setPrice(30000);
-        terms.setTermName("جاوا");
-
-        termsArrayList.add(terms);
-        /////////
-        Terms terms1 = new Terms();
-        terms1.setTermId(5);
-        terms1.setPrice(20000);
-        terms1.setTermName("icdl");
-
-        termsArrayList.add(terms1);
-
-        return termsArrayList;
 
     }
 

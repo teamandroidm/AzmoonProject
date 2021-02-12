@@ -48,10 +48,12 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     private NavigationView activity_courses_navigation_view;
     private DrawerLayout activity_courses_drawer;
     private ImageView activity_courses_menu_img;
-
-    public static String splitDigits(int number) {
-        return new DecimalFormat("###,###,###").format(number);
-    }
+    Dialog logOutDialog;
+    Button logOutDialogBtnNo, logOutDialogBtnYes;
+    Utils utils;
+//    public static String splitDigits(int number) {
+//        return new DecimalFormat("###,###,###").format(number);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
 
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog_buy_courses);
+        utils=new Utils(getApplicationContext(), CoursesActivity.this);
         setUpView();
         setSupportActionBar(toolbar);
         setTitle(null);
@@ -133,7 +136,11 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         activity_courses_menu_img = findViewById(R.id.activity_courses_menu_img);
         toolbar = findViewById(R.id.activity_courses_toolbar);
         back = findViewById(R.id.back);
-
+        logOutDialog = new Dialog(CoursesActivity.this);
+        logOutDialog.setContentView(R.layout.custom_dialog_logout);
+        logOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        logOutDialogBtnNo = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_no);
+        logOutDialogBtnYes = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_yes);
     }
 
     private void showCustomDialod() {
@@ -151,7 +158,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
 
                         Picasso.get().load(new File(arrayList.get(position).getImageName())).error(R.drawable.tourists).into((ImageView) itemView.findViewById(R.id.activity_courses_image_courses));
                         ((TextView) itemView.findViewById(R.id.activity_courses_text_name)).setText(arrayList.get(position).getTermName() + "");
-                        ((TextView) itemView.findViewById(R.id.activity_courses_text_price)).setText(splitDigits(arrayList.get(position).getPrice()) + "");
+                        ((TextView) itemView.findViewById(R.id.activity_courses_text_price)).setText(utils.splitDigits(arrayList.get(position).getPrice()) + "");
                         //    Picasso.get().load(new File(termsArrayList.get(position).getImageName())).error(R.mipmap.logocourses).fit().centerCrop().into((ImageView) itemView.findViewById(R.id.activity_courses_image_courses));
                         Picasso.get().load(new File(arrayList.get(position).getImageName())).error(R.drawable.tourists).fit().centerCrop().into((ImageView) itemView.findViewById(R.id.activity_courses_image_courses));
 
@@ -219,7 +226,24 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         return path;
     }
 
+    private void setDialogLogOut() {
 
+        logOutDialog.setCancelable(false);
+        logOutDialog.show();
+        logOutDialogBtnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logOutDialog.dismiss();
+            }
+        });
+        logOutDialogBtnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                utils.setSharedPreferences("isLogged", false);
+                utils.goTo(LoginActivity.class);
+            }
+        });
+    }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -227,7 +251,9 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                 Intent intent = new Intent(CoursesActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 break;
-
+            case R.id.item_logout:
+                setDialogLogOut();
+                break;
         }
         return true;
     }
