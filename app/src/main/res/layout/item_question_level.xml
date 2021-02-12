@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lil_level_item"
-    android:layout_width="150sp"
-    android:layout_height="150sp"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
     android:layout_margin="16dp"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@drawable/shape">
+    android:background="@drawable/background_list_courses">
 
         <TextView
             android:id="@+id/item_question_level_txt1"

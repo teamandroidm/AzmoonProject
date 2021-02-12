@@ -286,6 +286,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             case R.id.item_logout:
                 setDialogLogOut();
                 break;
+            case R.id. item_courses:
+                utils.goTo(CoursesActivity.class);
+                break;
         }
         return true;
     }

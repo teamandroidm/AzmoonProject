@@ -42,7 +42,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     ArrayList<Terms> termsArrayList = new ArrayList<>();
     ArrayList<Terms> arrayList = new ArrayList<>();
     Button custom_dialog_button_courses_payment, custom_dialog_button_courses_cancel;
-    TextView custom_dialog_text_courses_type, custom_dialog_text_courses_description, custom_dialog_text_courses_price;
+    TextView custom_dialog_text_courses_type, custom_dialog_text_courses_price;
     Toolbar toolbar;
     ImageView back;
     private NavigationView activity_courses_navigation_view;
@@ -129,7 +129,6 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         custom_dialog_button_courses_payment = dialog.findViewById(R.id.custom_dialog_button_courses_payment);
         custom_dialog_button_courses_cancel = dialog.findViewById(R.id.custom_dialog_button_courses_cancel);
         custom_dialog_text_courses_type = dialog.findViewById(R.id.custom_dialog_text_courses_type);
-        custom_dialog_text_courses_description = dialog.findViewById(R.id.custom_dialog_text_courses_description);
         custom_dialog_text_courses_price = dialog.findViewById(R.id.custom_dialog_text_courses_price);
         activity_courses_navigation_view = findViewById(R.id.activity_courses_navigation_view);
         activity_courses_drawer = findViewById(R.id.activity_courses_drawer);
@@ -254,7 +253,11 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
             case R.id.item_logout:
                 setDialogLogOut();
                 break;
+            case R.id. item_courses:
+               utils.goTo(CoursesActivity.class);
+                break;
         }
+
         return true;
     }
 
