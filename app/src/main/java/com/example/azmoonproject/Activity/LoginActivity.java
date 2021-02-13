@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.azmoonproject.Data.Data;
-import com.example.azmoonproject.Data.G;
 import com.example.azmoonproject.Data.OnResult;
 import com.example.azmoonproject.Engine.Utils;
 import com.example.azmoonproject.R;
@@ -41,37 +40,26 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (edtUserName.getText().toString().length() > 0 && edtPassword.getText().toString().length() > 0) {
-                    data.Login(edtUserName.getText().toString(), new OnResult() {
+                    data.Login(edtUserName.getText().toString(), edtPassword.getText().toString(), new OnResult() {
                         @Override
                         public void success(Object... objects) {
-                            if ((Boolean) objects[0] == false) {
-                                if ((Boolean) objects[1]) {
-                                    if (G.user.isActive()) {  // زمانی که کاربر فعال باشد
-                                        if (G.user.getPassword().equals(edtPassword.getText().toString())) {
-                                            if (checkBox.isChecked()) {  // زمانی که روی مرا به خاطر بسپار کلیک کرده است
-                                                utils.setSharedPreferences("isLogged", true);
-                                            }
-                                            //ورود کاربر
-                                            utils.goTo(FieldActivity.class);  //null=صفحه اصلی
-                                        } else {
-                                            Toast.makeText(G.context, "رمز عبور اشتباه است", Toast.LENGTH_SHORT).show();
-                                        }
-                                    } else {
-                                        Toast.makeText(G.context, "کاربر مسدود شده است", Toast.LENGTH_SHORT).show(); //در صورت نیاز*
+                            if (!((Boolean) objects[0])) {
+                                if ((Boolean) objects[1]) { //ورود کاربر
+                                    if (checkBox.isChecked()) {  // زمانی که روی مرا به خاطر بسپار کلیک کرده است
+                                        utils.setSharedPreferences("isLogged", true);
                                     }
-
+                                    utils.goTo(FieldActivity.class);
                                 } else {
-                                    Toast.makeText(G.context, "کاربری با این نام کاربری وجود ندارد", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "کاربری با این نام کاربری و رمز عبور وجود ندارد", Toast.LENGTH_SHORT).show();
                                 }
-
                             } else {
-                                Toast.makeText(G.context, "خطا در اتصال به شبکه", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "خطا در اتصال به شبکه", Toast.LENGTH_SHORT).show();
                             }
 
                         }
                     });
                 } else {
-                    Toast.makeText(G.context, "نام کاربری یا رمزعبور خالی است!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "نام کاربری یا رمزعبور خالی است!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

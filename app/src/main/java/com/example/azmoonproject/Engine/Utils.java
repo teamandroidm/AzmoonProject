@@ -28,6 +28,7 @@ public class Utils {
         this.context = context;
     }
 
+
     public String farsiNumberConvert(String number) {
         String[][] mChar = new String[][]{
                 {"0", "۰"},
@@ -49,7 +50,7 @@ public class Utils {
     }
 
     public Object getSharedPreferences(String key, Object _default) {
-        SharedPreferences sharedpreferences = context.getSharedPreferences("EShop", Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = context.getSharedPreferences("Azmoon", Context.MODE_PRIVATE);
         if (_default instanceof String) {
             return sharedpreferences.getString(key, (String) _default);
         } else if (_default instanceof Boolean) {
@@ -65,7 +66,7 @@ public class Utils {
     }
 
     public void setSharedPreferences(String key, Object data) {
-        SharedPreferences.Editor editor = context.getSharedPreferences("EShop", Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = context.getSharedPreferences("Azmoon", Context.MODE_PRIVATE).edit();
         if (data instanceof String) {
             editor.putString(key, (String) data);
         } else if (data instanceof Boolean) {

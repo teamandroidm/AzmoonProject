@@ -2,14 +2,20 @@ package com.example.azmoonproject.Data;
 
 import android.content.Context;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.azmoonproject.Engine.Utils;
 import com.example.azmoonproject.Model.Factors;
 import com.example.azmoonproject.Model.Fields;
 import com.example.azmoonproject.Model.Levels;
 import com.example.azmoonproject.Model.Questions;
 import com.example.azmoonproject.Model.Terms;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -25,10 +31,12 @@ public class Data {
     private boolean isError = false;
     private boolean status = false;
     private ArrayList<Levels> questionLevelItemArrayList = null;
+    Utils utils;
 
     public Data(Context context) {
         this.context = context;
         requestQueue = Volley.newRequestQueue(context);
+        utils=new Utils(context);
     }
 
     public Data() {
@@ -123,11 +131,12 @@ public class Data {
 //        requestQueue.add(request);
     }
 
-    public void Login(String userName, OnResult onResult) {
+    public void Login(String userName,String password ,OnResult onResult) {
 
 //        JSONObject jsonObject = new JSONObject();
 //        try {
 //            jsonObject.put("userName", userName);
+//            jsonObject.put("password", password);
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
@@ -141,43 +150,31 @@ public class Data {
 //                        response -> {
 //                            try {
 //                                if (response.getInt("userId") > 0) {  // زمانی که کاربری در سیستم با نام وارد شده کاربر وجود داشته باشد
-//                                    G.user.setUserId(response.getInt("userId"));
-//                                    G.user.setName(response.getString("name"));
-//                                    G.user.setFamily(response.getString("family"));
-//                                    G.user.setMobileNumber(response.getString("mobileNumber"));
-//                                    G.user.setPassword(response.getString("password"));
-//                                    G.user.setActive(response.getBoolean("isActive"));
-//                                    G.user.setFieldId((byte) response.getInt("fieldId"));
+//                                  utils.setSharedPreferences("userId",response.getInt("userId"));
+//                                  utils.setSharedPreferences("name",response.getString("name"));
+//                                  utils.setSharedPreferences("family",response.getString("family"));
+//                                  utils.setSharedPreferences("fieldId",(byte)response.getInt("fieldId"));
 //                                    status = true;
-//                                } else {
-//                                    G.user.setUserId(0);
 //                                }
 //                            } catch (JSONException e) {
 //                                e.printStackTrace();
 //                            }
 //                        },
-//                        new Response.ErrorListener() {
-//                            @Override
-//                            public void onErrorResponse(VolleyError error) {
-//                                isError = true;
-//                            }
-//                        });
+//                        error -> isError = true);
 //                        requestQueue.add(request);
 //            }
 //        });
 //        thread.start();
-//        onResult.success((boolean) isError, (boolean) status);
+//        onResult.success( isError, status);
 
 
         //data fake
-        G.user.setUserId(1);
-        G.user.setName("admin");
-        G.user.setFamily("admin");
-        G.user.setMobileNumber("09181234567");
-        G.user.setPassword("1234");
-        G.user.setActive(true);
-        G.user.setFieldId((byte) 1);
-        onResult.success((boolean) false, (boolean) true);
+
+        utils.setSharedPreferences("userId", 2);
+        utils.setSharedPreferences("name", "admin");
+        utils.setSharedPreferences("family", "Admin");
+        utils.setSharedPreferences("fieldId", 2);
+        onResult.success(false, true);
 
     }
 
