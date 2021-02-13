@@ -93,7 +93,6 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         ZarinPal.getPurchase(this).verificationPayment(uri, (isPaymentSuccess, refID, paymentRequest) -> {
             if (isPaymentSuccess) {// زمانی که از درگاه پرداخت برمیگردد و پرداخت انجام شده
 //                    refID //شماره تراکنش
-
             } else {// زمانی که از درگاه پرداخت برمیگردد و پرداخت انجام نشده
                 Toast.makeText(CoursesActivity.this, "پرداخت انجام نشد!", Toast.LENGTH_SHORT).show();
             }
