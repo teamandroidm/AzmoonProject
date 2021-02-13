@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,12 +31,13 @@ import com.example.azmoonproject.Model.Terms;
 import com.example.azmoonproject.R;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
+import com.zarinpal.ewallets.purchase.PaymentRequest;
+import com.zarinpal.ewallets.purchase.ZarinPal;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class CoursesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,12 +48,12 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     TextView custom_dialog_text_courses_type, custom_dialog_text_courses_price;
     Toolbar toolbar;
     ImageView back;
-    private NavigationView activity_courses_navigation_view;
-    private DrawerLayout activity_courses_drawer;
-    private ImageView activity_courses_menu_img;
     Dialog logOutDialog;
     Button logOutDialogBtnNo, logOutDialogBtnYes;
     Utils utils;
+    private NavigationView activity_courses_navigation_view;
+    private DrawerLayout activity_courses_drawer;
+    private ImageView activity_courses_menu_img;
 //    public static String splitDigits(int number) {
 //        return new DecimalFormat("###,###,###").format(number);
 //    }
@@ -62,7 +65,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
 
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog_buy_courses);
-        utils=new Utils(getApplicationContext(), CoursesActivity.this);
+        utils = new Utils(getApplicationContext(), CoursesActivity.this);
         setUpView();
         setSupportActionBar(toolbar);
         setTitle(null);
@@ -83,8 +86,21 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         arrayList = fillTearm(x);
         setRecyclerViewCourses(utils);
 
-
         setOnClickImageView();
+        //درگاه پرداخت
+        Uri uri = getIntent().getData();
+
+        ZarinPal.getPurchase(this).verificationPayment(uri, (isPaymentSuccess, refID, paymentRequest) -> {
+            if (isPaymentSuccess) {// زمانی که از درگاه پرداخت برمیگردد و پرداخت انجام شده
+//                    refID //شماره تراکنش
+
+            } else {// زمانی که از درگاه پرداخت برمیگردد و پرداخت انجام نشده
+                Toast.makeText(CoursesActivity.this, "پرداخت انجام نشد!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // ورودی تابع به این شکل باید باشید. قیمت بر حسب تومان و نوع long است پس بعد از قیمت حرف l را بگذارید.
+        //myPayment(500l, "محصول آزمایشی");
     }
 
     private void setOnClickImageView() {
@@ -243,6 +259,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
             }
         });
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -253,8 +270,8 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
             case R.id.item_logout:
                 setDialogLogOut();
                 break;
-            case R.id. item_courses:
-               utils.goTo(CoursesActivity.class);
+            case R.id.item_courses:
+                utils.goTo(CoursesActivity.class);
                 break;
         }
 
@@ -273,5 +290,24 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         } else
             super.onBackPressed();
 
+    }
+
+    private void myPayment(Long amount, String description) {
+        ZarinPal zarinPal = ZarinPal.getPurchase(this);
+        PaymentRequest paymentRequest = ZarinPal.getPaymentRequest();
+        paymentRequest.setAmount(amount);// قیمت
+        paymentRequest.setMerchantID("810179d8-0e5f-11e9-9708-005056a205be");
+        paymentRequest.setDescription(description);// توضیحات
+        paymentRequest.setCallbackURL("azmoon://yahoo");
+
+        zarinPal.startPayment(paymentRequest, (status, authority, paymentGatewayUri, intent) -> {
+            if (status == 100) {
+                //زمانی که به درگاه پرداخت برود
+                startActivity(intent);
+            } else {
+                //زمانی که به درگاه پرداخت وصل نشود(خطا داشته باشد)
+                Toast.makeText(CoursesActivity.this, "خطا در درخواست پرداخت!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
