@@ -1,7 +1,6 @@
 package com.example.azmoonproject.Activity;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -49,16 +48,13 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     TextInputEditText edtPass, edtNewPass, edtNewPassAgain;
     TextInputLayout edtLaPass, edtLaNewPass, edtLaNewPassAgain;
     Button changePassBtn, changePassDialogBtnNo, changePassDialogBtnYes, logOutDialogBtnNo, logOutDialogBtnYes;
+    Data data;
+    ArrayList<Factors> factors = new ArrayList<>();
+    // for convert miladi date to shamsi date
+    DateConverter dateConverter = new DateConverter();
     private DrawerLayout activity_profile_drawer;
     private NavigationView activity_profile_navigation_view;
     private ImageView activity_profile_menu_img;
-    Data data;
-    ArrayList<Factors> factors = new ArrayList<>();
-
-    // for convert miladi date to shamsi date
-    DateConverter dateConverter = new DateConverter();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         });
         //TODO: set url (volley)
 
-        data.getFactors("",2, new OnResult() {
+        data.getFactors("", 2, new OnResult() {
             @Override
             public void success(Object... objects) {
                 factors = (ArrayList<Factors>) objects[0];
@@ -108,6 +104,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         activity_profile_navigation_view.setNavigationItemSelectedListener(ProfileActivity.this);
         setOnClickImageView();
     }
+
     private void setOnClickImageView() {
         activity_profile_menu_img.setOnClickListener(view -> {
             if (activity_profile_drawer.isDrawerVisible(GravityCompat.START)) {
@@ -181,7 +178,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                         @Override
                         public void run() {
 
-                            data.NewPassword("",2,edtPass.getText().toString(), edtNewPass.getText().toString(), new OnResult() {
+                            data.NewPassword("", 2, edtPass.getText().toString(), edtNewPass.getText().toString(), new OnResult() {
                                 @Override
                                 public void success(Object... objects) {
                                     if ((boolean) objects[0])
@@ -282,12 +279,14 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         switch (item.getItemId()) {
             case R.id.item_home1:
                 utils.goTo(FieldActivity.class);
+                activity_profile_drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.item_logout:
                 setDialogLogOut();
                 break;
-            case R.id. item_courses:
+            case R.id.item_courses:
                 utils.goTo(CoursesActivity.class);
+                activity_profile_drawer.closeDrawer(GravityCompat.START);
                 break;
         }
         return true;

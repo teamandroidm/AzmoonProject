@@ -265,12 +265,14 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
             case R.id.item_account:
                 Intent intent = new Intent(CoursesActivity.this, ProfileActivity.class);
                 startActivity(intent);
+                activity_courses_drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.item_logout:
                 setDialogLogOut();
                 break;
             case R.id.item_courses:
                 utils.goTo(CoursesActivity.class);
+                activity_courses_drawer.closeDrawer(GravityCompat.START);
                 break;
         }
 

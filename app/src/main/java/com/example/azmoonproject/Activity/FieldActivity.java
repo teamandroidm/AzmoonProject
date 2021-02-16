@@ -41,16 +41,16 @@ import java.util.ArrayList;
 public class FieldActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private final Data date = new Data();
     Dialog dialog, exitDialog;
-    private Button exitDialogBtnNo, exitDialogBtnYes, custom_dialog_button_ok;
-    private Toolbar toolbar;
-    private NavigationView activity_field_navigation_view;
-    private DrawerLayout drawerLayout;
-    private ImageView activity_field_menu_img;
     Dialog logOutDialog;
     Button logOutDialogBtnNo, logOutDialogBtnYes;
     boolean doubleBackPress = false;
     Utils utils;
     ArrayList<Fields> fieldArrayList = new ArrayList<>();
+    private Button exitDialogBtnNo, exitDialogBtnYes, custom_dialog_button_ok;
+    private Toolbar toolbar;
+    private NavigationView activity_field_navigation_view;
+    private DrawerLayout drawerLayout;
+    private ImageView activity_field_menu_img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         exitDialog.setContentView(R.layout.custom_dialog_exit);
         exitDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        utils=new Utils(getApplicationContext(), FieldActivity.this);
+        utils = new Utils(getApplicationContext(), FieldActivity.this);
         setUpView();
         setSupportActionBar(toolbar);
         setTitle(null);
@@ -73,8 +73,9 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         activity_field_navigation_view.setNavigationItemSelectedListener(FieldActivity.this);
         setOnClickImageView();
     }
-        private void setOnClickImageView() {
-            activity_field_menu_img.setOnClickListener(view -> {
+
+    private void setOnClickImageView() {
+        activity_field_menu_img.setOnClickListener(view -> {
             if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START);
             } else drawerLayout.openDrawer(GravityCompat.START);
@@ -176,8 +177,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
 
         if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else{
+        } else {
             if (doubleBackPress) {
 
                 setDialogExit();
@@ -213,6 +213,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
             }
         });
     }
+
     private void setDialogLogOut() {
 
         logOutDialog.setCancelable(false);
@@ -234,10 +235,11 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.item_account:
-                Intent intent = new Intent(FieldActivity.this,ProfileActivity.class);
+                Intent intent = new Intent(FieldActivity.this, ProfileActivity.class);
                 startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.item_logout:
                 setDialogLogOut();

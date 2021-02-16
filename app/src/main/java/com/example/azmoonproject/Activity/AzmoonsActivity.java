@@ -140,6 +140,7 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
             case R.id.item_account:
                 Intent intent = new Intent(AzmoonsActivity.this, ProfileActivity.class);
                 startActivity(intent);
+                activity_azmoons_drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.item_logout:
                 setDialogLogOut();
