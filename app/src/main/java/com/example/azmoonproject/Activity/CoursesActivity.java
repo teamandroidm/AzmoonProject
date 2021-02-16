@@ -56,6 +56,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     private NavigationView activity_courses_navigation_view;
     private DrawerLayout activity_courses_drawer;
     private ImageView activity_courses_menu_img;
+    MyReceiver myReceiver;
 
 //    public static String splitDigits(int number) {
 //        return new DecimalFormat("###,###,###").format(number);
@@ -158,6 +159,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         logOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         logOutDialogBtnNo = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_no);
         logOutDialogBtnYes = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_yes);
+        myReceiver=new MyReceiver();
     }
 
     private void showCustomDialod() {
@@ -314,5 +316,15 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
             }
         });
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(myReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(myReceiver);
+    }
 }

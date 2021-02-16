@@ -51,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     TextInputLayout edtLaPass, edtLaNewPass, edtLaNewPassAgain;
     Button changePassBtn, changePassDialogBtnNo, changePassDialogBtnYes, logOutDialogBtnNo, logOutDialogBtnYes;
     Data data;
+    MyReceiver myReceiver;
     ArrayList<Factors> factors = new ArrayList<>();
     // for convert miladi date to shamsi date
     DateConverter dateConverter = new DateConverter();
@@ -246,7 +247,17 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 }));
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(myReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(myReceiver);
+    }
 
     private void init() {
         rcv1 = findViewById(R.id.activity_profile_rcv_factor);
@@ -272,6 +283,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         activity_profile_navigation_view = findViewById(R.id.activity_profile_navigation_view);
         activity_profile_menu_img = findViewById(R.id.activity_profile_menu_img);
         utils = new Utils(getApplicationContext(), ProfileActivity.this);
+        myReceiver=new MyReceiver();
 
     }
 

@@ -53,6 +53,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
     private NavigationView activity_field_navigation_view;
     private DrawerLayout drawerLayout;
     private ImageView activity_field_menu_img;
+    MyReceiver myReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +109,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         logOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         logOutDialogBtnNo = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_no);
         logOutDialogBtnYes = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_yes);
+        myReceiver=new MyReceiver();
     }
 
     private void showCustomDialod() {
@@ -256,5 +258,15 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
 
     }
     //endregion
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(myReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(myReceiver);
+    }
 }
