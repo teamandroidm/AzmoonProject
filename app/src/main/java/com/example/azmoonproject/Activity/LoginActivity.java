@@ -1,5 +1,6 @@
 package com.example.azmoonproject.Activity;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.azmoonproject.Data.Data;
 import com.example.azmoonproject.Data.OnResult;
+import com.example.azmoonproject.Engine.MyReceiver;
 import com.example.azmoonproject.Engine.Utils;
 import com.example.azmoonproject.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -25,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private CheckBox checkBox;
     private Utils utils;
     private Data data;
+    private MyReceiver myReceiver;
 
 
     @Override
@@ -32,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         utils = new Utils(LoginActivity.this, LoginActivity.this);
+        myReceiver = new MyReceiver();
+
         init();
         data = new Data(LoginActivity.this);
         setSupportActionBar(toolbar);
@@ -77,5 +82,16 @@ public class LoginActivity extends AppCompatActivity {
         checkBox = findViewById(R.id.activity_login_chk1);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(myReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(myReceiver);
+    }
 
 }

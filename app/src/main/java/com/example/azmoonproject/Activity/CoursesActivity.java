@@ -2,6 +2,7 @@ package com.example.azmoonproject.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -24,6 +25,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.azmoonproject.Engine.MyReceiver;
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewAdapter;
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewMethod;
 import com.example.azmoonproject.Engine.Utils;
@@ -54,6 +56,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     private NavigationView activity_courses_navigation_view;
     private DrawerLayout activity_courses_drawer;
     private ImageView activity_courses_menu_img;
+
 //    public static String splitDigits(int number) {
 //        return new DecimalFormat("###,###,###").format(number);
 //    }
@@ -311,4 +314,5 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
             }
         });
     }
+
 }

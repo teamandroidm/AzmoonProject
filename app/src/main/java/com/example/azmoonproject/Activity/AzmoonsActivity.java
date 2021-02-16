@@ -2,6 +2,7 @@ package com.example.azmoonproject.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.azmoonproject.Data.Data;
+import com.example.azmoonproject.Engine.MyReceiver;
 import com.example.azmoonproject.Engine.Utils;
 import com.example.azmoonproject.Model.Levels;
 import com.example.azmoonproject.MyAdapter;
@@ -47,6 +49,7 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_azmoons);
+
         utils=new Utils(getApplicationContext(), AzmoonsActivity.this);
         // init
         setInit();
@@ -153,4 +156,5 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
 }

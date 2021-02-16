@@ -1,6 +1,7 @@
 package com.example.azmoonproject.Activity;
 
 import android.app.Dialog;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.azmoonproject.Data.Data;
 import com.example.azmoonproject.Data.OnResult;
 import com.example.azmoonproject.Engine.DateConverter;
+import com.example.azmoonproject.Engine.MyReceiver;
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewAdapter;
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewMethod;
 import com.example.azmoonproject.Engine.Utils;
@@ -55,7 +57,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     private DrawerLayout activity_profile_drawer;
     private NavigationView activity_profile_navigation_view;
     private ImageView activity_profile_menu_img;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -296,4 +297,5 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
 }

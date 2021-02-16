@@ -2,6 +2,7 @@ package com.example.azmoonproject.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.azmoonproject.Data.Data;
 import com.example.azmoonproject.Data.OnResult;
+import com.example.azmoonproject.Engine.MyReceiver;
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewAdapter;
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewMethod;
 import com.example.azmoonproject.Engine.Utils;
@@ -56,6 +58,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_field);
+
         dialog = new Dialog(FieldActivity.this);
         exitDialog = new Dialog(FieldActivity.this);
         dialog.setContentView(R.layout.custom_dialog_field);
@@ -253,4 +256,5 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
 
     }
     //endregion
+
 }

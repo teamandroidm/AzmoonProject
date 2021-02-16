@@ -1,6 +1,7 @@
 package com.example.azmoonproject.Activity;
 
 import android.app.Dialog;
+import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.azmoonproject.Data.Data;
+import com.example.azmoonproject.Engine.MyReceiver;
 import com.example.azmoonproject.Engine.Utils;
 import com.example.azmoonproject.Model.Questions;
 import com.example.azmoonproject.R;
@@ -42,6 +44,7 @@ public class QuestionActivity extends AppCompatActivity {
     private boolean isEndExam = false, doubleBackPress = false;
     private Bundle bundle;
     private Utils utils;
+    private MyReceiver myReceiver;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -49,6 +52,7 @@ public class QuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         setupView();
+        myReceiver=new MyReceiver();
         bundle = getIntent().getExtras();
         setData();
         utils = new Utils(this);
@@ -275,6 +279,18 @@ public class QuestionActivity extends AppCompatActivity {
             new Handler().postDelayed(() -> doubleBackPress = false, 2000);
             Toast.makeText(this, "برای خروج دوبار کلیک کنید", Toast.LENGTH_SHORT).show();
         } else dialogEndTimeExam();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(myReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(myReceiver);
     }
 
     private class answer {
