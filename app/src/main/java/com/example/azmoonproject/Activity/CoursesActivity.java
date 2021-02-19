@@ -203,6 +203,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                                 activity_courses_button_cart.setVisibility(View.GONE);
                                 // Date date = new Date();
                                 // Toast.makeText(CoursesActivity.this,date + "", Toast.LENGTH_LONG).show();
+                               myPayment(100l, "Icdl");
                                 dialog.dismiss();
 
                             });
