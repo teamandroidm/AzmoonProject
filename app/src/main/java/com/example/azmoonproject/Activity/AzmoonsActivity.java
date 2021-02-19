@@ -148,6 +148,10 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
             case R.id.item_logout:
                 setDialogLogOut();
                 break;
+            case R.id.item_courses:
+                utils.goTo(CoursesActivity.class);
+                activity_azmoons_drawer.closeDrawer(GravityCompat.START);
+                break;
         }
         return true;
     }

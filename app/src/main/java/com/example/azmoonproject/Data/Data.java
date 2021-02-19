@@ -71,31 +71,31 @@ public class Data {
     }
 
     public void SendRequestByPostMethodField(String url,OnResult onResult) {
-//        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-//                Request.Method.POST,
-//                url,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray response) {
-//                        Gson gson = new Gson();
-//                        Type listType = new TypeToken<ArrayList<Fields>>() {
-//                        }.getType();
-//                        fieldsArrayList = gson.fromJson(response.toString(), listType);
-//                    }
-//                }
-//                , new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                //   txt1.setText("Error : "+error.getMessage());
-//                // prg1.setVisibility(View.INVISIBLE);
-//            }
-//        });
-//        requestQueue.add(jsonArrayRequest);
-//
-//        for (Fields fields : fieldItemList()) {
-//            fieldsArrayList.add(fields);
-//        }
-//        onResult.success(fieldsArrayList);
+        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Gson gson = new Gson();
+                        Type listType = new TypeToken<ArrayList<Fields>>() {
+                        }.getType();
+                        fieldsArrayList = gson.fromJson(response.toString(), listType);
+                    }
+                }
+                , new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //   txt1.setText("Error : "+error.getMessage());
+                // prg1.setVisibility(View.INVISIBLE);
+            }
+        });
+        requestQueue.add(jsonArrayRequest);
+
+        for (Fields fields : fieldItemList()) {
+            fieldsArrayList.add(fields);
+        }
+        onResult.success(fieldsArrayList);
     }
 
     private ArrayList<Fields> fieldItemList() {

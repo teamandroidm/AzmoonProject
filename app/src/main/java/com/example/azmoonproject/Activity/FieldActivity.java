@@ -46,6 +46,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
     Dialog logOutDialog;
     Button logOutDialogBtnNo, logOutDialogBtnYes;
     boolean doubleBackPress = false;
+    Data data=new Data();
     Utils utils;
     ArrayList<Fields> fieldArrayList = new ArrayList<>();
     private Button exitDialogBtnNo, exitDialogBtnYes, custom_dialog_button_ok;
@@ -76,6 +77,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         activity_field_navigation_view.bringToFront();
         activity_field_navigation_view.setNavigationItemSelectedListener(FieldActivity.this);
         setOnClickImageView();
+//        data.SendRequestByPostMethodFactor("",2,);
     }
 
     private void setOnClickImageView() {
@@ -130,8 +132,10 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                             @Override
                             public void success(Object... objects) {
                                 if ((Boolean) objects[0]) {
+                                    utils.setSharedPreferences("fieldId", (( fieldArrayList.get(position).getFieldId())));
+
                                     Intent intent = new Intent(FieldActivity.this, CoursesActivity.class);
-                                    intent.putExtra("fieldId", fieldArrayList.get(position).getFieldId());
+                                 //  intent.putExtra("fieldId", fieldArrayList.get(position).getFieldId());
                                     startActivity(intent);
                                     //utils.goTo(CoursesActivity.class,new PutExtra("fieldId",fieldArrayList.get(position).getFieldId()));
 
@@ -248,6 +252,11 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                 break;
             case R.id.item_logout:
                 setDialogLogOut();
+                break;
+            case R.id.item_courses:
+               utils.goTo(CoursesActivity.class);
+                drawerLayout.closeDrawer(GravityCompat.START);
+
                 break;
         }
         return true;

@@ -61,6 +61,8 @@ public class Utils {
             return sharedpreferences.getInt(key, (Integer) _default);
         } else if (_default instanceof Long) {
             return sharedpreferences.getLong(key, (Long) _default);
+        }else if (_default instanceof Byte) {
+            return sharedpreferences.getInt(key, (Byte) _default);
         }
         return null;
     }
@@ -78,7 +80,7 @@ public class Utils {
         } else if (data instanceof Long) {
             editor.putLong(key, (Long) data);
         } else if (data instanceof Byte) {
-            editor.putLong(key, (Byte) data);
+            editor.putInt(key, (Byte) data);
         }
         editor.apply();
     }

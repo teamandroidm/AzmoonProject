@@ -84,10 +84,11 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                 startActivity(intent);
             }
         });
-        Bundle extrns = getIntent().getExtras();
-        byte x = (byte) ((byte) extrns.getByte("fieldId"));
+//        Bundle extrns = getIntent().getExtras();
+//        byte x = (byte) ((byte) extrns.getByte("fieldId"));
+        int x= (Integer) utils.getSharedPreferences("fieldId",0);
         //Toast.makeText(CoursesActivity.this,x + "",Toast.LENGTH_LONG).show();
-        arrayList = fillTearm(x);
+        arrayList = fillTearm( (byte) x);
         setRecyclerViewCourses(utils);
 
         setOnClickImageView();
