@@ -39,6 +39,7 @@ public class Data {
     private RequestQueue requestQueue = null;
     private boolean isError = false;
     private boolean status = false;
+    private Boolean aBoolean = false;
     private ArrayList<Levels> questionLevelItemArrayList = null;
     Utils utils;
 
@@ -472,78 +473,81 @@ public class Data {
 
     }
 
-    public void getFactors(String url, int userId, OnResult onResult) {
+    public void getFactors(String url,int userId, OnResult onResult) {
 
-//
-//        JSONObject factor = new JSONObject();
-//        try {
-//
-//            factor.put("userid", userId);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        JsonArrayRequest request=new JsonArrayRequest(
-//                Request.Method.POST,
-//                url,
-//                factor,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray response) {
-//                        Gson gson=new Gson();
-//                        Type listType = new TypeToken<ArrayList<Factors>>(){}.getType();
-//                        factorsList=gson.fromJson(response.toString(),listType);
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//
-//                    }
-//                }
-//        );
-//
-//        requestQueue.add(request);
 
-        for (Factors factor : fakeDataFactor()) {
-            if (factor.getUserId() == userId) {
-                factorsList.add(factor);
+        JSONObject factor = new JSONObject();
+        try {
+
+            factor.put("UserId", userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonArrayRequest request=new JsonArrayRequest(
+                Request.Method.POST,
+                url,
+                factor,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Gson gson=new Gson();
+                        Type type=new TypeToken<ArrayList<Factors>>(){}.getType();
+                        factorsList=gson.fromJson(response.toString(),type);
+                        onResult.success(factorsList);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
             }
         }
-        onResult.success(factorsList);
+        );
+
+        requestQueue.add(request);
+
+
 
     }
 
 
-    public void NewPassword(String url, int userid, String Pass, String newPass, OnResult onResult) {
 
 
-//        JSONObject user = new JSONObject();
-//        try {
-//            user.put("password", newPass);
-//            user.put("userid", userId);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        JsonObjectRequest request = new JsonObjectRequest(
-//                Request.Method.POST,
-//                url,
-//                user,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//
-//                    }
-//                });
-//        requestQueue.add(request);
+    public void NewPassword(String url,int userid,String Pass, String newPass, OnResult onResult) {
 
-        onResult.success(true);
+        JSONObject user = new JSONObject();
+        try {
+            user.put("NewPassword", newPass);
+            user.put("Password", Pass);
+            user.put("UserId", userid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                user,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            aBoolean=response.getBoolean("result");
+                            Log.i("result",aBoolean+"");
+                            onResult.success(aBoolean);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        requestQueue.add(request);
+
+
     }
 
     public void getNameFamily(OnResult onResult) {
@@ -554,42 +558,6 @@ public class Data {
         onResult.success(name + " " + family);
     }
 
-    public ArrayList<Factors> fakeDataFactor() {
-        ArrayList<Factors> factorsArrayList = new ArrayList<>();
-        Factors factors = new Factors();
-        factors.setFactorId(1);
-        factors.setFinally(true);
-        factors.setFinallyDate(new Date());
-        factors.setPrice(30000);
-        factors.setTermName("icdl");
-        factors.setUserId(2);
-        factors.setValidateTime(14);
-        factorsArrayList.add(factors);
-
-        /////////
-        Factors factors2 = new Factors();
-        factors2.setFactorId(3);
-        factors2.setFinally(true);
-        factors2.setFinallyDate(new Date(new Date().getTime() - 84600000 * 2));
-        factors2.setPrice(30000);
-        factors2.setTermName("پایتون");
-        factors2.setUserId(2);
-        factors2.setValidateTime(14);
-        factorsArrayList.add(factors2);
-        ////////////
-        Factors factors3 = new Factors();
-        factors3.setFactorId(4);
-        factors3.setFinally(true);
-        factors3.setFinallyDate(new Date(new Date().getTime() - 84600000 * 5));
-        factors3.setPrice(30000);
-        factors3.setTermName("جاوا");
-        factors3.setUserId(2);
-        factors3.setValidateTime(14);
-        factorsArrayList.add(factors3);
-
-        return factorsArrayList;
-
-    }
 
     public ArrayList<Levels> getLevel() {
         if (questionLevelItemArrayList == null) {

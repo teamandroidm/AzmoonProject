@@ -4,28 +4,19 @@ import java.util.Date;
 
 public class Factors {
     private int factorId;
-    private boolean isFinally;
     private int validateTime;
-    private Date finallyDate;
-    private Date registerDate;
     private int price;
     private int userId;
     private byte termId;
     private String termName;
-
+    private String fainallyDate;
     public Factors() {
     }
 
-    public Factors(int factorId) {
+    public Factors(int factorId, int validateTime, String finallyDate, int price, int userId, byte termId, String termName) {
         this.factorId = factorId;
-    }
-
-    public Factors(int factorId, boolean isFinally, int validateTime, Date finallyDate, Date registerDate, int price, int userId, byte termId, String termName) {
-        this.factorId = factorId;
-        this.isFinally = isFinally;
         this.validateTime = validateTime;
-        this.finallyDate = finallyDate;
-        this.registerDate = registerDate;
+        this.fainallyDate = finallyDate;
         this.price = price;
         this.userId = userId;
         this.termId = termId;
@@ -40,14 +31,6 @@ public class Factors {
         this.factorId = factorId;
     }
 
-    public boolean isFinally() {
-        return isFinally;
-    }
-
-    public void setFinally(boolean aFinally) {
-        isFinally = aFinally;
-    }
-
     public int getValidateTime() {
         return validateTime;
     }
@@ -56,12 +39,12 @@ public class Factors {
         this.validateTime = validateTime;
     }
 
-    public Date getFinallyDate() {
-        return finallyDate;
+    public String getFinallyDate() {
+        return fainallyDate;
     }
 
-    public void setFinallyDate(Date finallyDate) {
-        this.finallyDate = finallyDate;
+    public void setFinallyDate(String finallyDate) {
+        this.fainallyDate = finallyDate;
     }
 
     public int getPrice() {
@@ -88,13 +71,6 @@ public class Factors {
         this.termId = termId;
     }
 
-    public Date getRegisterDate() {
-        return registerDate;
-    }
-
-    public void setRegisterDate(Date registerDate) {
-        this.registerDate = registerDate;
-    }
 
     public String getTermName() {
         return termName;

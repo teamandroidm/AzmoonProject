@@ -5,6 +5,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -33,9 +34,11 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -80,13 +83,15 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 finish();
             }
         });
-        //TODO: set url (volley)
 
-        data.getFactors("", 2, new OnResult() {
+        data.getFactors("http://mehdi899.ir/api/FactorApi/ShowFactor", 2, new OnResult() {
             @Override
             public void success(Object... objects) {
                 factors = (ArrayList<Factors>) objects[0];
+                Log.i("taggg",factors.size()+"");
+                isEmptyFactors();
             }
+
         });
 
 
@@ -99,7 +104,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         });
 
 
-        isEmptyFactors();
+
         setSupportActionBar(materialToolbar);
         setTitle(null);
         activity_profile_navigation_view.bringToFront();
@@ -163,7 +168,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             }
         });
 
-        //TODO:set url (volley)
         //  region change Pass with volley
         changePassDialogBtnYes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +184,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                         @Override
                         public void run() {
 
-                            data.NewPassword("", 2, edtPass.getText().toString(), edtNewPass.getText().toString(), new OnResult() {
+                            data.NewPassword("http://mehdi899.ir/api/UserApi/ChangePassword", 5, edtPass.getText().toString(), edtNewPass.getText().toString(), new OnResult() {
                                 @Override
                                 public void success(Object... objects) {
                                     if ((boolean) objects[0])
@@ -204,6 +208,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
 
     private void isEmptyFactors() {
+        Log.i("tag111",factors.size()+"");
         if (factors.size() == 0) {
             rcv1.setVisibility(View.GONE);
             emptyFactorLa.setVisibility(View.VISIBLE);
@@ -230,17 +235,24 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
                         courseName.setText(factors.get(position).getTermName());
                         price.setText(utils.toPersianNumber4(utils.splitDigits(factors.get(position).getPrice())));
-
-                        dateConverter.gregorianToPersian(Integer.parseInt(new SimpleDateFormat("yyyy").format(factors.get(position).getFinallyDate())), Integer.parseInt(new SimpleDateFormat("MM").format(factors.get(position).getFinallyDate())), Integer.parseInt(new SimpleDateFormat("dd").format(factors.get(position).getFinallyDate())));
+                        Log.i("date",factors.get(position).getFinallyDate()+"");
+                        dateConverter.gregorianToPersian(Integer.parseInt(factors.get(position).getFinallyDate().substring(0,4)), Integer.parseInt(factors.get(position).getFinallyDate().substring(5,7)), Integer.parseInt(factors.get(position).getFinallyDate().substring(8,10)));
                         date.setText(utils.toPersianNumber4(dateConverter.toString()));
                         // add day in finally date
                         Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(factors.get(position).getFinallyDate());
-                        calendar.add(Calendar.DATE, factors.get(position).getValidateTime());
+                        try {
+                            Date format= new SimpleDateFormat("yyyy-MM-dd").parse(factors.get(position).getFinallyDate());
+                            calendar.setTime(format);
+                            calendar.add(Calendar.DATE, factors.get(position).getValidateTime());
+                            dateConverter.gregorianToPersian(Integer.parseInt(new SimpleDateFormat("yyyy").format(calendar.getTime())), Integer.parseInt(new SimpleDateFormat("MM").format(calendar.getTime())), Integer.parseInt(new SimpleDateFormat("dd").format(calendar.getTime())));
 
-                        dateConverter.gregorianToPersian(Integer.parseInt(new SimpleDateFormat("yyyy").format(calendar.getTime())), Integer.parseInt(new SimpleDateFormat("MM").format(calendar.getTime())), Integer.parseInt(new SimpleDateFormat("dd").format(calendar.getTime())));
+                            validityDate.setText(utils.toPersianNumber4(dateConverter.toString()));
 
-                        validityDate.setText(utils.toPersianNumber4(dateConverter.toString()));
+                        } catch (ParseException e) {
+                            validityDate.setText(" "+e);
+
+                        }
+
 
 
                     }
