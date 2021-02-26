@@ -5,34 +5,58 @@ public class Terms {
     private String termName;
     private String imageName;
     private int price;
-    private boolean isActive;
     private int testTime;
     private byte numberQuestionOfLevel;
     private byte fieldId;
     private boolean termStatus;
     private int validateTime;
 
+    public boolean isTermStatus() {
+        return termStatus;
+    }
+
+    public void setTermStatus(boolean termStatus) {
+        this.termStatus = termStatus;
+    }
+
+    public int getValidateTime() {
+        return validateTime;
+    }
+
+    public void setValidateTime(int validateTime) {
+        this.validateTime = validateTime;
+    }
+
     public Terms() {
     }
 
-    public Terms(int termId, String termName, String imageName, int price, boolean isActive, int testTime, byte numberQuestionOfLevel, byte fieldId, boolean termStatus, int validateTime) {
+    public Terms(int termId, String termName, String imageName, int price, int testTime, byte numberQuestionOfLevel, boolean termStatus, int validateTime) {
         this.termId = termId;
         this.termName = termName;
         this.imageName = imageName;
         this.price = price;
-        this.isActive = isActive;
         this.testTime = testTime;
         this.numberQuestionOfLevel = numberQuestionOfLevel;
         this.termStatus = termStatus;
         this.validateTime = validateTime;
     }
 
-    public Terms(int termId, String termName, String imageName, int price, boolean isActive, int testTime, byte numberQuestionOfLevel, byte fieldId) {
+    public Terms(int termId, String termName, String imageName, int price, int testTime, byte numberQuestionOfLevel, byte fieldId, boolean termStatus, int validateTime) {
         this.termId = termId;
         this.termName = termName;
         this.imageName = imageName;
         this.price = price;
-        this.isActive = isActive;
+        this.testTime = testTime;
+        this.numberQuestionOfLevel = numberQuestionOfLevel;
+        this.termStatus = termStatus;
+        this.validateTime = validateTime;
+    }
+
+    public Terms(int termId, String termName, String imageName, int price,  int testTime, byte numberQuestionOfLevel, byte fieldId) {
+        this.termId = termId;
+        this.termName = termName;
+        this.imageName = imageName;
+        this.price = price;
         this.testTime = testTime;
         this.numberQuestionOfLevel = numberQuestionOfLevel;
         this.fieldId = fieldId;
@@ -68,14 +92,6 @@ public class Terms {
 
     public void setPrice(int price) {
         this.price = price;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 
     public int getTestTime() {

@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +30,9 @@ import com.example.azmoonproject.Engine.MyReceiver;
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewAdapter;
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewMethod;
 import com.example.azmoonproject.Engine.Utils;
+import com.example.azmoonproject.Model.Factors;
 import com.example.azmoonproject.Model.Fields;
+import com.example.azmoonproject.Model.Terms;
 import com.example.azmoonproject.R;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
@@ -46,7 +49,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
     Dialog logOutDialog;
     Button logOutDialogBtnNo, logOutDialogBtnYes;
     boolean doubleBackPress = false;
-    Data data=new Data();
+    Data data;
     Utils utils;
     ArrayList<Fields> fieldArrayList = new ArrayList<>();
     private Button exitDialogBtnNo, exitDialogBtnYes, custom_dialog_button_ok;
@@ -60,7 +63,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_field);
-
+        data = new Data(FieldActivity.this);
         dialog = new Dialog(FieldActivity.this);
         exitDialog = new Dialog(FieldActivity.this);
         dialog.setContentView(R.layout.custom_dialog_field);
@@ -72,12 +75,19 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         setSupportActionBar(toolbar);
         setTitle(null);
         final Utils utils = new Utils(getApplicationContext(), FieldActivity.this);
-        setRecyclerViewField(utils);
-        fieldItemList();
+
+        // fieldItemList();
         activity_field_navigation_view.bringToFront();
         activity_field_navigation_view.setNavigationItemSelectedListener(FieldActivity.this);
         setOnClickImageView();
-//        data.SendRequestByPostMethodFactor("",2,);
+        data.sendRequestByPostMethodField(new OnResult() {
+            @Override
+            public void success(Object... objects) {
+                fieldArrayList = (ArrayList<Fields>) objects[0];
+                Log.i("DDDD", "e " + fieldArrayList.size());
+                setRecyclerViewField(utils);
+            }
+        });
     }
 
     private void setOnClickImageView() {
@@ -88,15 +98,15 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         });
     }
 
-    private void fieldItemList() {
-        String computer = picPath(R.drawable.computer);
-        String tourists = picPath(R.drawable.tourists);
-        String accounting = picPath(R.drawable.accounting);
-
-        fieldArrayList.add(new Fields((byte) 1, "کامپیوتر", computer, true));
-        fieldArrayList.add(new Fields((byte) 2, "گردشگری", tourists, false));
-        fieldArrayList.add(new Fields((byte) 3, "حسابداری", accounting, false));
-    }
+//    private void fieldItemList() {
+//        String computer = picPath(R.drawable.computer);
+//        String tourists = picPath(R.drawable.tourists);
+//        String accounting = picPath(R.drawable.accounting);
+//
+//        fieldArrayList.add(new Fields((byte) 1, "کامپیوتر", computer, true));
+//        fieldArrayList.add(new Fields((byte) 2, "گردشگری", tourists, false));
+//        fieldArrayList.add(new Fields((byte) 3, "حسابداری", accounting, false));
+//    }
 
     private void setUpView() {
         custom_dialog_button_ok = dialog.findViewById(R.id.custom_dialog_button_ok);
@@ -111,7 +121,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         logOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         logOutDialogBtnNo = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_no);
         logOutDialogBtnYes = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_yes);
-        myReceiver=new MyReceiver();
+        myReceiver = new MyReceiver();
     }
 
     private void showCustomDialod() {
@@ -121,26 +131,20 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
 
     private void setRecyclerViewField(final Utils utils) {
         utils.addRecyclerView(R.id.activity_field_recyclerview, new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false),
-                new RecyclerViewAdapter(getApplicationContext(), R.layout.activity_field_list_item, 3, new RecyclerViewMethod() {
+                new RecyclerViewAdapter(getApplicationContext(), R.layout.activity_field_list_item, fieldArrayList.size(), new RecyclerViewMethod() {
                     @Override
                     public void onItem(RecyclerViewAdapter.ViewHolder holder, final int position, final View itemView) {
-                        ((TextView) itemView.findViewById(R.id.activity_field_text_name)).setText(fieldArrayList.get(position).getFieldName() + "");
+                        ((TextView) itemView.findViewById(R.id.activity_field_text_name)).setText(fieldArrayList.get(position).getFeildName() + "");
                         // final LinearLayout activity_field_layout= itemView.findViewById(R.id.activity_field_layout);
-                        Picasso.get().load(new File(fieldArrayList.get(position).getImageName())).error(R.drawable.tourists).fit().centerCrop().into((ImageView) itemView.findViewById(R.id.activity_field_image_courses));
-
-                        itemView.setOnClickListener(view -> date.sendIdField(1, fieldArrayList.get(position).getFieldId(), new OnResult() {
+                        Picasso.get().load(new File(fieldArrayList.get(position).getImageName())).error(R.drawable.logocourses).fit().centerCrop().into((ImageView) itemView.findViewById(R.id.activity_field_image_courses));
+                        itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void success(Object... objects) {
-                                if ((Boolean) objects[0]) {
-                                    utils.setSharedPreferences("fieldId", (( fieldArrayList.get(position).getFieldId())));
-
-                                    Intent intent = new Intent(FieldActivity.this, CoursesActivity.class);
-                                 //  intent.putExtra("fieldId", fieldArrayList.get(position).getFieldId());
-                                    startActivity(intent);
-                                    //utils.goTo(CoursesActivity.class,new PutExtra("fieldId",fieldArrayList.get(position).getFieldId()));
-
+                            public void onClick(View view) {
+                                int x = (int) utils.getSharedPreferences("userId", 0);
+                                if (x == fieldArrayList.get(position).getFeildId()) {
+                                    utils.setSharedPreferences("fieldId", ((fieldArrayList.get(position).getFeildId())));
+                                    utils.goTo(CoursesActivity.class);
                                 } else {
-
                                     showCustomDialod();
                                     //    activity_field_layout.setBackgroundColor(R.drawable.background_list_feild_purpel);
                                     custom_dialog_button_ok.setOnClickListener(new View.OnClickListener() {
@@ -151,35 +155,59 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                                     });
                                 }
                             }
-
-                        }));
+                        });
+//                        itemView.setOnClickListener(view -> date.sendIdField(1, fieldArrayList.get(position).getFeildId(), new OnResult() {
+//                            @Override
+//                            public void success(Object... objects) {
+//                                if ((Boolean) objects[0]) {
+//                                    utils.setSharedPreferences("fieldId", ((fieldArrayList.get(position).getFeildId())));
+//
+//                                    Intent intent = new Intent(FieldActivity.this, CoursesActivity.class);
+//                                    //  intent.putExtra("fieldId", fieldArrayList.get(position).getFieldId());
+//                                    startActivity(intent);
+//                                    //utils.goTo(CoursesActivity.class,new PutExtra("fieldId",fieldArrayList.get(position).getFieldId()));
+//
+//                                } else {
+//
+//                                    showCustomDialod();
+//                                    //    activity_field_layout.setBackgroundColor(R.drawable.background_list_feild_purpel);
+//                                    custom_dialog_button_ok.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View view) {
+//                                            dialog.dismiss();
+//                                        }
+//                                    });
+//                                }
+//                            }
+//
+//                        }));
 
                     }
                 }));
 
     }
 
-    public String picPath(int res) {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), res);
-        File mfile1 = getExternalFilesDir(null);
-        String filename = res + ".png";
-        File mfile2 = new File(mfile1, filename);
-        try {
-            FileOutputStream fileOutputStream;
-            fileOutputStream = new FileOutputStream(mfile2);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-            fileOutputStream.flush();
-            fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String path = mfile1.getAbsolutePath() + "/" + filename;
-
-        return path;
-    }
+//    public String picPath(int res) {
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), res);
+//        File mfile1 = getExternalFilesDir(null);
+//        String filename = res + ".png";
+//        File mfile2 = new File(mfile1, filename);
+//        try {
+//            FileOutputStream fileOutputStream;
+//            fileOutputStream = new FileOutputStream(mfile2);
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+//            fileOutputStream.flush();
+//            fileOutputStream.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        String path = mfile1.getAbsolutePath() + "/" + filename;
+//
+//        return path;
+//    }
 
     @Override
     public void onBackPressed() {
@@ -254,7 +282,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                 setDialogLogOut();
                 break;
             case R.id.item_courses:
-               utils.goTo(CoursesActivity.class);
+                utils.goTo(CoursesActivity.class);
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 break;
@@ -266,6 +294,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
     //endregion
     @Override
     protected void onResume() {

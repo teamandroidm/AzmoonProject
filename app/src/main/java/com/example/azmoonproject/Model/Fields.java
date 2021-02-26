@@ -1,35 +1,33 @@
 package com.example.azmoonproject.Model;
 
 public class Fields {
-    private byte fieldId;
-    private String fieldName;
+    private byte feildId;
+    private String feildName;
     private String imageName;
-    private boolean isActive;
 
     public Fields() {
     }
 
-    public Fields(byte fieldId, String fieldName, String imageName, boolean isActive) {
-        this.fieldId = fieldId;
-        this.fieldName = fieldName;
+    public Fields(byte feildId, String feildName, String imageName) {
+        this.feildId = feildId;
+        this.feildName = feildName;
         this.imageName = imageName;
-        this.isActive = isActive;
     }
 
-    public byte getFieldId() {
-        return fieldId;
+    public byte getFeildId() {
+        return feildId;
     }
 
-    public void setFieldId(byte fieldId) {
-        this.fieldId = fieldId;
+    public void setFeildId(byte feildId) {
+        this.feildId = feildId;
     }
 
-    public String getFieldName() {
-        return fieldName;
+    public String getFeildName() {
+        return feildName;
     }
 
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
+    public void setFeildName(String feildName) {
+        this.feildName = feildName;
     }
 
     public String getImageName() {
@@ -38,13 +36,5 @@ public class Fields {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 }

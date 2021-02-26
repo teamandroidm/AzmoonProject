@@ -16,6 +16,10 @@ public class Factors {
     public Factors() {
     }
 
+    public Factors(int factorId) {
+        this.factorId = factorId;
+    }
+
     public Factors(int factorId, boolean isFinally, int validateTime, Date finallyDate, Date registerDate, int price, int userId, byte termId, String termName) {
         this.factorId = factorId;
         this.isFinally = isFinally;
