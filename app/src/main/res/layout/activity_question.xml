@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="ltr"
     android:orientation="vertical"
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
-    android:layoutDirection="ltr"
     tools:context=".Activity.QuestionActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -149,7 +149,7 @@
                 android:fontFamily="@font/vazir"
                 android:gravity="right"
                 android:justificationMode="inter_word"
-                android:text="@string/lorem_ipsum"
+                android:text="صورت سوال"
                 android:textColor="@color/color_gray_dark"
                 android:textSize="14sp" />
         </ScrollView>
@@ -175,7 +175,8 @@
                 android:button="@drawable/bg_button_radio"
                 android:buttonTint="@drawable/bg_button_radio_color"
                 android:fontFamily="@font/vazir_light"
-                android:text="گزینه اول برای سوال اول"
+                android:gravity="right"
+                android:text="1"
                 android:textColor="@drawable/bg_text_color_radio_button"
                 android:textSize="16sp" />
 
@@ -188,7 +189,8 @@
                 android:button="@drawable/bg_button_radio"
                 android:buttonTint="@drawable/bg_button_radio_color"
                 android:fontFamily="@font/vazir_light"
-                android:text="گزینه دوم برای سوال اول"
+                android:gravity="right"
+                android:text="2"
                 android:textColor="@drawable/bg_text_color_radio_button"
                 android:textSize="16sp" />
 
@@ -201,7 +203,8 @@
                 android:button="@drawable/bg_button_radio"
                 android:buttonTint="@drawable/bg_button_radio_color"
                 android:fontFamily="@font/vazir_light"
-                android:text="گزینه سوم برای سوال اول"
+                android:gravity="right"
+                android:text="3"
                 android:textColor="@drawable/bg_text_color_radio_button"
                 android:textSize="16sp" />
 
@@ -214,8 +217,9 @@
                 android:button="@drawable/bg_button_radio"
                 android:buttonTint="@drawable/bg_button_radio_color"
                 android:fontFamily="@font/vazir_light"
+                android:gravity="right"
                 android:justificationMode="inter_word"
-                android:text="گزینه چهارم برای سوال اول"
+                android:text="4"
                 android:textColor="@drawable/bg_text_color_radio_button"
                 android:textSize="16sp" />
         </RadioGroup>
@@ -238,7 +242,6 @@
             android:text="@string/previous"
             android:textColor="@color/color_purple"
             android:textSize="16sp" />
-
 
         <View
             android:layout_width="0dp"

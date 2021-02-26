@@ -1,6 +1,7 @@
 package com.example.azmoonproject.Activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -23,6 +25,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.azmoonproject.Data.Data;
 import com.example.azmoonproject.Engine.MyReceiver;
 import com.example.azmoonproject.Engine.Utils;
+import com.example.azmoonproject.Model.Levels;
 import com.example.azmoonproject.Model.Questions;
 import com.example.azmoonproject.R;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
@@ -37,7 +40,7 @@ public class QuestionActivity extends AppCompatActivity {
     private TextView txtTime, txtnumberQuestionOfLevel, txtCounter, txtTextQuestion;
     private CircularProgressBar circularProgressBar;
     private int time, timeTookTest;
-    private answer[] answers;
+    private byte[] answers;
     private ProgressBar prgCount;
     private Data data;
     private byte wrongNumber = 0, correctNumber = 0, nineteen = 0, counter = 0, status;
@@ -52,20 +55,11 @@ public class QuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         setupView();
-        myReceiver=new MyReceiver();
+        myReceiver = new MyReceiver();
         bundle = getIntent().getExtras();
-        setData();
         utils = new Utils(this);
+        setData();
 
-        if (status == 1) {
-            exam(bundle.getInt("testTime"));
-        } else if (status == 2) {
-            btnEndTest.setText("");
-            circularProgressBar.setVisibility(View.GONE);
-            txtTime.setVisibility(View.GONE);
-            enableRadioGroup(false);
-            changeGreenColorRadioButton(questions[counter].getTrueAnswer()); //only set color radioButton true answer
-        }
 
         btnPreviousQuestion.setOnClickListener(v -> {
             if (counter >= 1) {
@@ -74,8 +68,8 @@ public class QuestionActivity extends AppCompatActivity {
                 prgCount.setProgress(counter + 1, true);
                 radioButtonSetText(counter);
                 if (status == 1) {
-                    if (answers[counter].answer != -1)
-                        ((RadioButton) rgAnswer.getChildAt(answers[counter].answer)).setChecked(true);
+                    if (answers[counter] != -1)
+                        ((RadioButton) rgAnswer.getChildAt(answers[counter])).setChecked(true);
                     if (isEndExam) //end time exam
                         changeColorRadioEndTimeExam();  // set color radioButton true answer and false answer
                 } else {
@@ -92,8 +86,8 @@ public class QuestionActivity extends AppCompatActivity {
                 prgCount.setProgress(counter + 1, true);
                 radioButtonSetText(counter);
                 if (status == 1) {
-                    if (answers[counter].answer != -1)
-                        ((RadioButton) rgAnswer.getChildAt(answers[counter].answer)).setChecked(true);
+                    if (answers[counter] != -1)
+                        ((RadioButton) rgAnswer.getChildAt(answers[counter])).setChecked(true);
                     if (isEndExam) //end time exam
                         changeColorRadioEndTimeExam();  // set color radioButton true answer and false answer
                 } else {
@@ -105,7 +99,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         rgAnswer.setOnCheckedChangeListener((group, checkedId) -> {
             if (answers != null && checkedId != -1 && !isEndExam)
-                answers[counter].answer = (byte) group.indexOfChild(findViewById(checkedId));
+                answers[counter] = (byte) group.indexOfChild(findViewById(checkedId));
         });
 
         btnEndTest.setOnClickListener(v -> {
@@ -117,12 +111,36 @@ public class QuestionActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setData() {
-        status = bundle.getByte("status");
-        data.getQuestions(bundle.getInt("termId"), bundle.getInt("level"), objects -> questions = (Questions[]) objects[0]);// get TermId and Leve from TestActivity
-        txtnumberQuestionOfLevel.setText(String.format("%s/", questions.length));
-        prgCount.setMax(questions.length);
-        radioButtonSetText((byte) 0);
+        status = bundle.getByte("status"); // get TermId and Leve from TestActivity
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("درحال دریافت اطلاعات");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        data.getQuestions(bundle.getInt("termId"), bundle.getInt("level"), objects -> {
+            if (objects[0] != null) {
+                questions = (Questions[]) objects[0];
+                txtnumberQuestionOfLevel.setText(String.format("%s/", questions.length));
+                prgCount.setMax(questions.length);
+                prgCount.setProgress(1);
+                radioButtonSetText((byte) 0);
+                if (status == 1) {
+                    exam(bundle.getInt("testTime"));
+                } else if (status == 2) {
+                    btnEndTest.setText("");
+                    circularProgressBar.setVisibility(View.GONE);
+                    txtTime.setVisibility(View.GONE);
+                    enableRadioGroup(false);
+                    changeGreenColorRadioButton(questions[counter].getTrueAnswer()); //only set color radioButton true answer
+                }
+            } else {
+                Toast.makeText(this, "دریافت اطلاعات با خطا مواجع شد لطفا دوباره امتحان کنید", Toast.LENGTH_LONG).show();
+                finish();
+            }
+            progressDialog.dismiss();
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -137,16 +155,16 @@ public class QuestionActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void changeColorRadioEndTimeExam() {
         restColorRadioButton();
-        if (answers[counter].answer == -1) {
+        if (answers[counter] == -1) {
             changeGreenColorRadioButton(questions[counter].getTrueAnswer() - 1);
-        } else if (questions[counter].getTrueAnswer() - 1 == answers[counter].answer) {
-            changeGreenColorRadioButton(answers[counter].answer);
+        } else if (questions[counter].getTrueAnswer() - 1 == answers[counter]) {
+            changeGreenColorRadioButton(answers[counter]);
         } else {
-            rgAnswer.getChildAt(answers[counter].answer).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.color_red)));
-            ((RadioButton) rgAnswer.getChildAt(answers[counter].answer)).setButtonTintList(ColorStateList.valueOf(getColor(R.color.color_red)));
-            ((RadioButton) rgAnswer.getChildAt(answers[counter].answer)).setTextColor(ColorStateList.valueOf(getColor(R.color.color_red)));
-            ((RadioButton) rgAnswer.getChildAt(answers[counter].answer)).setChecked(false);
-            ((RadioButton) rgAnswer.getChildAt(answers[counter].answer)).setButtonDrawable(R.drawable.bg_ic_cancel);
+            rgAnswer.getChildAt(answers[counter]).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.color_red)));
+            ((RadioButton) rgAnswer.getChildAt(answers[counter])).setButtonTintList(ColorStateList.valueOf(getColor(R.color.color_red)));
+            ((RadioButton) rgAnswer.getChildAt(answers[counter])).setTextColor(ColorStateList.valueOf(getColor(R.color.color_red)));
+            ((RadioButton) rgAnswer.getChildAt(answers[counter])).setChecked(false);
+            ((RadioButton) rgAnswer.getChildAt(answers[counter])).setButtonDrawable(R.drawable.bg_ic_cancel);
 
             //true answer change color
             changeGreenColorRadioButton(questions[counter].getTrueAnswer() - 1);
@@ -192,26 +210,26 @@ public class QuestionActivity extends AppCompatActivity {
                         timeTookTest++;
                     } else if (time == 0) {
                         for (int i = 0; i < answers.length; i++) { //calculate the exam result
-                            if (answers[i].answer == -1)
+                            if (answers[i] == -1)
                                 nineteen++;
-                            else if (answers[i].answer == questions[i].getTrueAnswer() - 1)
+                            else if (answers[i] == questions[i].getTrueAnswer() - 1)
                                 correctNumber++;
                             else wrongNumber++;
                         }
                         dialogEndExam();
                         time--;
-                        //                data.setLevel(new Levels((byte) 0, bundle.getByte("levelCount"),
+//                                        data.setLevel(new Levels((byte) 0, bundle.getByte("level"),
 //                                nineteen, wrongNumber, correctNumber, timeTookTest, bundle.getInt("termId"),
-//                                (Integer) utils.getSharedPreferences("userId", "0", Utils.NAME_SHARED_PREFERENCES)),
+//                                (Integer) utils.getSharedPreferences("userId", "0")),
 //                        objects -> Log.i("status", (String) objects[0]));
                     }
                 });
             }
         }, 0, 1000);
 
-        answers = new answer[questions.length];
+        answers = new byte[questions.length];
         for (int i = 0; i < answers.length; i++) {
-            answers[i] = new answer(questions[i].getQuestionId(), (byte) -1);
+            answers[i] = (byte) -1;
         }
     }
 
@@ -291,15 +309,5 @@ public class QuestionActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(myReceiver);
-    }
-
-    private class answer {
-        private final int questionId;
-        private byte answer;
-
-        public answer(int questionId, byte answer) {
-            this.questionId = questionId;
-            this.answer = answer;
-        }
     }
 }

@@ -1,37 +1,23 @@
 package com.example.azmoonproject.Model;
 
 public class Questions {
-    private int questionId;
     private String questionText;
     private String option1;
     private String option2;
     private String option3;
     private String option4;
     private byte trueAnswer;
-    private boolean isActive;
-    private int termId;
 
     public Questions() {
     }
 
-    public Questions(int questionId, String questionText, String option1, String option2, String option3, String option4, byte trueAnswer, boolean isActive, int termId) {
-        this.questionId = questionId;
+    public Questions(String questionText, String option1, String option2, String option3, String option4, byte trueAnswer) {
         this.questionText = questionText;
         this.option1 = option1;
         this.option2 = option2;
         this.option3 = option3;
         this.option4 = option4;
         this.trueAnswer = trueAnswer;
-        this.isActive = isActive;
-        this.termId = termId;
-    }
-
-    public int getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(int questionId) {
-        this.questionId = questionId;
     }
 
     public String getQuestionText() {
@@ -82,19 +68,4 @@ public class Questions {
         this.trueAnswer = trueAnswer;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public int getTermId() {
-        return termId;
-    }
-
-    public void setTermId(int termId) {
-        this.termId = termId;
-    }
 }

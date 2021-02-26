@@ -24,24 +24,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class Data {
+    private final String BASE_URL = "http://mehdi899.ir/api/";
     ArrayList<Factors> factorsList = new ArrayList<>();
     ArrayList<Terms> termsArrayList = new ArrayList<>();
+    Utils utils;
     private Context context;
     private RequestQueue requestQueue = null;
     private boolean isError = false;
     private boolean status = false;
     private Boolean aBoolean = false;
     private ArrayList<Levels> questionLevelItemArrayList = null;
-    Utils utils;
 
     public Data(Context context) {
         this.context = context;
@@ -73,7 +71,7 @@ public class Data {
 ////        }
 //    }
 
-    public void sendRequestByPostMethodField( OnResult onResult) {
+    public void sendRequestByPostMethodField(OnResult onResult) {
 
 //        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
 //                Request.Method.POST,
@@ -117,7 +115,7 @@ public class Data {
                                     fields.setFeildName(jsonObject.getString("feildName"));
                                     fields.setImageName(jsonObject.getString("imageName"));
                                     fieldsArrayList.add(fields);
-                                    Log.i("***", "e " +response);
+                                    Log.i("***", "e " + response);
                                 }
 
                                 onResult.success(fieldsArrayList);
@@ -138,7 +136,7 @@ public class Data {
         thread.start();
 
 
-}
+    }
 
 //    private ArrayList<Fields> fieldItemList() {
 //        ArrayList<Fields> fieldsItemArrayList = new ArrayList<>();
@@ -334,7 +332,7 @@ public class Data {
 //        requestQueue.add(stringRequest);
     }
 
-    public void sendRequestByPostMethodPayment(String url, int price, int factorId, String tittlePay, String transactionCode,int resultCod, OnResult onResult) {
+    public void sendRequestByPostMethodPayment(String url, int price, int factorId, String tittlePay, String transactionCode, int resultCod, OnResult onResult) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("tittlePay", tittlePay);
@@ -371,7 +369,7 @@ public class Data {
         requestQueue.add(jsonObjectRequest);
     }
 
-    public void sendRequestByPostMethodPaymentresult(String url, boolean ResultPayment,int paymentId, int factorId, OnResult onResult) {
+    public void sendRequestByPostMethodPaymentresult(String url, boolean ResultPayment, int paymentId, int factorId, OnResult onResult) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("resultPayment", ResultPayment);
@@ -473,7 +471,7 @@ public class Data {
 
     }
 
-    public void getFactors(String url,int userId, OnResult onResult) {
+    public void getFactors(String url, int userId, OnResult onResult) {
 
 
         JSONObject factor = new JSONObject();
@@ -484,16 +482,17 @@ public class Data {
             e.printStackTrace();
         }
 
-        JsonArrayRequest request=new JsonArrayRequest(
+        JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.POST,
                 url,
                 factor,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Gson gson=new Gson();
-                        Type type=new TypeToken<ArrayList<Factors>>(){}.getType();
-                        factorsList=gson.fromJson(response.toString(),type);
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<ArrayList<Factors>>() {
+                        }.getType();
+                        factorsList = gson.fromJson(response.toString(), type);
                         onResult.success(factorsList);
                     }
                 }, new Response.ErrorListener() {
@@ -507,13 +506,10 @@ public class Data {
         requestQueue.add(request);
 
 
-
     }
 
 
-
-
-    public void NewPassword(String url,int userid,String Pass, String newPass, OnResult onResult) {
+    public void NewPassword(String url, int userid, String Pass, String newPass, OnResult onResult) {
 
         JSONObject user = new JSONObject();
         try {
@@ -531,8 +527,8 @@ public class Data {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            aBoolean=response.getBoolean("result");
-                            Log.i("result",aBoolean+"");
+                            aBoolean = response.getBoolean("result");
+                            Log.i("result", aBoolean + "");
                             onResult.success(aBoolean);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -578,45 +574,43 @@ public class Data {
 
     // QuestionActivity
     public void getQuestions(int termId, int level, OnResult onResult) {
-
-//        JSONObject jsonObject = new JSONObject();
-//        try {
-//            jsonObject.put("termId", termId);
-//            jsonObject.put("level", level);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        JsonObjectRequest request = new JsonObjectRequest(
-//                Request.Method.POST,
-//                "آدرس Api",
-//                jsonObject,
-//                response -> {
-//                    Gson gson = new Gson();
-//                    Type type = new TypeToken<ArrayList<Questions>>() {
-//                    }.getType();
-//                    ArrayList<Questions> questions = gson.fromJson(response.toString(), type);
-//                    onResult.success((Object) questions.toArray());
-//                }, error -> {
-//        });
-//        requestQueue.add(request);
-
-        //Data fake
-        Questions[] questions = new Questions[50];
-        questions[0] = new Questions(0, "سوال یک", "الف", "ب", "پ", "چ", (byte) 3, true, 0);
-        questions[1] = new Questions(1, "سوال دو", "جواب1", "جواب2", "جواب3", "جواب4", (byte) 1, true, 0);
-        questions[2] = new Questions(2, "سوال سه", "شسیب", "شبیسب", "زرذز", "ابلای", (byte) 4, true, 0);
-        questions[3] = new Questions(3, "سوال چهار", "A", "B", "C", "D", (byte) 2, true, 0);
-        questions[4] = new Questions(4, "سوال پنجم", "جواب1", "جواب2", "جواب3", "جواب4", (byte) 4, true, 0);
-        questions[5] = new Questions(5, "سوال ششم", "بمنشسیبکمن", "بهشتسیمبنتشمینب", "ئرذئمذنررئمذن", "شسیب", (byte) 2, true, 0);
-        questions[6] = new Questions(6, "سوال هفتم", "AAAA", "BBBBBBB", "CCCCCCCCCC", "DDDDDDDDDDDD", (byte) 1, true, 0);
-        questions[7] = new Questions(7, "سوال هشتم", "گزینه اول ", "بشیتمبن شمسینبمشسیب سشیب", "هتهتحهتحهتهح", "مبنلمنسیمبنلسیمبنلتیمبنتمن", (byte) 1, true, 0);
-        questions[8] = new Questions(8, "سوال نهم", "جواب1", "جواب2", "جواب3", "جواب4", (byte) 2, false, 0);
-        questions[9] = new Questions(9, "دهم", "یک", "دو", "سه", "چهار", (byte) 3, false, 0);
-        for (int i = 10; i < 50; i++)
-            questions[i] = new Questions(i, "title", "1", "2", "3", "4", (byte) 2, true, 0);
-
-        onResult.success((Object) questions);
+        new Thread(() -> {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, BASE_URL + "QuestionsApi/Azmoon", response -> {
+                Questions[] questions;
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    questions = new Questions[jsonArray.length()];
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        Questions question = new Questions();
+                        question.setQuestionText(jsonObject.getString("questionText"));
+                        question.setOption1(jsonObject.getString("option1"));
+                        question.setOption2(jsonObject.getString("option2"));
+                        question.setOption3(jsonObject.getString("option3"));
+                        question.setOption4(jsonObject.getString("option4"));
+                        question.setTrueAnswer((byte) jsonObject.getInt("trueAnswer"));
+                        questions[i] = question;
+                    }
+                    Log.i("###", "r: " + questions[0].getQuestionText());
+                    onResult.success((Object) questions);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    onResult.success((Object) null);
+                }
+            }, error -> {
+                Log.i("###", "e: " + error.getMessage());
+                onResult.success((Object) null);
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> stringMap = new HashMap<>();
+                    stringMap.put("termId", "14");
+                    stringMap.put("levelCount", "1");
+                    return stringMap;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }).start();
     }
 
     public void setLevel(Levels level, OnResult onResult) {
