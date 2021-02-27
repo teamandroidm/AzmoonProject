@@ -426,52 +426,46 @@ public class Data {
 
     public void Login(String userName, String password, OnResult onResult) {
 
-//        JSONObject jsonObject = new JSONObject();
-//        try {
-//            jsonObject.put("userName", userName);
-//            jsonObject.put("password", password);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                JsonObjectRequest request = new JsonObjectRequest(
-//                        Request.Method.POST,
-//                        "http://mehdi899.ir/api/UserApi/Login",
-//                        jsonObject,
-//                        response -> {
-//                            try {
-//                                if (response.getInt("userId") > 0) {  // زمانی که کاربری در سیستم با نام وارد شده کاربر وجود داشته باشد
-//                                  utils.setSharedPreferences("userId",response.getInt("userId"));
-//                                  utils.setSharedPreferences("name",response.getString("name"));
-//                                  utils.setSharedPreferences("family",response.getString("family"));
-//                                  utils.setSharedPreferences("fieldId",(byte)response.getInt("fieldId"));
-//                                    status = true;
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        },
-//                        error -> isError = true);
-//                        requestQueue.add(request);
-//            }
-//        });
-//        thread.start();
-//        onResult.success( isError, status);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("userName", userName);
+            jsonObject.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JsonObjectRequest request = new JsonObjectRequest(
+                        Request.Method.POST,
+                        "http://mehdi899.ir/api/UserApi/Login",
+                        jsonObject,
+                        response -> {
+                            try {
+                                if (response.getInt("userId") > 0) {  // زمانی که کاربری در سیستم با نام وارد شده کاربر وجود داشته باشد
+                                    utils.setSharedPreferences("userId", response.getInt("userId"));
+                                    utils.setSharedPreferences("name", response.getString("name"));
+                                    utils.setSharedPreferences("family", response.getString("family"));
+                                    utils.setSharedPreferences("fieldId", (byte) response.getInt("fieldId"));
+                                    status = true;
+                                }
+                                onResult.success(isError, status);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        },
+                        error -> {isError = true;
+                           onResult.success(isError, status);
+                            });
 
-
-        //data fake
-
-        utils.setSharedPreferences("userId", 2);
-        utils.setSharedPreferences("name", "admin");
-        utils.setSharedPreferences("family", "Admin");
-        utils.setSharedPreferences("fieldId", 2);
-        onResult.success(false, true);
+                requestQueue.add(request);
+            }
+        });
+        thread.start();
 
     }
 
-    public void getFactors(String url, int userId, OnResult onResult) {
+    public void getFactors(int userId, OnResult onResult) {
 
 
         JSONObject factor = new JSONObject();
@@ -484,7 +478,7 @@ public class Data {
 
         JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.POST,
-                url,
+                BASE_URL + "FactorApi/ShowFactor",
                 factor,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -509,7 +503,7 @@ public class Data {
     }
 
 
-    public void NewPassword(String url, int userid, String Pass, String newPass, OnResult onResult) {
+    public void NewPassword(int userid, String Pass, String newPass, OnResult onResult) {
 
         JSONObject user = new JSONObject();
         try {
@@ -521,7 +515,7 @@ public class Data {
         }
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
-                url,
+                BASE_URL + "UserApi/ChangePassword",
                 user,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -548,8 +542,8 @@ public class Data {
 
     public void getNameFamily(OnResult onResult) {
         // user id from class G
-        String name = "هانیه";
-        String family = "پروین";
+        String name = (String) utils.getSharedPreferences("name", "هانیه");
+        String family = (String) utils.getSharedPreferences("family", "پروین");
         //
         onResult.success(name + " " + family);
     }

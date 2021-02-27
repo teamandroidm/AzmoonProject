@@ -84,7 +84,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             }
         });
 
-        data.getFactors("http://mehdi899.ir/api/FactorApi/ShowFactor", 2, new OnResult() {
+        data.getFactors( 2, new OnResult() {
             @Override
             public void success(Object... objects) {
                 factors = (ArrayList<Factors>) objects[0];
@@ -184,7 +184,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                         @Override
                         public void run() {
 
-                            data.NewPassword("http://mehdi899.ir/api/UserApi/ChangePassword", 5, edtPass.getText().toString(), edtNewPass.getText().toString(), new OnResult() {
+                            data.NewPassword( 5, edtPass.getText().toString(), edtNewPass.getText().toString(), new OnResult() {
                                 @Override
                                 public void success(Object... objects) {
                                     if ((boolean) objects[0])
