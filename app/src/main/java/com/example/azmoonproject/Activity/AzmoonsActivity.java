@@ -152,6 +152,10 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
                 utils.goTo(CoursesActivity.class);
                 activity_azmoons_drawer.closeDrawer(GravityCompat.START);
                 break;
+            case R.id.item_home1:
+                utils.goTo(FieldActivity.class);
+                activity_azmoons_drawer.closeDrawer(GravityCompat.START);
+                break;
         }
         return true;
     }

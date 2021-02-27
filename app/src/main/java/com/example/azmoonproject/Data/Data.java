@@ -2,6 +2,7 @@ package com.example.azmoonproject.Data;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -50,59 +51,14 @@ public class Data {
     public Data() {
     }
 
-//    public void sendIdField(int userId, byte fieldId, OnResult onResult) {
-//        if (userId == 1 && fieldId == 1) {
-//            onResult.success(true);
-//            return;
-//        } else {
-//            onResult.success(false);
-//
-//        }
-//    }
-
-//    public void sendCourses(int userId, byte termdId, Date date, int price, OnResult onResult) {
-//        date = new Date();
-////        if (userId == 1 && fieldId == 3) {
-////            onResult.success(true);
-////            return;
-////        } else {
-////            onResult.success(false);
-//
-////        }
-//    }
 
     public void sendRequestByPostMethodField(OnResult onResult) {
 
-//        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-//                Request.Method.POST,
-//                url,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray response) {
-//                        Gson gson = new Gson();
-//                        Type listType = new TypeToken<ArrayList<Fields>>() {
-//                        }.getType();
-//                        fieldsArrayList = gson.fromJson(response.toString(), listType);
-//                    }
-//                }
-//                , new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                //   txt1.setText("Error : "+error.getMessage());
-//                // prg1.setVisibility(View.INVISIBLE);
-//            }
-//        });
-//        requestQueue.add(jsonArrayRequest);
-//
-////        for (Fields fields : fieldItemList()) {
-////            fieldsArrayList.add(fields);
-////        }
-//        onResult.success(fieldsArrayList);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                        "http://mehdi899.ir/APi/FieldApi/PostField",
+                        BASE_URL+"FieldApi/PostField",
                         response -> {
                             ArrayList<Fields> fieldsArrayList = null;
                             try {
@@ -138,61 +94,15 @@ public class Data {
 
     }
 
-//    private ArrayList<Fields> fieldItemList() {
-//        ArrayList<Fields> fieldsItemArrayList = new ArrayList<>();
-////        String computer = picPath(R.drawable.computer);
-////        String tourists = picPath(R.drawable.tourists);
-////        String accounting = picPath(R.drawable.accounting);
-//
-//        fieldsItemArrayList.add(new Fields((byte) 1, "کامپیوتر", " computer", true));
-//        fieldsItemArrayList.add(new Fields((byte) 2, "گردشگری", "tourists", false));
-//        fieldsItemArrayList.add(new Fields((byte) 3, "حسابداری", "accounting", false));
-//        return fieldsItemArrayList;
-//    }
 
 
     public void sendRequestByPostMethodCourses(OnResult onResult) {
-//        JSONObject jsonObject = new JSONObject();
-//        try {
-//            jsonObject.put("userId", userId);
-//            jsonObject.put("fieldId", fieldId);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-//                Request.Method.POST,
-//                url,
-//                jsonObject,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray response) {
-//                        Gson gson = new Gson();
-//                        Type listType = new TypeToken<ArrayList<Terms>>() {
-//                        }.getType();
-//                        termsArrayList = gson.fromJson(response.toString(), listType);
-//                        Log.i("****", "e " + termsArrayList.size());
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//               // Log.i("###", "e " + error.getMessage());
-//                //   txt1.setText("Error : "+error.getMessage());
-//                // prg1.setVisibility(View.INVISIBLE);
-//            }
-//        });
-//        requestQueue.add(jsonArrayRequest);
-//        for (Terms terms : termsItemList()) {
-//            termsArrayList.add(terms);
-//       }
-//
-//        onResult.success(termsArrayList);
-//        Log.i("55",termsArrayList.size()+"");
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                        "http://mehdi899.ir/api/TermsApi/UserTerm",
+                        BASE_URL+"TermsApi/UserTerm",
                         response -> {
                             ArrayList<Terms> termsArrayList = null;
                             try {
@@ -231,38 +141,8 @@ public class Data {
         thread.start();
     }
 
-//    private ArrayList<Terms> termsItemList() {
-//        ArrayList<Terms> termsArrayList = new ArrayList<>();
-//        //        String java = picPath(R.drawable.java);
-////        String edit = picPath(R.drawable.edit);
-////        String excel = picPath(R.drawable.excel);
-////        String access = picPath(R.drawable.access);
-////        String powerpoint = picPath(R.drawable.powerpoint);
-////        String word = picPath(R.drawable.word);
-////        String tourists = picPath(R.drawable.tourists);
-////        String accounting = picPath(R.drawable.accounting);
-////        String hashtag = picPath(R.drawable.hashtag);
-//        termsArrayList.add(new Terms(1, "جاوا", "java", 20000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(2, "پاورپوینت", "powerpoint", 30000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(3, "اکسل", "excel", 40000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(4, "اکسس", "access", 12000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(5, "سی شارپ", "hashtag", 18000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(6, "ورد", "word", 25000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(7, "سی پلاس پلاس", "edit", 32000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(1, "هلو", "accounting", 20000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(2, "محک", "accounting", 30000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(3, "قیاس", "accounting", 22000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(4, "شایگان", "accounting", 18000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(2, "تدبیر", "accounting", 15000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(3, "پیوست", "accounting", 40000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(4, "آرین سیستم", "accounting", 82000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(2, "مدیریت جهانگردی", "tourists", 30000, true, 50, (byte) 50, (byte) 2));
-//        termsArrayList.add(new Terms(3, "جغرافبا", "tourists", 22000, true, 50, (byte) 50, (byte) 2));
-//        termsArrayList.add(new Terms(4, "مسافرتی", "tourists", 18000, true, 50, (byte) 50, (byte) 2));
-//        return termsArrayList;
-//    }
 
-    public void sendRequestByPostMethodFactor(String url, int userId, int termId, OnResult onResult) {
+    public void sendRequestByPostMethodFactor( int userId, int termId, OnResult onResult) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("UserId", userId);
@@ -275,17 +155,14 @@ public class Data {
             public void run() {
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                         Request.Method.POST,
-                        url,
+                        BASE_URL+"FactorApi/AddFactorId",
                         jsonObject,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
                                     int x = response.getInt("factorId");
-                                    // Log.i("xxxxxxxx", x + "");
-                                    //  Log.i("NNN",x+"");
                                     onResult.success(x);
-                                    // Log.i("ssss",x + "");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -305,34 +182,9 @@ public class Data {
         });
         thread.start();
 
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST,
-//                "http://mehdi899.ir/api/TermsApi/UserTerm",
-//                response -> {
-//                    try {
-//                        StringRequest stringRequest1 = new StringRequest(response);
-//                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                            Factors factors = new Factors();
-//                            factors.setFactorId(jsonObject.getInt("FactorId"));
-//
-//                            termsArrayList.add(terms1);
-//                        onResult.success(termsArrayList);
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }, error -> Log.i("###", "e " + error.getMessage())) {
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> stringMap = new HashMap<>();
-//                stringMap.put("UserId", "2");
-//                stringMap.put("TermId", "1");
-//                return stringMap;
-//            }
-//        };
-//        requestQueue.add(stringRequest);
     }
 
-    public void sendRequestByPostMethodPayment(String url, int price, int factorId, String tittlePay, String transactionCode, int resultCod, OnResult onResult) {
+    public void sendRequestByPostMethodPayment( int price, int factorId, String tittlePay, String transactionCode, int resultCod, OnResult onResult) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("tittlePay", tittlePay);
@@ -345,7 +197,7 @@ public class Data {
         }
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                url,
+                BASE_URL+"PaymentApi/AddPayment",
                 jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -369,7 +221,7 @@ public class Data {
         requestQueue.add(jsonObjectRequest);
     }
 
-    public void sendRequestByPostMethodPaymentresult(String url, boolean ResultPayment, int paymentId, int factorId, OnResult onResult) {
+    public void sendRequestByPostMethodPaymentresult( boolean ResultPayment, int paymentId, int factorId, OnResult onResult) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("resultPayment", ResultPayment);
@@ -380,7 +232,7 @@ public class Data {
         }
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                url,
+                BASE_URL+"PaymentApi/PaymentResult",
                 jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override

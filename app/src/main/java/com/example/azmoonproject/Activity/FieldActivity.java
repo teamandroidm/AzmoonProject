@@ -98,15 +98,6 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         });
     }
 
-//    private void fieldItemList() {
-//        String computer = picPath(R.drawable.computer);
-//        String tourists = picPath(R.drawable.tourists);
-//        String accounting = picPath(R.drawable.accounting);
-//
-//        fieldArrayList.add(new Fields((byte) 1, "کامپیوتر", computer, true));
-//        fieldArrayList.add(new Fields((byte) 2, "گردشگری", tourists, false));
-//        fieldArrayList.add(new Fields((byte) 3, "حسابداری", accounting, false));
-//    }
 
     private void setUpView() {
         custom_dialog_button_ok = dialog.findViewById(R.id.custom_dialog_button_ok);
@@ -156,58 +147,11 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                                 }
                             }
                         });
-//                        itemView.setOnClickListener(view -> date.sendIdField(1, fieldArrayList.get(position).getFeildId(), new OnResult() {
-//                            @Override
-//                            public void success(Object... objects) {
-//                                if ((Boolean) objects[0]) {
-//                                    utils.setSharedPreferences("fieldId", ((fieldArrayList.get(position).getFeildId())));
-//
-//                                    Intent intent = new Intent(FieldActivity.this, CoursesActivity.class);
-//                                    //  intent.putExtra("fieldId", fieldArrayList.get(position).getFieldId());
-//                                    startActivity(intent);
-//                                    //utils.goTo(CoursesActivity.class,new PutExtra("fieldId",fieldArrayList.get(position).getFieldId()));
-//
-//                                } else {
-//
-//                                    showCustomDialod();
-//                                    //    activity_field_layout.setBackgroundColor(R.drawable.background_list_feild_purpel);
-//                                    custom_dialog_button_ok.setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View view) {
-//                                            dialog.dismiss();
-//                                        }
-//                                    });
-//                                }
-//                            }
-//
-//                        }));
-
                     }
                 }));
 
     }
 
-//    public String picPath(int res) {
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), res);
-//        File mfile1 = getExternalFilesDir(null);
-//        String filename = res + ".png";
-//        File mfile2 = new File(mfile1, filename);
-//        try {
-//            FileOutputStream fileOutputStream;
-//            fileOutputStream = new FileOutputStream(mfile2);
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-//            fileOutputStream.flush();
-//            fileOutputStream.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        String path = mfile1.getAbsolutePath() + "/" + filename;
-//
-//        return path;
-//    }
 
     @Override
     public void onBackPressed() {

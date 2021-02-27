@@ -59,6 +59,15 @@
             android:text=" ۳۰,۰۰۰ "
             android:textColor="@color/color_orange"
             android:textSize="18sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/vazir_light"
+            android:text=" تومان "
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
 
     </LinearLayout>
 

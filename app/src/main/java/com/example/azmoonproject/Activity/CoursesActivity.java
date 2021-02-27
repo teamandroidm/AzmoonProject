@@ -49,7 +49,6 @@ import java.util.ArrayList;
 public class CoursesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     Dialog dialog;
     ArrayList<Terms> termsArrayList = new ArrayList<>();
-    // ArrayList<Terms> arrayList = new ArrayList<>();
     Button custom_dialog_button_courses_payment, custom_dialog_button_courses_cancel;
     TextView custom_dialog_text_courses_type, custom_dialog_text_courses_price;
     Toolbar toolbar;
@@ -64,11 +63,9 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     MyReceiver myReceiver;
     int factorId = 0;
     int paymentId = 0;
+    int price = 0;
     Boolean result = false;
 
-//    public static String splitDigits(int number) {
-//        return new DecimalFormat("###,###,###").format(number);
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +87,6 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
             @Override
             public void success(Object... objects) {
                 termsArrayList = (ArrayList<Terms>) objects[0];
-                // Log.i("%%%%%%%", "e " + termsArrayList.size());
                 setRecyclerViewCourses(utils);
 
 
@@ -104,10 +100,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                 startActivity(intent);
             }
         });
-//        Bundle extrns = getIntent().getExtras();
-//        byte x = (byte) ((byte) extrns.getByte("fieldId"));
         int x = (Integer) utils.getSharedPreferences("fieldId", 0);
-        //Toast.makeText(CoursesActivity.this,x + "",Toast.LENGTH_LONG).show();
         termsArrayList = fillTearm((byte) x);
 
 
@@ -118,6 +111,12 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         ZarinPal.getPurchase(this).verificationPayment(uri, (isPaymentSuccess, refID, paymentRequest) -> {
             if (isPaymentSuccess) {// زمانی که از درگاه پرداخت برمیگردد و پرداخت انجام شده
 //                    refID //شماره تراکنش
+                data.sendRequestByPostMethodPaymentresult( true, paymentId, factorId, new OnResult() {
+                    @Override
+                    public void success(Object... objects) {
+                        result = (Boolean) objects[0];
+                    }
+                });
             } else {// زمانی که از درگاه پرداخت برمیگردد و پرداخت انجام نشده
                 Toast.makeText(CoursesActivity.this, "پرداخت انجام نشد!", Toast.LENGTH_SHORT).show();
             }
@@ -134,36 +133,6 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
             } else activity_courses_drawer.openDrawer(GravityCompat.START);
         });
     }
-
-
-//    private void termsItemList() {
-//        String java = picPath(R.drawable.java);
-//        String edit = picPath(R.drawable.edit);
-//        String excel = picPath(R.drawable.excel);
-//        String access = picPath(R.drawable.access);
-//        String powerpoint = picPath(R.drawable.powerpoint);
-//        String word = picPath(R.drawable.word);
-//        String tourists = picPath(R.drawable.tourists);
-//        String accounting = picPath(R.drawable.accounting);
-//        String hashtag = picPath(R.drawable.hashtag);
-//        termsArrayList.add(new Terms(1, "جاوا", java, 20000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(2, "پاورپوینت", powerpoint, 30000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(3, "اکسل", excel, 40000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(4, "اکسس", access, 12000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(5, "سی شارپ", hashtag, 18000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(6, "ورد", word, 25000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(7, "سی پلاس پلاس", edit, 32000, true, 50, (byte) 50, (byte) 1));
-//        termsArrayList.add(new Terms(1, "هلو", accounting, 20000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(2, "محک", accounting, 30000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(3, "قیاس", accounting, 22000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(4, "شایگان", accounting, 18000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(2, "تدبیر", accounting, 15000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(3, "پیوست", accounting, 40000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(4, "آرین سیستم", accounting, 82000, true, 50, (byte) 50, (byte) 3));
-//        termsArrayList.add(new Terms(2, "مدیریت جهانگردی", tourists, 30000, true, 50, (byte) 50, (byte) 2));
-//        termsArrayList.add(new Terms(3, "جغرافبا", tourists, 22000, true, 50, (byte) 50, (byte) 2));
-//        termsArrayList.add(new Terms(4, "مسافرتی", tourists, 18000, true, 50, (byte) 50, (byte) 2));
-//    }
 
     private void setUpView() {
         custom_dialog_button_courses_payment = dialog.findViewById(R.id.custom_dialog_button_courses_payment);
@@ -196,11 +165,9 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
 
                     @Override
                     public void onItem(RecyclerViewAdapter.ViewHolder holder, int position, View itemView) {
-                        // Log.i("re", "e " + termsArrayList.size());
                         Picasso.get().load(new File(termsArrayList.get(position).getImageName())).error(R.drawable.tourists).into((ImageView) itemView.findViewById(R.id.activity_courses_image_courses));
                         ((TextView) itemView.findViewById(R.id.activity_courses_text_name)).setText(termsArrayList.get(position).getTermName() + "");
                         ((TextView) itemView.findViewById(R.id.activity_courses_text_price)).setText(utils.splitDigits(termsArrayList.get(position).getPrice()) + "");
-                        //    Picasso.get().load(new File(termsArrayList.get(position).getImageName())).error(R.mipmap.logocourses).fit().centerCrop().into((ImageView) itemView.findViewById(R.id.activity_courses_image_courses));
                         Picasso.get().load(new File(termsArrayList.get(position).getImageName())).error(R.drawable.computer).fit().centerCrop().into((ImageView) itemView.findViewById(R.id.activity_courses_image_courses));
 
                         final Button activity_courses_button_cart = itemView.findViewById(R.id.activity_courses_button_cart);
@@ -223,33 +190,19 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
 
                         activity_courses_button_cart.setOnClickListener(view -> {
                             showCustomDialod();
+                            custom_dialog_text_courses_type.setText(termsArrayList.get(position).getTermName());
+                            custom_dialog_text_courses_price.setText(utils.splitDigits(termsArrayList.get(position).getPrice()));
                             custom_dialog_button_courses_payment.setOnClickListener(view1 -> {
 
-                                data.sendRequestByPostMethodFactor("http://mehdi899.ir/APi/FactorApi/PostFactorId", 2, 1, new OnResult() {
+                                data.sendRequestByPostMethodFactor((Integer) utils.getSharedPreferences("userId",0), (Integer) utils.getSharedPreferences("termId",0), new OnResult() {
                                     @Override
                                     public void success(Object... objects) {
-                                        // Log.i("NNN",objects.length+"");
                                         factorId = (int) objects[0];
-                                        //  Log.i("rexx", "e " + factorId);
                                     }
                                 });
 
-                                // Toast.makeText(CoursesActivity.this,date + "", Toast.LENGTH_LONG).show();
                                 myPayment((long) termsArrayList.get(position).getPrice(), termsArrayList.get(position).getTermName());
-                                data.sendRequestByPostMethodPayment("http://mehdi899.ir/api/PaymentApi/AddPayment", termsArrayList.get(position).getPrice(), factorId, "پرداخت ", " 10000", 100, new OnResult() {
-                                    @Override
-                                    public void success(Object... objects) {
-                                        paymentId = (int) objects[0];
-                                        // Log.i("boolean", "result " + result);
-                                    }
-                                });
-                                data.sendRequestByPostMethodPaymentresult("http://mehdi899.ir/api/PaymentApi/PaymentResult", true, paymentId, factorId, new OnResult() {
-                                    @Override
-                                    public void success(Object... objects) {
-                                        result = (Boolean) objects[0];
-                                    }
-                                });
-
+                                price = termsArrayList.get(position).getPrice();
                                 dialog.dismiss();
                                 if (result == true) {
                                     activity_courses_layout_validity.setVisibility(View.VISIBLE);
@@ -270,30 +223,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                 arrayList.add(termsArrayList.get(i));
             }
         }
-        //Toast.makeText(CoursesActivity.this,arrayList.size(),Toast.LENGTH_LONG).show();
         return arrayList;
-    }
-
-    public String picPath(int res) {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), res);
-        File mfile1 = getExternalFilesDir(null);
-        String filename = res + ".png";
-        File mfile2 = new File(mfile1, filename);
-        try {
-            FileOutputStream fileOutputStream;
-            fileOutputStream = new FileOutputStream(mfile2);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-            fileOutputStream.flush();
-            fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String path = mfile1.getAbsolutePath() + "/" + filename;
-
-        return path;
     }
 
     private void setDialogLogOut() {
@@ -334,6 +264,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                 utils.goTo(FieldActivity.class);
                 activity_courses_drawer.closeDrawer(GravityCompat.START);
                 break;
+
         }
 
         return true;
@@ -363,6 +294,14 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
 
         zarinPal.startPayment(paymentRequest, (status, authority, paymentGatewayUri, intent) -> {
             if (status == 100) {
+                data.sendRequestByPostMethodPayment(price, factorId, "پرداخت ", authority, status, new OnResult() {
+                    @Override
+                    public void success(Object... objects) {
+                        paymentId = (int) objects[0];
+                        // Log.i("boolean", "result " + result);
+                    }
+                });
+
                 //زمانی که به درگاه پرداخت برود
                 startActivity(intent);
             } else {
