@@ -131,9 +131,9 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                         itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                int x = (int) utils.getSharedPreferences("userId", 0);
+                                int x = (int) utils.getSharedPreferences("fieldId", 0);
                                 if (x == fieldArrayList.get(position).getFeildId()) {
-                                    utils.setSharedPreferences("fieldId", ((fieldArrayList.get(position).getFeildId())));
+                                 //   utils.setSharedPreferences("fieldId", ((fieldArrayList.get(position).getFeildId())));
                                     utils.goTo(CoursesActivity.class);
                                 } else {
                                     showCustomDialod();
