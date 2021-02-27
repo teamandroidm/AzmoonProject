@@ -111,7 +111,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         ZarinPal.getPurchase(this).verificationPayment(uri, (isPaymentSuccess, refID, paymentRequest) -> {
             if (isPaymentSuccess) {// زمانی که از درگاه پرداخت برمیگردد و پرداخت انجام شده
 //                    refID //شماره تراکنش
-                data.sendRequestByPostMethodPaymentresult( true, paymentId, factorId, new OnResult() {
+                data.sendRequestByPostMethodPaymentresult(true, paymentId, factorId, new OnResult() {
                     @Override
                     public void success(Object... objects) {
                         result = (Boolean) objects[0];
@@ -173,20 +173,24 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                         final Button activity_courses_button_cart = itemView.findViewById(R.id.activity_courses_button_cart);
                         final LinearLayout activity_courses_layout_validity = itemView.findViewById(R.id.activity_courses_layout_validity);
                         final LinearLayout activity_courses_layout_item = itemView.findViewById(R.id.activity_courses_layout_item);
+                        if (termsArrayList.get(position).isTermStatus() == true) {
+                            activity_courses_layout_validity.setVisibility(View.VISIBLE);
+                            activity_courses_button_cart.setVisibility(View.GONE);
+                            activity_courses_layout_item.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    utils.goTo(AzmoonsActivity.class);
+                                    utils.setSharedPreferences("termId", termsArrayList.get(position).getTermId());
+                                    utils.setSharedPreferences("testTime", termsArrayList.get(position).getTestTime());
+                                    utils.setSharedPreferences("numberQuestionOfLevel", termsArrayList.get(position).getNumberQuestionOfLevel());
+                                }
+                            });
 
-                        activity_courses_layout_validity.setVisibility(View.GONE);
+                        } else {
+
+                            activity_courses_layout_validity.setVisibility(View.GONE);
+                        }
                         // TODO: 2/11/2021 ItemClickListener
-                        activity_courses_layout_item.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                utils.goTo(AzmoonsActivity.class);
-                                utils.setSharedPreferences("termId", termsArrayList.get(position).getTermId());
-                                utils.setSharedPreferences("testTime", termsArrayList.get(position).getTestTime());
-                                utils.setSharedPreferences("numberQuestionOfLevel", termsArrayList.get(position).getNumberQuestionOfLevel());
-
-
-                            }
-                        });
 
                         activity_courses_button_cart.setOnClickListener(view -> {
                             showCustomDialod();
@@ -194,7 +198,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                             custom_dialog_text_courses_price.setText(utils.splitDigits(termsArrayList.get(position).getPrice()));
                             custom_dialog_button_courses_payment.setOnClickListener(view1 -> {
 
-                                data.sendRequestByPostMethodFactor((Integer) utils.getSharedPreferences("userId",0), (Integer) utils.getSharedPreferences("termId",0), new OnResult() {
+                                data.sendRequestByPostMethodFactor((Integer) utils.getSharedPreferences("userId", 0), (Integer) utils.getSharedPreferences("termId", 0), new OnResult() {
                                     @Override
                                     public void success(Object... objects) {
                                         factorId = (int) objects[0];
