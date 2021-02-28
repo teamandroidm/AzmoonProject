@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +20,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.azmoonproject.Data.Data;
-import com.example.azmoonproject.Data.OnResult;
 import com.example.azmoonproject.Engine.Utils;
 import com.example.azmoonproject.MyAdapter;
 import com.example.azmoonproject.R;
@@ -133,6 +131,7 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
                 Intent intent = new Intent(AzmoonsActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 activity_azmoons_drawer.closeDrawer(GravityCompat.START);
+                activity_azmoons_navigation_view.setCheckedItem(null);
                 break;
             case R.id.item_logout:
                 setDialogLogOut();
@@ -140,10 +139,12 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
             case R.id.item_courses:
                 utils.goTo(CoursesActivity.class);
                 activity_azmoons_drawer.closeDrawer(GravityCompat.START);
+                activity_azmoons_navigation_view.setCheckedItem(null);
                 break;
             case R.id.item_home1:
                 utils.goTo(FieldActivity.class);
                 activity_azmoons_drawer.closeDrawer(GravityCompat.START);
+                activity_azmoons_navigation_view.setCheckedItem(null);
                 break;
         }
         return true;

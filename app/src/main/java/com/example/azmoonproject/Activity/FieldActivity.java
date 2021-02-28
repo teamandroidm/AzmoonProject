@@ -3,8 +3,6 @@ package com.example.azmoonproject.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -30,17 +28,12 @@ import com.example.azmoonproject.Engine.MyReceiver;
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewAdapter;
 import com.example.azmoonproject.Engine.RecyclerAdapter.RecyclerViewMethod;
 import com.example.azmoonproject.Engine.Utils;
-import com.example.azmoonproject.Model.Factors;
 import com.example.azmoonproject.Model.Fields;
-import com.example.azmoonproject.Model.Terms;
 import com.example.azmoonproject.R;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class FieldActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,12 +45,12 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
     Data data;
     Utils utils;
     ArrayList<Fields> fieldArrayList = new ArrayList<>();
+    MyReceiver myReceiver;
     private Button exitDialogBtnNo, exitDialogBtnYes, custom_dialog_button_ok;
     private Toolbar toolbar;
     private NavigationView activity_field_navigation_view;
     private DrawerLayout drawerLayout;
     private ImageView activity_field_menu_img;
-    MyReceiver myReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +125,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                             public void onClick(View view) {
                                 int x = (int) utils.getSharedPreferences("fieldId", 0);
                                 if (x == fieldArrayList.get(position).getFeildId()) {
-                                 //   utils.setSharedPreferences("fieldId", ((fieldArrayList.get(position).getFeildId())));
+                                    //   utils.setSharedPreferences("fieldId", ((fieldArrayList.get(position).getFeildId())));
                                     utils.goTo(CoursesActivity.class);
                                 } else {
                                     showCustomDialod();
@@ -220,14 +213,16 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                 Intent intent = new Intent(FieldActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
+                activity_field_navigation_view.setCheckedItem(null);
                 break;
             case R.id.item_logout:
                 setDialogLogOut();
+                activity_field_navigation_view.setCheckedItem(null);
                 break;
             case R.id.item_courses:
                 utils.goTo(CoursesActivity.class);
                 drawerLayout.closeDrawer(GravityCompat.START);
-
+                activity_field_navigation_view.setCheckedItem(null);
                 break;
         }
         return true;

@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -245,17 +244,21 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                 Intent intent = new Intent(CoursesActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 activity_courses_drawer.closeDrawer(GravityCompat.START);
+                activity_courses_navigation_view.setCheckedItem(null);
                 break;
             case R.id.item_logout:
                 setDialogLogOut();
+                activity_courses_navigation_view.setCheckedItem(null);
                 break;
             case R.id.item_courses:
                 utils.goTo(CoursesActivity.class);
                 activity_courses_drawer.closeDrawer(GravityCompat.START);
+                activity_courses_navigation_view.setCheckedItem(null);
                 break;
             case R.id.item_home1:
                 utils.goTo(FieldActivity.class);
                 activity_courses_drawer.closeDrawer(GravityCompat.START);
+                activity_courses_navigation_view.setCheckedItem(null);
                 break;
 
         }

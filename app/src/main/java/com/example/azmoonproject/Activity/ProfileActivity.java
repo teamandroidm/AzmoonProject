@@ -61,6 +61,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     private DrawerLayout activity_profile_drawer;
     private NavigationView activity_profile_navigation_view;
     private ImageView activity_profile_menu_img;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,11 +85,11 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             }
         });
 
-        data.getFactors( 2, new OnResult() {
+        data.getFactors(2, new OnResult() {
             @Override
             public void success(Object... objects) {
                 factors = (ArrayList<Factors>) objects[0];
-                Log.i("taggg",factors.size()+"");
+                Log.i("taggg", factors.size() + "");
                 isEmptyFactors();
             }
 
@@ -102,7 +103,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 txtNameFamily.setText((String) objects[0]);
             }
         });
-
 
 
         setSupportActionBar(materialToolbar);
@@ -184,7 +184,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                         @Override
                         public void run() {
 
-                            data.NewPassword( 5, edtPass.getText().toString(), edtNewPass.getText().toString(), new OnResult() {
+                            data.NewPassword(5, edtPass.getText().toString(), edtNewPass.getText().toString(), new OnResult() {
                                 @Override
                                 public void success(Object... objects) {
                                     if ((boolean) objects[0])
@@ -208,7 +208,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
 
     private void isEmptyFactors() {
-        Log.i("tag111",factors.size()+"");
+        Log.i("tag111", factors.size() + "");
         if (factors.size() == 0) {
             rcv1.setVisibility(View.GONE);
             emptyFactorLa.setVisibility(View.VISIBLE);
@@ -235,13 +235,13 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
                         courseName.setText(factors.get(position).getTermName());
                         price.setText(utils.toPersianNumber4(utils.splitDigits(factors.get(position).getPrice())));
-                        Log.i("date",factors.get(position).getFinallyDate()+"");
-                        dateConverter.gregorianToPersian(Integer.parseInt(factors.get(position).getFinallyDate().substring(0,4)), Integer.parseInt(factors.get(position).getFinallyDate().substring(5,7)), Integer.parseInt(factors.get(position).getFinallyDate().substring(8,10)));
+                        Log.i("date", factors.get(position).getFinallyDate() + "");
+                        dateConverter.gregorianToPersian(Integer.parseInt(factors.get(position).getFinallyDate().substring(0, 4)), Integer.parseInt(factors.get(position).getFinallyDate().substring(5, 7)), Integer.parseInt(factors.get(position).getFinallyDate().substring(8, 10)));
                         date.setText(utils.toPersianNumber4(dateConverter.toString()));
                         // add day in finally date
                         Calendar calendar = Calendar.getInstance();
                         try {
-                            Date format= new SimpleDateFormat("yyyy-MM-dd").parse(factors.get(position).getFinallyDate());
+                            Date format = new SimpleDateFormat("yyyy-MM-dd").parse(factors.get(position).getFinallyDate());
                             calendar.setTime(format);
                             calendar.add(Calendar.DATE, factors.get(position).getValidateTime());
                             dateConverter.gregorianToPersian(Integer.parseInt(new SimpleDateFormat("yyyy").format(calendar.getTime())), Integer.parseInt(new SimpleDateFormat("MM").format(calendar.getTime())), Integer.parseInt(new SimpleDateFormat("dd").format(calendar.getTime())));
@@ -249,16 +249,16 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                             validityDate.setText(utils.toPersianNumber4(dateConverter.toString()));
 
                         } catch (ParseException e) {
-                            validityDate.setText(" "+e);
+                            validityDate.setText(" " + e);
 
                         }
-
 
 
                     }
                 }));
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -295,7 +295,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         activity_profile_navigation_view = findViewById(R.id.activity_profile_navigation_view);
         activity_profile_menu_img = findViewById(R.id.activity_profile_menu_img);
         utils = new Utils(getApplicationContext(), ProfileActivity.this);
-        myReceiver=new MyReceiver();
+        myReceiver = new MyReceiver();
 
     }
 
@@ -305,13 +305,16 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             case R.id.item_home1:
                 utils.goTo(FieldActivity.class);
                 activity_profile_drawer.closeDrawer(GravityCompat.START);
+                activity_profile_navigation_view.setCheckedItem(null);
                 break;
             case R.id.item_logout:
                 setDialogLogOut();
+                activity_profile_navigation_view.setCheckedItem(null);
                 break;
             case R.id.item_courses:
                 utils.goTo(CoursesActivity.class);
                 activity_profile_drawer.closeDrawer(GravityCompat.START);
+                activity_profile_navigation_view.setCheckedItem(null);
                 break;
         }
         return true;

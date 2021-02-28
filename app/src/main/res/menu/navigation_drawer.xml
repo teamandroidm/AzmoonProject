@@ -16,9 +16,6 @@
             android:icon="@drawable/book"
             android:title="@string/courses" />
 
-
-
-
     </group>
 
     <group android:id="@+id/g2" android:checkableBehavior="all">
@@ -30,11 +27,6 @@
             android:id="@+id/item_about_academy"
             android:icon="@drawable/about"
             android:title="@string/about_academy" />
-
-        <item
-            android:id="@+id/tem_contact_us2"
-            android:icon="@drawable/development"
-            android:title="@string/contact_us2" />
 
     </group>
     <group android:id="@+id/g3" android:checkableBehavior="all">
