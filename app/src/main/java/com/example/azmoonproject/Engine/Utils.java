@@ -91,18 +91,6 @@ public class Utils {
         activity.finish();
     }
 
-    public void levelGoTo(Class _class) {
-        Levels levelItem = new Levels();
-        Intent intent = new Intent(context, _class);
-        intent.putExtra("testTime", levelItem.getTimeTookTest());
-        intent.putExtra("status", levelItem.getLevelCount());
-        intent.putExtra("level", levelItem.getLevelId());
-
-        activity.startActivity(intent);
-
-
-    }
-
     public void addRecyclerView(RecyclerView rcv1, RecyclerView.LayoutManager layoutManager, RecyclerViewAdapter adapter) {
 //        RecyclerView rcv1 = activity.findViewById(recyclerViewId);
         rcv1.setLayoutManager(layoutManager);

@@ -75,7 +75,6 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         setSupportActionBar(toolbar);
         setTitle(null);
         final Utils utils = new Utils(getApplicationContext(), FieldActivity.this);
-
         // fieldItemList();
         activity_field_navigation_view.bringToFront();
         activity_field_navigation_view.setNavigationItemSelectedListener(FieldActivity.this);

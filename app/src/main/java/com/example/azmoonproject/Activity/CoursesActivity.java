@@ -3,8 +3,6 @@ package com.example.azmoonproject.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -40,10 +38,6 @@ import com.zarinpal.ewallets.purchase.PaymentRequest;
 import com.zarinpal.ewallets.purchase.ZarinPal;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 
 public class CoursesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -57,15 +51,14 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     Dialog logOutDialog;
     Button logOutDialogBtnNo, logOutDialogBtnYes;
     Utils utils;
-    private NavigationView activity_courses_navigation_view;
-    private DrawerLayout activity_courses_drawer;
-    private ImageView activity_courses_menu_img;
     MyReceiver myReceiver;
     int factorId = 0;
     int paymentId = 0;
     int price = 0;
     Boolean result = false;
-
+    private NavigationView activity_courses_navigation_view;
+    private DrawerLayout activity_courses_drawer;
+    private ImageView activity_courses_menu_img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +81,6 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
             public void success(Object... objects) {
                 termsArrayList = (ArrayList<Terms>) objects[0];
                 setRecyclerViewCourses(utils);
-
-
             }
         });
 
@@ -187,7 +178,6 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                             });
 
                         } else {
-
                             activity_courses_layout_validity.setVisibility(View.GONE);
                         }
                         // TODO: 2/11/2021 ItemClickListener
@@ -212,7 +202,6 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                                     activity_courses_layout_validity.setVisibility(View.VISIBLE);
                                     activity_courses_button_cart.setVisibility(View.GONE);
                                 }
-
                             });
                             custom_dialog_button_courses_cancel.setOnClickListener(view12 -> dialog.dismiss());
                         });

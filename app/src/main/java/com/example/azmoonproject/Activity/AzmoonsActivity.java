@@ -2,10 +2,10 @@ package com.example.azmoonproject.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -21,36 +21,32 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.azmoonproject.Data.Data;
-import com.example.azmoonproject.Engine.MyReceiver;
+import com.example.azmoonproject.Data.OnResult;
 import com.example.azmoonproject.Engine.Utils;
-import com.example.azmoonproject.Model.Levels;
 import com.example.azmoonproject.MyAdapter;
 import com.example.azmoonproject.R;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
-
 public class AzmoonsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    Toolbar tlb1;
-    ImageView imgBack;
-    ImageView img1;
+    private Toolbar tlb1;
+    private ImageView imgBack;
+    private ImageView img1;
+    private TextView txt1;
+    private Dialog logOutDialog;
+    private Button logOutDialogBtnNo, logOutDialogBtnYes;
+    private RecyclerView rcl;
+    private Utils utils;
+    private Data interprefer;
     private ImageView activity_azmoons_img;
     private DrawerLayout activity_azmoons_drawer;
     private NavigationView activity_azmoons_navigation_view;
-    TextView txt1;
-    Dialog logOutDialog;
-    Button logOutDialogBtnNo, logOutDialogBtnYes;
-    RecyclerView rcl;
-    ArrayList<Levels> questionLevelItemArrayList;
-    Levels levelItem;
-    Utils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_azmoons);
-
-        utils=new Utils(getApplicationContext(), AzmoonsActivity.this);
+        interprefer = new Data(this);
+        utils = new Utils(getApplicationContext(), AzmoonsActivity.this);
         // init
         setInit();
 
@@ -60,11 +56,6 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
         getSupportActionBar().setLogo(null);
 
         // List
-        questionLevelItemArrayList = new ArrayList<>();
-        fillList();
-        MyAdapter myAdapter = new MyAdapter(AzmoonsActivity.this, R.layout.item_question_level, questionLevelItemArrayList, AzmoonsActivity.this);
-        rcl.setLayoutManager(new GridLayoutManager(this, 2));
-        rcl.setAdapter(myAdapter);
         activity_azmoons_navigation_view.bringToFront();
         activity_azmoons_navigation_view.setNavigationItemSelectedListener(AzmoonsActivity.this);
         setOnClickImageView();
@@ -79,6 +70,18 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Thread thread2 = new Thread(() -> interprefer.getAzmons(objects -> {
+            int questionCount = (int) objects[0];
+            int levelCount = (int) objects[1];
+            MyAdapter myAdapter = new MyAdapter(AzmoonsActivity.this, R.layout.item_question_level, levelCount, questionCount, AzmoonsActivity.this);
+            rcl.setLayoutManager(new GridLayoutManager(AzmoonsActivity.this, 2));
+            rcl.setAdapter(myAdapter);
+        }));
+        thread2.start();
+    }
 
     private void setInit() {
         tlb1 = findViewById(R.id.activity_question_tlb1);
@@ -96,21 +99,6 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
         logOutDialogBtnYes = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_yes);
     }
 
-    private void fillList() {
-//        questionLevelItemArrayList.add(new QuestionLevelItem((byte)3,"آزمون 1", R.drawable.checkmark_52px, Color.argb(255, 255, 118, 0)));
-//        questionLevelItemArrayList.add(new QuestionLevelItem((byte)3,"آزمون 2", R.drawable.checkmark_52px, Color.argb(255, 255, 118, 0)));
-//        questionLevelItemArrayList.add(new QuestionLevelItem((byte)3,"آزمون 3", R.drawable.checkmark_52px, Color.argb(255, 255, 118, 0)));
-//        questionLevelItemArrayList.add(new QuestionLevelItem((byte)3,"آزمون 4", R.drawable.checkmark_52px, Color.argb(255, 255, 118, 0)));
-//        questionLevelItemArrayList.add(new QuestionLevelItem((byte)1,"آزمون 5", R.drawable.unlockicon,Color.argb(255, 0, 0, 0)));
-//        questionLevelItemArrayList.add(new QuestionLevelItem((byte)2,"آزمون 6", R.drawable.lockicon,Color.argb(130, 0, 0, 0)));
-//        questionLevelItemArrayList.add(new QuestionLevelItem((byte)2,"آزمون 7", R.drawable.lockicon,Color.argb(130, 0, 0, 0)));
-//        questionLevelItemArrayList.add(new QuestionLevelItem((byte)2,"آزمون 8", R.drawable.lockicon,Color.argb(130, 0, 0, 0)));
-//        questionLevelItemArrayList.add(new QuestionLevelItem((byte)2,"آزمون 9", R.drawable.lockicon,Color.argb(130, 0, 0, 0)));
-//        questionLevelItemArrayList.add(new QuestionLevelItem((byte)2,"آزمون 10", R.drawable.lockicon,Color.argb(130, 0, 0, 0)));
-
-        Data data = new Data();
-        questionLevelItemArrayList = data.getLevel();
-    }
     private void setOnClickImageView() {
         activity_azmoons_img.setOnClickListener(view -> {
             if (activity_azmoons_drawer.isDrawerVisible(GravityCompat.START)) {
@@ -118,6 +106,7 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
             } else activity_azmoons_drawer.openDrawer(GravityCompat.START);
         });
     }
+
     private void setDialogLogOut() {
 
         logOutDialog.setCancelable(false);

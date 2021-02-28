@@ -2,7 +2,6 @@ package com.example.azmoonproject.Data;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -58,7 +57,7 @@ public class Data {
             @Override
             public void run() {
                 StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                        BASE_URL+"FieldApi/PostField",
+                        BASE_URL + "FieldApi/PostField",
                         response -> {
                             ArrayList<Fields> fieldsArrayList = null;
                             try {
@@ -95,14 +94,13 @@ public class Data {
     }
 
 
-
     public void sendRequestByPostMethodCourses(OnResult onResult) {
 
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                        BASE_URL+"TermsApi/UserTerm",
+                        BASE_URL + "TermsApi/UserTerm",
                         response -> {
                             ArrayList<Terms> termsArrayList = null;
                             try {
@@ -115,6 +113,7 @@ public class Data {
                                     terms1.setTermName(jsonObject.getString("termName"));
                                     terms1.setImageName(jsonObject.getString("imageName"));
                                     terms1.setPrice(jsonObject.getInt("price"));
+                                    terms1.setTestTime(jsonObject.getInt("testTime"));
                                     terms1.setTermStatus(jsonObject.getBoolean("termStatuse"));
                                     terms1.setNumberQuestionOfLevel((byte) jsonObject.getInt("numberQuestionOfLevel"));
                                     terms1.setValidateTime(jsonObject.getInt("vlidateTime"));
@@ -142,7 +141,7 @@ public class Data {
     }
 
 
-    public void sendRequestByPostMethodFactor( int userId, int termId, OnResult onResult) {
+    public void sendRequestByPostMethodFactor(int userId, int termId, OnResult onResult) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("UserId", userId);
@@ -155,7 +154,7 @@ public class Data {
             public void run() {
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                         Request.Method.POST,
-                        BASE_URL+"FactorApi/AddFactorId",
+                        BASE_URL + "FactorApi/AddFactorId",
                         jsonObject,
                         new Response.Listener<JSONObject>() {
                             @Override
@@ -184,7 +183,7 @@ public class Data {
 
     }
 
-    public void sendRequestByPostMethodPayment( int price, int factorId, String tittlePay, String transactionCode, int resultCod, OnResult onResult) {
+    public void sendRequestByPostMethodPayment(int price, int factorId, String tittlePay, String transactionCode, int resultCod, OnResult onResult) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("tittlePay", tittlePay);
@@ -197,7 +196,7 @@ public class Data {
         }
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                BASE_URL+"PaymentApi/AddPayment",
+                BASE_URL + "PaymentApi/AddPayment",
                 jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -221,7 +220,7 @@ public class Data {
         requestQueue.add(jsonObjectRequest);
     }
 
-    public void sendRequestByPostMethodPaymentresult( boolean ResultPayment, int paymentId, int factorId, OnResult onResult) {
+    public void sendRequestByPostMethodPaymentresult(boolean ResultPayment, int paymentId, int factorId, OnResult onResult) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("resultPayment", ResultPayment);
@@ -232,7 +231,7 @@ public class Data {
         }
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                BASE_URL+"PaymentApi/PaymentResult",
+                BASE_URL + "PaymentApi/PaymentResult",
                 jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -306,9 +305,10 @@ public class Data {
                                 e.printStackTrace();
                             }
                         },
-                        error -> {isError = true;
-                           onResult.success(isError, status);
-                            });
+                        error -> {
+                            isError = true;
+                            onResult.success(isError, status);
+                        });
 
                 requestQueue.add(request);
             }
@@ -400,24 +400,6 @@ public class Data {
         onResult.success(name + " " + family);
     }
 
-
-    public ArrayList<Levels> getLevel() {
-        if (questionLevelItemArrayList == null) {
-            questionLevelItemArrayList = new ArrayList<>();
-            questionLevelItemArrayList.add(new Levels((byte) 1, (byte) 3, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
-            questionLevelItemArrayList.add(new Levels((byte) 2, (byte) 3, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
-            questionLevelItemArrayList.add(new Levels((byte) 3, (byte) 3, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
-            questionLevelItemArrayList.add(new Levels((byte) 4, (byte) 3, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
-            questionLevelItemArrayList.add(new Levels((byte) 5, (byte) 1, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
-            questionLevelItemArrayList.add(new Levels((byte) 6, (byte) 2, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
-            questionLevelItemArrayList.add(new Levels((byte) 7, (byte) 2, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
-            questionLevelItemArrayList.add(new Levels((byte) 8, (byte) 2, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
-            questionLevelItemArrayList.add(new Levels((byte) 9, (byte) 2, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
-            questionLevelItemArrayList.add(new Levels((byte) 10, (byte) 2, (byte) 4, (byte) 6, (byte) 40, 50, 2, 100));
-        }
-        return questionLevelItemArrayList;
-    }
-
     // QuestionActivity
     public void getQuestions(int termId, int level, OnResult onResult) {
         new Thread(() -> {
@@ -450,8 +432,8 @@ public class Data {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> stringMap = new HashMap<>();
-                    stringMap.put("termId", "14");
-                    stringMap.put("levelCount", "1");
+                    stringMap.put("termId", String.valueOf(termId));
+                    stringMap.put("levelCount", String.valueOf(level));
                     return stringMap;
                 }
             };
@@ -460,27 +442,66 @@ public class Data {
     }
 
     public void setLevel(Levels level, OnResult onResult) {
-//        JSONObject jsonObject = new JSONObject();
-//        try {
-//            jsonObject.put("correctNumber", level.getCorrectNumber());
-//            jsonObject.put("nineteen", level.getNineteen());
-//            jsonObject.put("wrongNumber", level.getWrongNumber());
-//            jsonObject.put("levelCount", level.getLevelCount());
-//            jsonObject.put("timeTookTest", level.getTimeTookTest());
-//            jsonObject.put("termId", level.getTermId());
-//            jsonObject.put("userId", level.getUserId());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        JsonObjectRequest request = new JsonObjectRequest(
-//                Request.Method.POST,
-//                "آدرس Api",
-//                jsonObject,
-//                response -> {
-//                }, error -> {
-//        });
-//        requestQueue.add(request);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("correctNumber", level.getCorrectNumber());
+            jsonObject.put("nineteen", level.getNineteen());
+            jsonObject.put("wrongNumber", level.getWrongNumber());
+            jsonObject.put("levelCount", level.getLevelCount());
+            jsonObject.put("timeTookTest", level.getTimeTookTest());
+            jsonObject.put("termId", level.getTermId());
+            jsonObject.put("userId", level.getUserId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        new Thread(() -> {
+            JsonObjectRequest request = new JsonObjectRequest(
+                    Request.Method.POST, BASE_URL + "LevelApi/TestResult",
+                    jsonObject,
+                    response -> {
+                        try {
+                            onResult.success(response.getBoolean("result"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }, error -> {
+                Log.i("ErrorSetLevel", error.toString() + "");
+            });
+            requestQueue.add(request);
+        }).start();
+    }
+
+
+    public void getAzmons(OnResult onResult) {
+        int numberQuestionOfLevel = (int) utils.getSharedPreferences("numberQuestionOfLevel", 0);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("userId", utils.getSharedPreferences("userId", 0));
+            jsonObject.put("termId", utils.getSharedPreferences("termId", 0));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        new Thread(() -> {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL + "QuestionsApi/Azmoons", jsonObject, new Response.Listener<JSONObject>() {
+                int levelCount = 0, questionCount = 0;
+
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        levelCount = response.getInt("levelCount");
+//                        questionCount = response.getInt("questionCount");
+                        questionCount = 500;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    questionCount /= numberQuestionOfLevel;
+                    Log.i("#####", questionCount + "///" + numberQuestionOfLevel);
+                    onResult.success(questionCount, levelCount);
+                }
+            }, error -> {
+            });
+            requestQueue.add(jsonObjectRequest);
+        }).start();
     }
 
 }

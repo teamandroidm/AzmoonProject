@@ -1,7 +1,6 @@
 package com.example.azmoonproject.Activity;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -59,8 +58,6 @@ public class QuestionActivity extends AppCompatActivity {
         bundle = getIntent().getExtras();
         utils = new Utils(this);
         setData();
-
-
         btnPreviousQuestion.setOnClickListener(v -> {
             if (counter >= 1) {
                 rgAnswer.clearCheck();
@@ -114,12 +111,13 @@ public class QuestionActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void setData() {
         status = bundle.getByte("status"); // get TermId and Leve from TestActivity
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("درحال دریافت اطلاعات");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+        Dialog dialogPleaseWaite = new Dialog(this);
+        dialogPleaseWaite.setCancelable(false);
+        dialogPleaseWaite.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogPleaseWaite.setContentView(R.layout.dialog_please_wait);
+        dialogPleaseWaite.show();
 
-        data.getQuestions(bundle.getInt("termId"), bundle.getInt("level"), objects -> {
+        data.getQuestions((Integer) utils.getSharedPreferences("termId", 0), bundle.getInt("level"), objects -> {
             if (objects[0] != null) {
                 questions = (Questions[]) objects[0];
                 txtnumberQuestionOfLevel.setText(String.format("%s/", questions.length));
@@ -127,7 +125,7 @@ public class QuestionActivity extends AppCompatActivity {
                 prgCount.setProgress(1);
                 radioButtonSetText((byte) 0);
                 if (status == 1) {
-                    exam(bundle.getInt("testTime"));
+                    exam((Integer) utils.getSharedPreferences("testTime", 20));
                 } else if (status == 2) {
                     btnEndTest.setText("");
                     circularProgressBar.setVisibility(View.GONE);
@@ -139,7 +137,7 @@ public class QuestionActivity extends AppCompatActivity {
                 Toast.makeText(this, "دریافت اطلاعات با خطا مواجع شد لطفا دوباره امتحان کنید", Toast.LENGTH_LONG).show();
                 finish();
             }
-            progressDialog.dismiss();
+            dialogPleaseWaite.dismiss();
         });
     }
 
@@ -198,7 +196,6 @@ public class QuestionActivity extends AppCompatActivity {
         time = _time * 60;
         circularProgressBar.setProgressMax(time);
         final Handler handler = new Handler();
-
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -209,19 +206,18 @@ public class QuestionActivity extends AppCompatActivity {
                         txtTime.setText(String.format("%s%s:%s%s", (time / 60) <= 9 ? "0" : "", time / 60, (time % 60) <= 9 ? "0" : "", time % 60));
                         timeTookTest++;
                     } else if (time == 0) {
-                        for (int i = 0; i < answers.length; i++) { //calculate the exam result
+                        for (int i = 0; i < answers.length; i++) //calculate the exam result
                             if (answers[i] == -1)
                                 nineteen++;
                             else if (answers[i] == questions[i].getTrueAnswer() - 1)
                                 correctNumber++;
                             else wrongNumber++;
-                        }
                         dialogEndExam();
                         time--;
-//                                        data.setLevel(new Levels((byte) 0, bundle.getByte("level"),
-//                                nineteen, wrongNumber, correctNumber, timeTookTest, bundle.getInt("termId"),
-//                                (Integer) utils.getSharedPreferences("userId", "0")),
-//                        objects -> Log.i("status", (String) objects[0]));
+                        //SetLevel
+                        data.setLevel(new Levels((byte) (bundle.getInt("levelCount") + 1),
+                                nineteen, wrongNumber, correctNumber, timeTookTest, (Integer) utils.getSharedPreferences("termId", 0),
+                                (Integer) utils.getSharedPreferences("userId", 0)), objects -> Log.i("status", objects[0] + ""));
                     }
                 });
             }

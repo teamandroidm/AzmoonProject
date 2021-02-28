@@ -1,7 +1,6 @@
 package com.example.azmoonproject.Model;
 
 public class Levels {
-    private byte levelId;
     private byte levelCount;
     private byte nineteen;
     private byte wrongNumber;
@@ -13,8 +12,7 @@ public class Levels {
     public Levels() {
     }
 
-    public Levels(byte levelId, byte levelCount, byte nineteen, byte wrongNumber, byte correctNumber, int timeTookTest, int termId, int userId) {
-        this.levelId = levelId;
+    public Levels(byte levelCount, byte nineteen, byte wrongNumber, byte correctNumber, int timeTookTest, int termId, int userId) {
         this.levelCount = levelCount;
         this.nineteen = nineteen;
         this.wrongNumber = wrongNumber;
@@ -22,14 +20,6 @@ public class Levels {
         this.timeTookTest = timeTookTest;
         this.termId = termId;
         this.userId = userId;
-    }
-
-    public byte getLevelId() {
-        return levelId;
-    }
-
-    public void setLevelId(byte levelId) {
-        this.levelId = levelId;
     }
 
     public byte getLevelCount() {
