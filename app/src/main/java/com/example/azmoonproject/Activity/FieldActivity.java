@@ -126,7 +126,10 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                                 int x = (int) utils.getSharedPreferences("fieldId", 0);
                                 if (x == fieldArrayList.get(position).getFeildId()) {
                                     //   utils.setSharedPreferences("fieldId", ((fieldArrayList.get(position).getFeildId())));
-                                    utils.goTo(CoursesActivity.class);
+                                    Intent intent=new Intent(FieldActivity.this,CoursesActivity.class);
+                                    startActivity(intent);
+                                  //  utils.goTo(CoursesActivity.class);
+
                                 } else {
                                     showCustomDialod();
                                     //    activity_field_layout.setBackgroundColor(R.drawable.background_list_feild_purpel);
@@ -182,7 +185,6 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
             @Override
             public void onClick(View v) {
                 finishAffinity();
-                finish();
             }
         });
     }
@@ -220,7 +222,8 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
 
                 break;
             case R.id.item_courses:
-                utils.goTo(CoursesActivity.class);
+                Intent intent1=new Intent(FieldActivity.this,CoursesActivity.class);
+                startActivity(intent1);
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 break;

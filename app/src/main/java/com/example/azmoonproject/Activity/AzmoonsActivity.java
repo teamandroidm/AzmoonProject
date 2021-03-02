@@ -148,6 +148,10 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
         }
         return true;
     }
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {

@@ -169,7 +169,9 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                             activity_courses_layout_item.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    utils.goTo(AzmoonsActivity.class);
+                                    Intent intent=new Intent(CoursesActivity.this,AzmoonsActivity.class);
+                                    startActivity(intent);
+                                   // utils.goTo(AzmoonsActivity.class);
                                     utils.setSharedPreferences("termId", termsArrayList.get(position).getTermId());
                                     utils.setSharedPreferences("testTime", termsArrayList.get(position).getTestTime());
                                     utils.setSharedPreferences("numberQuestionOfLevel", termsArrayList.get(position).getNumberQuestionOfLevel());
@@ -270,15 +272,19 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
-
     @Override
     public void onBackPressed() {
-        if (activity_courses_drawer.isDrawerVisible(GravityCompat.START)) {
-            activity_courses_drawer.closeDrawer(GravityCompat.START);
-        } else
-            super.onBackPressed();
-
+        finish();
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        if (activity_courses_drawer.isDrawerVisible(GravityCompat.START)) {
+//            activity_courses_drawer.closeDrawer(GravityCompat.START);
+//        } else
+//            super.onBackPressed();
+//
+//    }
 
     private void myPayment(Long amount, String description) {
         ZarinPal zarinPal = ZarinPal.getPurchase(this);
