@@ -305,16 +305,16 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             case R.id.item_home1:
                 utils.goTo(FieldActivity.class);
                 activity_profile_drawer.closeDrawer(GravityCompat.START);
-                activity_profile_navigation_view.setCheckedItem(null);
+
                 break;
             case R.id.item_logout:
                 setDialogLogOut();
-                activity_profile_navigation_view.setCheckedItem(null);
+
                 break;
             case R.id.item_courses:
                 utils.goTo(CoursesActivity.class);
                 activity_profile_drawer.closeDrawer(GravityCompat.START);
-                activity_profile_navigation_view.setCheckedItem(null);
+
                 break;
         }
         return true;

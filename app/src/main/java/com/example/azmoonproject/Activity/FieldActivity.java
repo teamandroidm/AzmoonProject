@@ -213,16 +213,16 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                 Intent intent = new Intent(FieldActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
-                activity_field_navigation_view.setCheckedItem(null);
+
                 break;
             case R.id.item_logout:
                 setDialogLogOut();
-                activity_field_navigation_view.setCheckedItem(null);
+
                 break;
             case R.id.item_courses:
                 utils.goTo(CoursesActivity.class);
                 drawerLayout.closeDrawer(GravityCompat.START);
-                activity_field_navigation_view.setCheckedItem(null);
+
                 break;
         }
         return true;

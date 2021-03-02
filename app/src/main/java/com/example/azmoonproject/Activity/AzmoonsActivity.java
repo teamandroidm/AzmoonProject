@@ -131,7 +131,6 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
                 Intent intent = new Intent(AzmoonsActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 activity_azmoons_drawer.closeDrawer(GravityCompat.START);
-                activity_azmoons_navigation_view.setCheckedItem(null);
                 break;
             case R.id.item_logout:
                 setDialogLogOut();
@@ -139,12 +138,12 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
             case R.id.item_courses:
                 utils.goTo(CoursesActivity.class);
                 activity_azmoons_drawer.closeDrawer(GravityCompat.START);
-                activity_azmoons_navigation_view.setCheckedItem(null);
+
                 break;
             case R.id.item_home1:
                 utils.goTo(FieldActivity.class);
                 activity_azmoons_drawer.closeDrawer(GravityCompat.START);
-                activity_azmoons_navigation_view.setCheckedItem(null);
+
                 break;
         }
         return true;
