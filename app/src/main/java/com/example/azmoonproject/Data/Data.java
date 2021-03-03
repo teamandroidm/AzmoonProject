@@ -119,7 +119,6 @@ public class Data {
                                     terms1.setValidateTime(jsonObject.getInt("vlidateTime"));
                                     termsArrayList.add(terms1);
                                 }
-
                                 onResult.success(termsArrayList);
 
                             } catch (JSONException e) {
@@ -144,7 +143,7 @@ public class Data {
     public void sendRequestByPostMethodFactor(int userId, int termId, OnResult onResult) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("UserId", userId);
+            jsonObject.put("UserId", 2);
             jsonObject.put("TermId", termId);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -299,7 +299,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
 
     private void myPayment(Long amount, String description) {
         ZarinPal zarinPal = ZarinPal.getPurchase(this);
-        PaymentRequest paymentRequest = ZarinPal.getPaymentRequest();
+        PaymentRequest paymentRequest = ZarinPal.getSandboxPaymentRequest();
         paymentRequest.setAmount(amount);// قیمت
         paymentRequest.setMerchantID("810179d8-0e5f-11e9-9708-005056a205be");
         paymentRequest.setDescription(description);// توضیحات
