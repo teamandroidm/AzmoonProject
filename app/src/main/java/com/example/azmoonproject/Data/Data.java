@@ -154,7 +154,7 @@ public class Data {
             public void run() {
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                         Request.Method.POST,
-                        BASE_URL + "FactorApi/AddFactorId",
+                        BASE_URL + "FactorApi/AddFactor",
                         jsonObject,
                         new Response.Listener<JSONObject>() {
                             @Override
@@ -204,6 +204,7 @@ public class Data {
 
                         try {
                             int x = response.getInt("result");
+                            onResult.success(x);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -239,6 +240,7 @@ public class Data {
 
                         try {
                             Boolean x = response.getBoolean("result");
+                            onResult.success(x);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

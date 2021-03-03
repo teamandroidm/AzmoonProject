@@ -51,8 +51,8 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     Button logOutDialogBtnNo, logOutDialogBtnYes;
     Utils utils;
     MyReceiver myReceiver;
-    int factorId = 0;
-    int paymentId = 0;
+    int factorId ;
+    int paymentId;
     int price = 0;
     Boolean result = false;
     private NavigationView activity_courses_navigation_view;
@@ -101,10 +101,17 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         ZarinPal.getPurchase(this).verificationPayment(uri, (isPaymentSuccess, refID, paymentRequest) -> {
             if (isPaymentSuccess) {// زمانی که از درگاه پرداخت برمیگردد و پرداخت انجام شده
 //                    refID //شماره تراکنش
-                data.sendRequestByPostMethodPaymentresult(true, paymentId, factorId, new OnResult() {
+                data.sendRequestByPostMethodPaymentresult(true, (Integer) utils.getSharedPreferences("paymentId",0), (Integer) utils.getSharedPreferences("factorId",0), new OnResult() {
                     @Override
                     public void success(Object... objects) {
                         result = (Boolean) objects[0];
+                    }
+                });
+                data.sendRequestByPostMethodCourses(new OnResult() {
+                    @Override
+                    public void success(Object... objects) {
+                        termsArrayList = (ArrayList<Terms>) objects[0];
+                        setRecyclerViewCourses(utils);
                     }
                 });
             } else {// زمانی که از درگاه پرداخت برمیگردد و پرداخت انجام نشده
@@ -193,6 +200,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                                     @Override
                                     public void success(Object... objects) {
                                         factorId = (int) objects[0];
+                                        utils.setSharedPreferences("factorId",factorId);
                                     }
                                 });
 
@@ -300,6 +308,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                     @Override
                     public void success(Object... objects) {
                         paymentId = (int) objects[0];
+                        utils.setSharedPreferences("paymentId",paymentId);
                         // Log.i("boolean", "result " + result);
                     }
                 });
