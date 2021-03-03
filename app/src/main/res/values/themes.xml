@@ -23,9 +23,6 @@
         <item name="android:fontFamily">@font/vazir_medium</item>
     </style>
 
-    <style name="toolbar" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
-        <item name="colorControlNormal">@android:color/black</item>
-    </style>
 </resources>
 
 

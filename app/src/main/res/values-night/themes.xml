@@ -14,7 +14,4 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="toolbar" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
-        <item name="colorControlNormal">@android:color/black</item>
-    </style>
 </resources>
