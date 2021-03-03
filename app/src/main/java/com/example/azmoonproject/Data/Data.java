@@ -128,8 +128,8 @@ public class Data {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> stringMap = new HashMap<>();
-                        stringMap.put("userId", "2");
-                        stringMap.put("fieldId", "1");
+                        stringMap.put("userId", (String) utils.getSharedPreferences("userId",0));
+                        stringMap.put("fieldId", (String) utils.getSharedPreferences("fieldId",0));
                         return stringMap;
                     }
                 };
