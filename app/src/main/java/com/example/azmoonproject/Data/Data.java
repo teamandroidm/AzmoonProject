@@ -318,11 +318,11 @@ public class Data {
 
     }
 
-    public void getFactors(int userId, OnResult onResult) {
+    public void getFactors( OnResult onResult) {
         JSONObject factor = new JSONObject();
         try {
 
-            factor.put("UserId", userId);
+            factor.put("UserId", utils.getSharedPreferences("userId",0));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -351,13 +351,13 @@ public class Data {
     }
 
 
-    public void NewPassword(int userid, String Pass, String newPass, OnResult onResult) {
+    public void NewPassword(String Pass, String newPass, OnResult onResult) {
 
         JSONObject user = new JSONObject();
         try {
             user.put("NewPassword", newPass);
             user.put("Password", Pass);
-            user.put("UserId", userid);
+            user.put("UserId", utils.getSharedPreferences("userId",0));
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -85,7 +85,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             }
         });
 
-        data.getFactors(2, new OnResult() {
+        data.getFactors(new OnResult() {
             @Override
             public void success(Object... objects) {
                 factors = (ArrayList<Factors>) objects[0];
@@ -184,7 +184,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                         @Override
                         public void run() {
 
-                            data.NewPassword(5, edtPass.getText().toString(), edtNewPass.getText().toString(), new OnResult() {
+                            data.NewPassword(edtPass.getText().toString(), edtNewPass.getText().toString(), new OnResult() {
                                 @Override
                                 public void success(Object... objects) {
                                     if ((boolean) objects[0])
