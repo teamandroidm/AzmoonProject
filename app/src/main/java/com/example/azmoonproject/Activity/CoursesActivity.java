@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -51,7 +52,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     Button logOutDialogBtnNo, logOutDialogBtnYes;
     Utils utils;
     MyReceiver myReceiver;
-    int factorId ;
+    int factorId;
     int paymentId;
     int price = 0;
     Boolean result = false;
@@ -101,19 +102,20 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         ZarinPal.getPurchase(this).verificationPayment(uri, (isPaymentSuccess, refID, paymentRequest) -> {
             if (isPaymentSuccess) {// زمانی که از درگاه پرداخت برمیگردد و پرداخت انجام شده
 //                    refID //شماره تراکنش
-                data.sendRequestByPostMethodPaymentresult(true, (Integer) utils.getSharedPreferences("paymentId",0), (Integer) utils.getSharedPreferences("factorId",0), new OnResult() {
+                data.sendRequestByPostMethodPaymentresult(true, (Integer) utils.getSharedPreferences("paymentId", 0), (Integer) utils.getSharedPreferences("factorId", 0), new OnResult() {
                     @Override
                     public void success(Object... objects) {
                         result = (Boolean) objects[0];
+                        data.sendRequestByPostMethodCourses(new OnResult() {
+                            @Override
+                            public void success(Object... objects) {
+                                termsArrayList = (ArrayList<Terms>) objects[0];
+                                setRecyclerViewCourses(utils);
+                            }
+                        });
                     }
                 });
-                data.sendRequestByPostMethodCourses(new OnResult() {
-                    @Override
-                    public void success(Object... objects) {
-                        termsArrayList = (ArrayList<Terms>) objects[0];
-                        setRecyclerViewCourses(utils);
-                    }
-                });
+
             } else {// زمانی که از درگاه پرداخت برمیگردد و پرداخت انجام نشده
                 Toast.makeText(CoursesActivity.this, "پرداخت انجام نشد!", Toast.LENGTH_SHORT).show();
             }
@@ -176,9 +178,9 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                             activity_courses_layout_item.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent intent=new Intent(CoursesActivity.this,AzmoonsActivity.class);
+                                    Intent intent = new Intent(CoursesActivity.this, AzmoonsActivity.class);
                                     startActivity(intent);
-                                   // utils.goTo(AzmoonsActivity.class);
+                                    // utils.goTo(AzmoonsActivity.class);
                                     utils.setSharedPreferences("termId", termsArrayList.get(position).getTermId());
                                     utils.setSharedPreferences("testTime", termsArrayList.get(position).getTestTime());
                                     utils.setSharedPreferences("numberQuestionOfLevel", termsArrayList.get(position).getNumberQuestionOfLevel());
@@ -200,7 +202,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                                     @Override
                                     public void success(Object... objects) {
                                         factorId = (int) objects[0];
-                                        utils.setSharedPreferences("factorId",factorId);
+                                        utils.setSharedPreferences("factorId", factorId);
                                     }
                                 });
 
@@ -280,6 +282,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
     @Override
     public void onBackPressed() {
         finish();
@@ -308,11 +311,10 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                     @Override
                     public void success(Object... objects) {
                         paymentId = (int) objects[0];
-                        utils.setSharedPreferences("paymentId",paymentId);
+                        utils.setSharedPreferences("paymentId", paymentId);
                         // Log.i("boolean", "result " + result);
                     }
                 });
-
                 //زمانی که به درگاه پرداخت برود
                 startActivity(intent);
             } else {

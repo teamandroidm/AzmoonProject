@@ -20,6 +20,8 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.CompoundButtonCompat;
 
 import com.example.azmoonproject.Data.Data;
 import com.example.azmoonproject.Engine.MyReceiver;
@@ -48,7 +50,6 @@ public class QuestionActivity extends AppCompatActivity {
     private Utils utils;
     private MyReceiver myReceiver;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +63,12 @@ public class QuestionActivity extends AppCompatActivity {
             if (counter >= 1) {
                 rgAnswer.clearCheck();
                 txtCounter.setText(String.format("%s%s", (--counter < 9) ? "0" : "", counter + 1));
-                prgCount.setProgress(counter + 1, true);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    prgCount.setProgress(counter + 1, true);
+                } else {
+                    prgCount.setProgress(counter + 1);
+                }
                 radioButtonSetText(counter);
                 if (status == 1) {
                     if (answers[counter] != -1)
@@ -80,7 +86,11 @@ public class QuestionActivity extends AppCompatActivity {
             if (counter < (questions.length) - 1) {
                 rgAnswer.clearCheck();
                 txtCounter.setText(String.format("%s%s", (++counter < 9) ? "0" : "", counter + 1));
-                prgCount.setProgress(counter + 1, true);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    prgCount.setProgress(counter + 1, true);
+                } else {
+                    prgCount.setProgress(counter + 1);
+                }
                 radioButtonSetText(counter);
                 if (status == 1) {
                     if (answers[counter] != -1)
@@ -95,8 +105,9 @@ public class QuestionActivity extends AppCompatActivity {
         });
 
         rgAnswer.setOnCheckedChangeListener((group, checkedId) -> {
-            if (answers != null && checkedId != -1 && !isEndExam)
+            if (answers != null && checkedId != -1 && !isEndExam) {
                 answers[counter] = (byte) group.indexOfChild(findViewById(checkedId));
+            }
         });
 
         btnEndTest.setOnClickListener(v -> {
@@ -108,7 +119,6 @@ public class QuestionActivity extends AppCompatActivity {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setData() {
         status = bundle.getByte("status"); // get TermId and Leve from TestActivity
         Dialog dialogPleaseWaite = new Dialog(this);
@@ -124,6 +134,7 @@ public class QuestionActivity extends AppCompatActivity {
                 prgCount.setMax(questions.length);
                 prgCount.setProgress(1);
                 radioButtonSetText((byte) 0);
+
                 if (status == 1) {
                     exam((Integer) utils.getSharedPreferences("testTime", 20));
                 } else if (status == 2) {
@@ -141,16 +152,19 @@ public class QuestionActivity extends AppCompatActivity {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void changeGreenColorRadioButton(int index) {
         ((RadioButton) rgAnswer.getChildAt(index)).setChecked(true);
-        rgAnswer.getChildAt(index).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.color_green)));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            rgAnswer.getChildAt(index).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.color_green)));
+            ((RadioButton) rgAnswer.getChildAt(index)).setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.color_green)));
+        } else {
+            ViewCompat.setBackgroundTintList(rgAnswer.getChildAt(index), ColorStateList.valueOf(getResources().getColor(R.color.color_green)));
+            CompoundButtonCompat.setButtonTintList(((RadioButton) rgAnswer.getChildAt(index)), ColorStateList.valueOf(getResources().getColor(R.color.color_green)));
+        }
         ((RadioButton) rgAnswer.getChildAt(index)).setButtonDrawable(R.drawable.bg_ic_check);
-        ((RadioButton) rgAnswer.getChildAt(index)).setButtonTintList(ColorStateList.valueOf(getColor(R.color.color_green)));
-        ((RadioButton) rgAnswer.getChildAt(index)).setTextColor(ColorStateList.valueOf(getColor(R.color.color_green)));
+        ((RadioButton) rgAnswer.getChildAt(index)).setTextColor(ColorStateList.valueOf(getResources().getColor(R.color.color_green)));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void changeColorRadioEndTimeExam() {
         restColorRadioButton();
         if (answers[counter] == -1) {
@@ -158,9 +172,14 @@ public class QuestionActivity extends AppCompatActivity {
         } else if (questions[counter].getTrueAnswer() - 1 == answers[counter]) {
             changeGreenColorRadioButton(answers[counter]);
         } else {
-            rgAnswer.getChildAt(answers[counter]).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.color_red)));
-            ((RadioButton) rgAnswer.getChildAt(answers[counter])).setButtonTintList(ColorStateList.valueOf(getColor(R.color.color_red)));
-            ((RadioButton) rgAnswer.getChildAt(answers[counter])).setTextColor(ColorStateList.valueOf(getColor(R.color.color_red)));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                rgAnswer.getChildAt(answers[counter]).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.color_red)));
+                ((RadioButton) rgAnswer.getChildAt(answers[counter])).setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.color_red)));
+            } else {
+                ViewCompat.setBackgroundTintList(rgAnswer.getChildAt(answers[counter]), ColorStateList.valueOf(getResources().getColor(R.color.color_red)));
+                CompoundButtonCompat.setButtonTintList(((RadioButton) rgAnswer.getChildAt(answers[counter])), ColorStateList.valueOf(getResources().getColor(R.color.color_red)));
+            }
+            ((RadioButton) rgAnswer.getChildAt(answers[counter])).setTextColor(ColorStateList.valueOf(getResources().getColor(R.color.color_red)));
             ((RadioButton) rgAnswer.getChildAt(answers[counter])).setChecked(false);
             ((RadioButton) rgAnswer.getChildAt(answers[counter])).setButtonDrawable(R.drawable.bg_ic_cancel);
 
@@ -169,12 +188,16 @@ public class QuestionActivity extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void restColorRadioButton() {
         for (int i = 0; i < rgAnswer.getChildCount(); i++) {    //reset textColor and background and buttonTint radioButton
-            rgAnswer.getChildAt(i).setBackgroundTintList(ColorStateList.valueOf(getColor(android.R.color.darker_gray)));
-            ((RadioButton) rgAnswer.getChildAt(i)).setButtonTintList(ColorStateList.valueOf(getColor(android.R.color.darker_gray)));
-            ((RadioButton) rgAnswer.getChildAt(i)).setTextColor(getColor(R.color.color_gray_dark));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                rgAnswer.getChildAt(i).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(android.R.color.darker_gray)));
+                ((RadioButton) rgAnswer.getChildAt(i)).setButtonTintList(ColorStateList.valueOf(getResources().getColor(android.R.color.darker_gray)));
+            } else {
+                ViewCompat.setBackgroundTintList(rgAnswer.getChildAt(i), ColorStateList.valueOf(getResources().getColor(android.R.color.darker_gray)));
+                CompoundButtonCompat.setButtonTintList(((RadioButton) rgAnswer.getChildAt(i)), ColorStateList.valueOf(getResources().getColor(android.R.color.darker_gray)));
+            }
+            ((RadioButton) rgAnswer.getChildAt(i)).setTextColor(getResources().getColor(R.color.color_gray_dark));
             ((RadioButton) rgAnswer.getChildAt(i)).setButtonDrawable(R.drawable.bg_ic_radio_button);
         }
     }
@@ -242,7 +265,6 @@ public class QuestionActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void dialogEndExam() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog_finish_test);

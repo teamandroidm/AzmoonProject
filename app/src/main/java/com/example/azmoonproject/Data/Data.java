@@ -320,8 +320,6 @@ public class Data {
     }
 
     public void getFactors(int userId, OnResult onResult) {
-
-
         JSONObject factor = new JSONObject();
         try {
 
@@ -350,10 +348,7 @@ public class Data {
             }
         }
         );
-
         requestQueue.add(request);
-
-
     }
 
 
@@ -409,6 +404,10 @@ public class Data {
                 Questions[] questions;
                 try {
                     JSONArray jsonArray = new JSONArray(response);
+                    if (jsonArray.length() <= 0) {
+                        onResult.success((Object) null);
+                        return;
+                    }
                     questions = new Questions[jsonArray.length()];
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -423,6 +422,7 @@ public class Data {
                     }
                     Log.i("###", "r: " + questions[0].getQuestionText());
                     onResult.success((Object) questions);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     onResult.success((Object) null);
