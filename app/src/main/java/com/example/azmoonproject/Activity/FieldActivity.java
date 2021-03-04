@@ -41,7 +41,6 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
     Dialog dialog, exitDialog;
     Dialog logOutDialog;
     Button logOutDialogBtnNo, logOutDialogBtnYes;
-    boolean doubleBackPress = false;
     Data data;
     Utils utils;
     ArrayList<Fields> fieldArrayList = new ArrayList<>();
@@ -154,19 +153,8 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            if (doubleBackPress) {
 
                 setDialogExit();
-
-                return;
-            }
-            this.doubleBackPress = true;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    doubleBackPress = false;
-                }
-            }, 2000);
         }
     }
 
