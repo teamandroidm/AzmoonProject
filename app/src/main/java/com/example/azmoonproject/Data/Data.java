@@ -128,10 +128,10 @@ public class Data {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> stringMap = new HashMap<>();
-                        int x= (int) utils.getSharedPreferences("userId",0);
-                        int y= (int) utils.getSharedPreferences("fieldId",0);
-                        stringMap.put("userId", x+"");
-                        stringMap.put("fieldId", y+"");
+                        int x = (int) utils.getSharedPreferences("userId", 0);
+                        int y = (int) utils.getSharedPreferences("fieldId", 0);
+                        stringMap.put("userId", x + "");
+                        stringMap.put("fieldId", y + "");
                         return stringMap;
                     }
                 };
@@ -145,7 +145,7 @@ public class Data {
     public void sendRequestByPostMethodFactor(int userId, int termId, OnResult onResult) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("UserId", 2);
+            jsonObject.put("UserId", userId);
             jsonObject.put("TermId", termId);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -320,11 +320,11 @@ public class Data {
 
     }
 
-    public void getFactors( OnResult onResult) {
+    public void getFactors(OnResult onResult) {
         JSONObject factor = new JSONObject();
         try {
 
-            factor.put("UserId", utils.getSharedPreferences("userId",0));
+            factor.put("UserId", utils.getSharedPreferences("userId", 0));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -359,7 +359,7 @@ public class Data {
         try {
             user.put("NewPassword", newPass);
             user.put("Password", Pass);
-            user.put("UserId", utils.getSharedPreferences("userId",0));
+            user.put("UserId", utils.getSharedPreferences("userId", 0));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -492,13 +492,12 @@ public class Data {
                 public void onResponse(JSONObject response) {
                     try {
                         levelCount = response.getInt("levelCount");
-//                        questionCount = response.getInt("questionCount");
-                        questionCount = 500;
+                        questionCount = response.getInt("questionCount");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     questionCount /= numberQuestionOfLevel;
-                    Log.i("#####", questionCount + "///" + numberQuestionOfLevel);
+                    Log.i("#####1", questionCount + "///" + numberQuestionOfLevel);
                     onResult.success(questionCount, levelCount);
                 }
             }, error -> {

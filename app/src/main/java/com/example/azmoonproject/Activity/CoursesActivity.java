@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -181,7 +180,6 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                                     Intent intent = new Intent(CoursesActivity.this, AzmoonsActivity.class);
                                     startActivity(intent);
                                     // utils.goTo(AzmoonsActivity.class);
-                                    utils.setSharedPreferences("termId", termsArrayList.get(position).getTermId());
                                     utils.setSharedPreferences("testTime", termsArrayList.get(position).getTestTime());
                                     utils.setSharedPreferences("numberQuestionOfLevel", termsArrayList.get(position).getNumberQuestionOfLevel());
                                 }
@@ -194,6 +192,8 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
 
                         activity_courses_button_cart.setOnClickListener(view -> {
                             showCustomDialod();
+                            utils.setSharedPreferences("termId", termsArrayList.get(position).getTermId());
+
                             custom_dialog_text_courses_type.setText(termsArrayList.get(position).getTermName());
                             custom_dialog_text_courses_price.setText(utils.splitDigits(termsArrayList.get(position).getPrice()));
                             custom_dialog_button_courses_payment.setOnClickListener(view1 -> {
@@ -299,7 +299,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
 
     private void myPayment(Long amount, String description) {
         ZarinPal zarinPal = ZarinPal.getPurchase(this);
-        PaymentRequest paymentRequest = ZarinPal.getSandboxPaymentRequest();
+        PaymentRequest paymentRequest = ZarinPal.getPaymentRequest();
         paymentRequest.setAmount(amount);// قیمت
         paymentRequest.setMerchantID("810179d8-0e5f-11e9-9708-005056a205be");
         paymentRequest.setDescription(description);// توضیحات
