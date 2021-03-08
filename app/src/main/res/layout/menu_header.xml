@@ -10,8 +10,8 @@
         android:id="@+id/profile_image"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:src="@drawable/logo_yahoo"
-        app:civ_border_color="@color/white"
+        android:src="@drawable/logo"
+        app:civ_border_color="@color/color_orange"
         app:civ_border_width="3dp" />
 
     <TextView
