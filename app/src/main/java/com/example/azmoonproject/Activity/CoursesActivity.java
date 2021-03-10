@@ -167,6 +167,8 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                         ((TextView) itemView.findViewById(R.id.activity_courses_text_name)).setText(termsArrayList.get(position).getTermName() + "");
                         ((TextView) itemView.findViewById(R.id.activity_courses_text_price)).setText(utils.splitDigits(termsArrayList.get(position).getPrice()) + "");
                         Picasso.get().load(new File(termsArrayList.get(position).getImageName())).error(R.drawable.computer).fit().centerCrop().into((ImageView) itemView.findViewById(R.id.activity_courses_image_courses));
+                        ((TextView) itemView.findViewById(R.id.activity_courses_text_validity)).setText(termsArrayList.get(position).getValidateTime() + "");
+
 
                         final Button activity_courses_button_cart = itemView.findViewById(R.id.activity_courses_button_cart);
                         final LinearLayout activity_courses_layout_validity = itemView.findViewById(R.id.activity_courses_layout_validity);
