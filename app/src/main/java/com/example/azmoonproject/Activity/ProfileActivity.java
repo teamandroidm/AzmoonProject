@@ -49,10 +49,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     ImageView imgBack;
     LinearLayout emptyFactorLa;
     MaterialToolbar materialToolbar;
-    Dialog changePassDialog, logOutDialog;
+    Dialog changePassDialog, logOutDialog,dialogAbout;
     TextInputEditText edtPass, edtNewPass, edtNewPassAgain;
     TextInputLayout edtLaPass, edtLaNewPass, edtLaNewPassAgain;
-    Button changePassBtn, changePassDialogBtnNo, changePassDialogBtnYes, logOutDialogBtnNo, logOutDialogBtnYes;
+    Button changePassBtn, changePassDialogBtnNo, changePassDialogBtnYes, logOutDialogBtnNo, logOutDialogBtnYes,custom_dialog_button_ok2;
     Data data;
     MyReceiver myReceiver;
     ArrayList<Factors> factors = new ArrayList<>();
@@ -295,10 +295,24 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         activity_profile_navigation_view = findViewById(R.id.activity_profile_navigation_view);
         activity_profile_menu_img = findViewById(R.id.activity_profile_menu_img);
         utils = new Utils(getApplicationContext(), ProfileActivity.this);
+        dialogAbout = new Dialog(ProfileActivity.this);
+        dialogAbout.setContentView(R.layout.custom_dialog_about);
+        dialogAbout.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        custom_dialog_button_ok2=dialogAbout.findViewById(R.id.custom_dialog_button_ok2);
         myReceiver = new MyReceiver();
 
     }
+    private void setDialogAbout() {
 
+        dialogAbout.setCancelable(false);
+        dialogAbout.show();
+        custom_dialog_button_ok2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogAbout.dismiss();
+            }
+        });
+    }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -314,6 +328,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             case R.id.item_courses:
                 utils.goTo(CoursesActivity.class);
                 activity_profile_drawer.closeDrawer(GravityCompat.START);
+
+                break;
+            case R.id.item_about_academy:
+                setDialogAbout();
 
                 break;
         }

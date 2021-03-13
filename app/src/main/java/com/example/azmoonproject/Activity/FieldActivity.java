@@ -39,13 +39,13 @@ import java.util.ArrayList;
 public class FieldActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private final Data date = new Data();
     Dialog dialog, exitDialog;
-    Dialog logOutDialog;
+    Dialog logOutDialog, dialogAbout;
     Button logOutDialogBtnNo, logOutDialogBtnYes;
     Data data;
     Utils utils;
     ArrayList<Fields> fieldArrayList = new ArrayList<>();
     MyReceiver myReceiver;
-    private Button exitDialogBtnNo, exitDialogBtnYes, custom_dialog_button_ok;
+    private Button exitDialogBtnNo, exitDialogBtnYes, custom_dialog_button_ok, custom_dialog_button_ok2;
     private Toolbar toolbar;
     private NavigationView activity_field_navigation_view;
     private DrawerLayout drawerLayout;
@@ -103,12 +103,28 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         logOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         logOutDialogBtnNo = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_no);
         logOutDialogBtnYes = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_yes);
+        dialogAbout = new Dialog(FieldActivity.this);
+        dialogAbout.setContentView(R.layout.custom_dialog_about);
+        dialogAbout.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        custom_dialog_button_ok2 = dialogAbout.findViewById(R.id.custom_dialog_button_ok2);
         myReceiver = new MyReceiver();
     }
 
     private void showCustomDialod() {
         dialog.show();
 
+    }
+
+    private void setDialogAbout() {
+
+        dialogAbout.setCancelable(false);
+        dialogAbout.show();
+        custom_dialog_button_ok2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogAbout.dismiss();
+            }
+        });
     }
 
     private void setRecyclerViewField(final Utils utils) {
@@ -125,9 +141,9 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                                 int x = (int) utils.getSharedPreferences("fieldId", 0);
                                 if (x == fieldArrayList.get(position).getFeildId()) {
                                     //   utils.setSharedPreferences("fieldId", ((fieldArrayList.get(position).getFeildId())));
-                                    Intent intent=new Intent(FieldActivity.this,CoursesActivity.class);
+                                    Intent intent = new Intent(FieldActivity.this, CoursesActivity.class);
                                     startActivity(intent);
-                                  //  utils.goTo(CoursesActivity.class);
+                                    //  utils.goTo(CoursesActivity.class);
 
                                 } else {
                                     showCustomDialod();
@@ -154,7 +170,7 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
 
-                setDialogExit();
+            setDialogExit();
         }
     }
 
@@ -210,9 +226,13 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
 
                 break;
             case R.id.item_courses:
-                Intent intent1=new Intent(FieldActivity.this,CoursesActivity.class);
+                Intent intent1 = new Intent(FieldActivity.this, CoursesActivity.class);
                 startActivity(intent1);
                 drawerLayout.closeDrawer(GravityCompat.START);
+
+                break;
+            case R.id.item_about_academy:
+                setDialogAbout();
 
                 break;
         }

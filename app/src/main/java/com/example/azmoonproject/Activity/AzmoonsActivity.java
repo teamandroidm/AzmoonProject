@@ -30,8 +30,8 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
     private ImageView imgBack;
     private ImageView img1;
     private TextView txt1;
-    private Dialog logOutDialog;
-    private Button logOutDialogBtnNo, logOutDialogBtnYes;
+    private Dialog logOutDialog,dialogAbout;
+    private Button logOutDialogBtnNo, logOutDialogBtnYes,custom_dialog_button_ok2;
     private RecyclerView rcl;
     private Utils utils;
     private Data interprefer;
@@ -95,6 +95,10 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
         logOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         logOutDialogBtnNo = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_no);
         logOutDialogBtnYes = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_yes);
+        dialogAbout = new Dialog(AzmoonsActivity.this);
+        dialogAbout.setContentView(R.layout.custom_dialog_about);
+        dialogAbout.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        custom_dialog_button_ok2=dialogAbout.findViewById(R.id.custom_dialog_button_ok2);
     }
 
     private void setOnClickImageView() {
@@ -104,7 +108,17 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
             } else activity_azmoons_drawer.openDrawer(GravityCompat.START);
         });
     }
+    private void setDialogAbout() {
 
+        dialogAbout.setCancelable(false);
+        dialogAbout.show();
+        custom_dialog_button_ok2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogAbout.dismiss();
+            }
+        });
+    }
     private void setDialogLogOut() {
 
         logOutDialog.setCancelable(false);
@@ -143,6 +157,10 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
             case R.id.item_home1:
                 utils.goTo(FieldActivity.class);
                 activity_azmoons_drawer.closeDrawer(GravityCompat.START);
+
+                break;
+            case R.id.item_about_academy:
+                setDialogAbout();
 
                 break;
         }

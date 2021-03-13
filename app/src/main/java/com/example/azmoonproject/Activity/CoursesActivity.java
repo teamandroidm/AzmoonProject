@@ -47,8 +47,8 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     Toolbar toolbar;
     ImageView back;
     Data data;
-    Dialog logOutDialog;
-    Button logOutDialogBtnNo, logOutDialogBtnYes;
+    Dialog logOutDialog,dialogAbout;
+    Button logOutDialogBtnNo, logOutDialogBtnYes,custom_dialog_button_ok2;
     Utils utils;
     MyReceiver myReceiver;
     int factorId;
@@ -147,6 +147,10 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         logOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         logOutDialogBtnNo = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_no);
         logOutDialogBtnYes = logOutDialog.findViewById(R.id.custom_dialog_logout_btn_yes);
+        dialogAbout = new Dialog(CoursesActivity.this);
+        dialogAbout.setContentView(R.layout.custom_dialog_about);
+        dialogAbout.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        custom_dialog_button_ok2=dialogAbout.findViewById(R.id.custom_dialog_button_ok2);
         myReceiver = new MyReceiver();
     }
 
@@ -250,6 +254,17 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
             }
         });
     }
+    private void setDialogAbout() {
+
+        dialogAbout.setCancelable(false);
+        dialogAbout.show();
+        custom_dialog_button_ok2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogAbout.dismiss();
+            }
+        });
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -272,6 +287,10 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
             case R.id.item_home1:
                 utils.goTo(FieldActivity.class);
                 activity_courses_drawer.closeDrawer(GravityCompat.START);
+
+                break;
+            case R.id.item_about_academy:
+                setDialogAbout();
 
                 break;
 
