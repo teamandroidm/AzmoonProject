@@ -43,19 +43,11 @@
 
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/vazir_bold"
-                android:text="دوره آموزشی"
-                android:textColor="@color/color_black"
-                android:textSize="15sp" />
-
-
-            <TextView
                 android:id="@+id/activity_courses_text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/vazir_bold"
+                android:gravity="right"
                 android:text="ICDL "
                 android:textColor="@color/color_black"
                 android:textSize="15sp" />
