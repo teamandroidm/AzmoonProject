@@ -31,8 +31,8 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
     private ImageView imgBack;
     private ImageView img1;
     private TextView txt1;
-    private Dialog logOutDialog, dialogAbout;
-    private Button logOutDialogBtnNo, logOutDialogBtnYes, custom_dialog_button_ok2;
+    private Dialog logOutDialog, dialogAbout,dialogCall;
+    private Button logOutDialogBtnNo, logOutDialogBtnYes, custom_dialog_button_ok3,custom_dialog_button_ok2;
     private RecyclerView rcl;
     private Utils utils;
     private Data interprefer;
@@ -100,6 +100,22 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
         dialogAbout.setContentView(R.layout.custom_dialog_about);
         dialogAbout.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         custom_dialog_button_ok2 = dialogAbout.findViewById(R.id.custom_dialog_button_ok2);
+        dialogCall = new Dialog(AzmoonsActivity.this);
+        dialogCall.setContentView(R.layout.custom_dialog_call);
+        dialogCall.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        custom_dialog_button_ok3 = dialogCall.findViewById(R.id.custom_dialog_button_ok3);
+
+    }
+    private void setDialogCall() {
+
+        dialogCall.setCancelable(false);
+        dialogCall.show();
+        custom_dialog_button_ok3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogCall.dismiss();
+            }
+        });
     }
 
     private void setOnClickImageView() {
@@ -164,6 +180,10 @@ public class AzmoonsActivity extends AppCompatActivity implements NavigationView
                 break;
             case R.id.item_about_academy:
                 setDialogAbout();
+
+                break;
+            case R.id.tem_contact_us:
+                setDialogCall();
 
                 break;
         }

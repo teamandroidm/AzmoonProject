@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/vazir_bold"
             android:paddingTop="12dp"
-            android:text="تماس با ما "
+            android:text="ارتباط با ما "
             android:textColor="@color/color_black"
             android:textSize="20sp"
             />

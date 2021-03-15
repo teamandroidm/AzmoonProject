@@ -39,13 +39,13 @@ import java.util.ArrayList;
 public class FieldActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private final Data date = new Data();
     Dialog dialog, exitDialog;
-    Dialog logOutDialog, dialogAbout;
+    Dialog logOutDialog, dialogAbout,dialogCall;
     Button logOutDialogBtnNo, logOutDialogBtnYes;
     Data data;
     Utils utils;
     ArrayList<Fields> fieldArrayList = new ArrayList<>();
     MyReceiver myReceiver;
-    private Button exitDialogBtnNo, exitDialogBtnYes, custom_dialog_button_ok, custom_dialog_button_ok2;
+    private Button exitDialogBtnNo, exitDialogBtnYes, custom_dialog_button_ok, custom_dialog_button_ok2,custom_dialog_button_ok3;
     private Toolbar toolbar;
     private NavigationView activity_field_navigation_view;
     private DrawerLayout drawerLayout;
@@ -107,6 +107,10 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
         dialogAbout.setContentView(R.layout.custom_dialog_about);
         dialogAbout.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         custom_dialog_button_ok2 = dialogAbout.findViewById(R.id.custom_dialog_button_ok2);
+        dialogCall = new Dialog(FieldActivity.this);
+        dialogCall.setContentView(R.layout.custom_dialog_call);
+        dialogCall.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        custom_dialog_button_ok3 = dialogCall.findViewById(R.id.custom_dialog_button_ok3);
         myReceiver = new MyReceiver();
     }
 
@@ -123,6 +127,17 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
             @Override
             public void onClick(View v) {
                 dialogAbout.dismiss();
+            }
+        });
+    }
+    private void setDialogCall() {
+
+        dialogCall.setCancelable(false);
+        dialogCall.show();
+        custom_dialog_button_ok3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogCall.dismiss();
             }
         });
     }
@@ -233,6 +248,10 @@ public class FieldActivity extends AppCompatActivity implements NavigationView.O
                 break;
             case R.id.item_about_academy:
                 setDialogAbout();
+
+                break;
+            case R.id.tem_contact_us:
+                setDialogCall();
 
                 break;
         }

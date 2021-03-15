@@ -40,7 +40,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class CoursesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    Dialog dialog;
+    Dialog dialog, dialogCall;
     ArrayList<Terms> termsArrayList = new ArrayList<>();
     Button custom_dialog_button_courses_payment, custom_dialog_button_courses_cancel;
     TextView custom_dialog_text_courses_type, custom_dialog_text_courses_price;
@@ -48,7 +48,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     ImageView back;
     Data data;
     Dialog logOutDialog, dialogAbout;
-    Button logOutDialogBtnNo, logOutDialogBtnYes, custom_dialog_button_ok2;
+    Button logOutDialogBtnNo, logOutDialogBtnYes, custom_dialog_button_ok2, custom_dialog_button_ok3;
     Utils utils;
     MyReceiver myReceiver;
     int factorId;
@@ -151,6 +151,10 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         dialogAbout.setContentView(R.layout.custom_dialog_about);
         dialogAbout.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         custom_dialog_button_ok2 = dialogAbout.findViewById(R.id.custom_dialog_button_ok2);
+        dialogCall = new Dialog(CoursesActivity.this);
+        dialogCall.setContentView(R.layout.custom_dialog_call);
+        dialogCall.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        custom_dialog_button_ok3 = dialogCall.findViewById(R.id.custom_dialog_button_ok3);
         myReceiver = new MyReceiver();
     }
 
@@ -158,6 +162,18 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
+    }
+
+    private void setDialogCall() {
+
+        dialogCall.setCancelable(false);
+        dialogCall.show();
+        custom_dialog_button_ok3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogCall.dismiss();
+            }
+        });
     }
 
     private void setRecyclerViewCourses(final Utils utils) {
@@ -294,6 +310,10 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                 break;
             case R.id.item_about_academy:
                 setDialogAbout();
+
+                break;
+            case R.id.tem_contact_us:
+                setDialogCall();
 
                 break;
 

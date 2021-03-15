@@ -49,10 +49,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     ImageView imgBack;
     LinearLayout emptyFactorLa;
     MaterialToolbar materialToolbar;
-    Dialog changePassDialog, logOutDialog,dialogAbout;
+    Dialog changePassDialog, logOutDialog,dialogAbout,dialogCall;
     TextInputEditText edtPass, edtNewPass, edtNewPassAgain;
     TextInputLayout edtLaPass, edtLaNewPass, edtLaNewPassAgain;
-    Button changePassBtn, changePassDialogBtnNo, changePassDialogBtnYes, logOutDialogBtnNo, logOutDialogBtnYes,custom_dialog_button_ok2;
+    Button changePassBtn, changePassDialogBtnNo, changePassDialogBtnYes,custom_dialog_button_ok3, logOutDialogBtnNo, logOutDialogBtnYes,custom_dialog_button_ok2;
     Data data;
     MyReceiver myReceiver;
     ArrayList<Factors> factors = new ArrayList<>();
@@ -299,6 +299,11 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         dialogAbout.setContentView(R.layout.custom_dialog_about);
         dialogAbout.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         custom_dialog_button_ok2=dialogAbout.findViewById(R.id.custom_dialog_button_ok2);
+        dialogCall = new Dialog(ProfileActivity.this);
+        dialogCall.setContentView(R.layout.custom_dialog_call);
+        dialogCall.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        custom_dialog_button_ok3 = dialogCall.findViewById(R.id.custom_dialog_button_ok3);
+
         myReceiver = new MyReceiver();
 
     }
@@ -313,6 +318,18 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             }
         });
     }
+    private void setDialogCall() {
+
+        dialogCall.setCancelable(false);
+        dialogCall.show();
+        custom_dialog_button_ok3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogCall.dismiss();
+            }
+        });
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -332,6 +349,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 break;
             case R.id.item_about_academy:
                 setDialogAbout();
+
+                break;
+            case R.id.tem_contact_us:
+                setDialogCall();
 
                 break;
         }
