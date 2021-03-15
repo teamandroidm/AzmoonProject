@@ -123,6 +123,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     Intent intent = new Intent(activity, QuestionActivity.class);
                     intent.putExtra("status", (byte) 1);
                     intent.putExtra("level", position+1);
+                    intent.putExtra("levelCount", levelCount);
                     activity.startActivity(intent);
 
                 }
