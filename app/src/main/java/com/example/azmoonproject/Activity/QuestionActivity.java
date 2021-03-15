@@ -142,7 +142,7 @@ public class QuestionActivity extends AppCompatActivity {
                     circularProgressBar.setVisibility(View.GONE);
                     txtTime.setVisibility(View.GONE);
                     enableRadioGroup(false);
-                    changeGreenColorRadioButton(questions[counter].getTrueAnswer()); //only set color radioButton true answer
+                    changeGreenColorRadioButton(questions[counter].getTrueAnswer() - 1); //only set color radioButton true answer
                 }
             } else {
                 Toast.makeText(this, "دریافت اطلاعات با خطا مواجع شد لطفا دوباره امتحان کنید", Toast.LENGTH_LONG).show();

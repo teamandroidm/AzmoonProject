@@ -48,7 +48,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.FillItem(position + 1);
+        holder.FillItem(position);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
 
         public void FillItem(int position) {
-            if (position == levelCount || levelCount == 0) {
+            if (position == levelCount) {
                 txt.setTextColor(Color.argb(255, 0, 0, 0));
                 img.setImageResource(R.drawable.unlockicon);
             } else if (position > levelCount) {
@@ -91,19 +91,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             } else {
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
             }
-            txt.setText("آزمون" + utils.farsiNumberConvert(String.valueOf(position)));
+            txt.setText("آزمون" + utils.farsiNumberConvert(String.valueOf(position+1)));
 
             lil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (position == levelCount || levelCount == 0) {
+                    if (position == levelCount) {
                         showCustomDialog();
                     } else if (position > levelCount) {
                         Toast.makeText(context, "مرحله قفل است !!!", Toast.LENGTH_SHORT).show();
                     } else if (position < levelCount) {
                         Intent intent = new Intent(activity, QuestionActivity.class);
                         intent.putExtra("status", (byte) 2);
-                        intent.putExtra("level", position);
+                        intent.putExtra("level", position+1);
                         activity.startActivity(intent);
                     } else {
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -122,8 +122,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     dialog.dismiss();
                     Intent intent = new Intent(activity, QuestionActivity.class);
                     intent.putExtra("status", (byte) 1);
-                    intent.putExtra("level", position);
-                    intent.putExtra("levelCount", levelCount);
+                    intent.putExtra("level", position+1);
                     activity.startActivity(intent);
 
                 }

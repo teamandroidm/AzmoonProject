@@ -47,8 +47,8 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
     Toolbar toolbar;
     ImageView back;
     Data data;
-    Dialog logOutDialog,dialogAbout;
-    Button logOutDialogBtnNo, logOutDialogBtnYes,custom_dialog_button_ok2;
+    Dialog logOutDialog, dialogAbout;
+    Button logOutDialogBtnNo, logOutDialogBtnYes, custom_dialog_button_ok2;
     Utils utils;
     MyReceiver myReceiver;
     int factorId;
@@ -150,7 +150,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
         dialogAbout = new Dialog(CoursesActivity.this);
         dialogAbout.setContentView(R.layout.custom_dialog_about);
         dialogAbout.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        custom_dialog_button_ok2=dialogAbout.findViewById(R.id.custom_dialog_button_ok2);
+        custom_dialog_button_ok2 = dialogAbout.findViewById(R.id.custom_dialog_button_ok2);
         myReceiver = new MyReceiver();
     }
 
@@ -183,11 +183,13 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
                             activity_courses_layout_item.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent intent = new Intent(CoursesActivity.this, AzmoonsActivity.class);
-                                    startActivity(intent);
                                     // utils.goTo(AzmoonsActivity.class);
                                     utils.setSharedPreferences("testTime", termsArrayList.get(position).getTestTime());
                                     utils.setSharedPreferences("numberQuestionOfLevel", termsArrayList.get(position).getNumberQuestionOfLevel());
+                                    utils.setSharedPreferences("termId", termsArrayList.get(position).getTermId());
+
+                                    Intent intent = new Intent(CoursesActivity.this, AzmoonsActivity.class);
+                                    startActivity(intent);
                                 }
                             });
 
@@ -254,6 +256,7 @@ public class CoursesActivity extends AppCompatActivity implements NavigationView
             }
         });
     }
+
     private void setDialogAbout() {
 
         dialogAbout.setCancelable(false);
