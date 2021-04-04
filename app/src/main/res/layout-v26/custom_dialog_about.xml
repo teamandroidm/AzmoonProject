@@ -22,21 +22,22 @@
             android:paddingTop="12dp"
             android:text="درباره آموزشگاه"
             android:textColor="@color/color_black"
-            android:textSize="20sp" />
-
-        <TextView
+            android:textSize="20sp"
+            />
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:fontFamily="@font/vazir_light"
-            android:gravity="right|top"
-            android:justificationMode="inter_word"
-            android:text="آدرس:
-ملایر.خ شهید طلوعی.ابتدای خسروی.جنب گل فروشی\n
-تلفن
-۳۲۲۲۴۶۰۷\n
-همراه
-۰۹۱۸۳۵۱۹۷۰۲\n
+            android:layout_height="160dp">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="160dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/vazir_light"
+                    android:gravity="right|top"
+                    android:justificationMode="inter_word"
+                    android:text="
 مجتمع آموزشی یاهو با ۳ شعبه فعال در زمینه:\n
 کامپیوتر،حسابداری،توریسم،خدمات آموزشی،ایمنی و بهداشت،تعمیرات تخصصی موبایل ،مراقبت و زیبایی
 بامجوز رسمی از سازمان آموزش فنی و حرفه ای کشور
@@ -45,11 +46,15 @@
 دارای رتبه یک اعتبار سنجی آموزشگاههای استان
 با کادری مجرب از اساتید باتجربه و هیات علمی دانشگاهها\n
 بامدیریت :خانم بیاتی اصل"
-            android:lineSpacingExtra="2dp"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="@color/color_gray_dark"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="15dp"
+                    android:paddingBottom="15dp"
+                    />
 
-            android:textColor="@color/color_gray_dark"
-            android:textSize="18sp" />
-
+            </ScrollView>
+        </LinearLayout>
 
     </LinearLayout>
 
